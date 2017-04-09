@@ -1,0 +1,83 @@
+\chapter{Considerações Finais}
+\label{chap:concl}
+
+Neste trabalho, foi proposta uma solução para o problema de geração automática de APIs REST que provejam as funcionalidades necessárias para que sejam executadas as operações básicas de manutenção de documentos (CRUD - \textit{Create, Read, Update, Delete}), com o objetivo de utilizar a geração automática de código como uma forma de aumentar a confiabilidade e produtividade do processo de criação de software.
+
+A solução AutoREST aplica os conceitos das metodologias de Engenharia de Software Baseada em Componentes, Desenvolvimento Dirigido por Modelos e Programação Generativa, concretizando heurísticas de cada uma destas metodologias em uma proposta de arquitetura de software. Além disto, propomos uma ferramenta como prova de conceito da arquitetura proposta, que servirá como instanciação desta arquitetura.
+
+Este trabalho foi motivado pelo formalismo da arquitetura REST e a representatividade das notações JSON Schema e Diagrama de Classes UML. Através destas notações, foi possível a proposição de regras de modelagem que permitam a representação conceitual de uma API REST. Além disto, dada a estrutura da notação JSON Schema, que é baseada na Backus-Naur Form (BNF), foi possível a proposição de um método para a conversão da um documento JSON Schema em código fonte da API representada.
+
+A arquitetura proposta, além dos componentes descritos para a instanciação desta arquitetura em uma prova de conceito, foram construídos a partir do estudo da arquitetura REST, do \textit{Hypertext Transfer Protocol} (HTTP) e das notações JSON Schema e UML, esta última particularmente no que concerne o conjunto da UML que é disponibilizado pela ferramenta Astah. Além destas tecnologias, foram estudadas a linguagem Node.js, o sistema gerenciador de bancos de dados MongoDB e o módulo Node.js Mongoose, que serão utilizados pelas APIs REST geradas pela ferramenta proposta.
+
+%------------------------------------------------------------
+
+\section{Trabalhos Relacionados}
+\label{sec:related}
+
+Dentre os trabalhos encontrados que tratem de geração de código automática, foram selecionados alguns que tratam especificamente de ferramentas para a geração automática de código a partir de definições em formato JSON Schema ou similar. Se destacaram em nossa pesquisa as ferramentas Heroics, Schematic, Swagger e Eve. Além disso, damos destaque as ferramentas DaemonX e Prmd, que utilizam alterações na especificação de APIs para gerar a documentação e versionamento delas automaticamente.
+
+%------------------------------------------------------------
+
+\subsection{Heroics and Schematic}
+
+Heroics é um gerador que utiliza um JSON Schema que representa uma API para gerar clientes HTTP em Ruby para esta API \cite{HEROICS}. Outro gerador que utiliza uma entrada similar, em JSON Hyper-Schema \cite{JSHYPERSCH}, para gerar clientes HTTP em Go é o Schematic \cite{SCHEMATIC}.
+
+A principal diferença destas ferramentas para o AutoREST é pelo fato de gerarem apenas código cliente. Porem o fato de utilizarem JSON Schema em seus processos pode significar que uma interação com elas seria algo que acrescentaria valor a ferramenta AutoREST, permitindo assim que os clientes da API já fossem criados também.
+
+%------------------------------------------------------------
+
+\subsection{Prmd}
+
+Prmd \cite{PRMD} é uma ferramenta que permite realizar verificação e geração de documentação para APIs utilizando um JSON Schema que a descreve. O JSON Schema utilizado deve possuir algumas características descritas na documentação do Prmd.
+
+Esta é outra ferramenta que utiliza o JSON Schema para um propósito diferente do AutoREST, pois gera documentação para uma API. Como as ferramentas anteriores, esta funcionalidade poderia ser alcançada com uma possível integração de um JSON Schema que descrevesse a REST API gerada.
+
+%------------------------------------------------------------
+
+\subsection{Swagger}
+
+Swagger \cite{SWAGGER} é uma representação de REST APIs com um grande conjunto de ferramentas de apoio ao desenvolvimento e suporte, em quase todas as linguagens de programação atuais. Com uma definição Swagger é possível a geração de documentação e geração de clientes. A especificação Swagger atualmente é gerenciada pela Open API Initiative (OAI) \cite{OpenAPII}.
+
+As definições Swagger e o grande número de ferramentas de geração disponibilizadas pela comunidade proporcionariam o escopo restante no processo de criação de APIs que não é explorado no AutoREST. Uma especificação Swagger gerada pelo AutoREST poderia proporcionar tanto a criação de documentações quanto de códigos clientes da API.
+
+%------------------------------------------------------------
+
+\subsection{Eve}
+
+Eve \cite{IAROCCI:EVE} é um \textit{framework} em Python para a disponibilização de REST APIs. É utilizada uma definição similar a JSON Schema que será interpretada e validada pela ferramenta Cerberus \cite{IAROCCI:CERBERUS}. Esta definição determina o \textit{schema} do \textit{resource} disponibilizado e os métodos HTTP disponíveis para o mesmo.
+
+O \textit{framework} do Eve proporciona uma experiência com uma interação menos explícita com o sistema gerenciador de banco de dados, deixando para o desenvolvedor a tarefa de especificar na gramática da ferramenta Cerberus todos os seus \textit{resources} e artefatos relacionados.
+
+A principal diferença para o AutoREST é que a única coisa que seria necessária criar seria o diagrama de classes, e com este a especificação dos \textit{resources} seria criada e então a API seria gerada com esta especificação sem exigir intervenção no código gerado para que a API comece a ser utilizada.
+
+%------------------------------------------------------------
+
+\subsection{DaemonX}
+
+DaemonX é uma plataforma extensível para o gerenciamento de evolução de documentos representativos de estruturas de dados. Dentre os usos desta plataforma está o de gerenciar a evolução de APIs REST com uma notação baseada no princípio de Arquiteturas Dirigidas por Modelos (MDA - \textit{Model-Driven Architecture}) \cite{POLAK:2015}.
+
+Similar ao Prmd, esta aplicação da plataforma DaemonX apresenta uma forma de representar e gerenciar a evolução de APIs REST, uma funcionalidade não disponível na solução AutoREST. Entretanto, por utilizar uma representação específica, apesar de possivelmente atingir maior detalhamento das APIs, não seria de fácil integração com a solução AutoREST.
+
+%------------------------------------------------------------
+
+\section{Próximos Passos}
+
+Os próximos passos neste estudo serão a implementação da ferramenta detalhada com base na arquitetura proposta, e a validação desta ferramenta como prova de conceito da solução proposta. Esta implementação será realizada na linguagem de programação Java, utilizando os padrões de projeto \textit{Factory} para possibilitar a criação de subsistemas autônomos.
+
+Para a validação da ferramenta, APIs REST terão que ser propostas e modeladas conforme a especificação deste documento, e casos de teste terão que ser especificados para estas APIs REST. Desta forma será possível determinar se o código gerado automaticamente é funcional e representa corretamente as APIs modeladas.
+
+%------------------------------------------------------------
+
+\section{Trabalhos Futuros}
+
+Diversos trabalhos podem ser realizados expandindo o tema deste estudo. Nesta seção, definimos alguns temas que surgiram ao longo da realização do estudo, mas que por estar além do escopo proposto ou requirir um dispêndio de tempo não disponível, não foram explorados.
+
+\begin{itemize}
+    \item A ferramenta Astah é extensível através do uso de \textit{plugins}. A implementação de um \textit{plugin} Astah para a geração de modelos de configuração segundo as especificações deste trabalho seria de grande ajuda na modelagem de APIs REST e execução de ferramentas AutoREST. Dentre os requisitos que este \textit{plugin} deverá cumprir estão a criação automática de \textit{tags} conforme as especificações da Seção \ref{sec:xmi}, a limitação dos tipos de atributos disponíveis, a limitação dos tipos de associação disponíveis e uma interface de ajuda que apresente as regras listadas na Seção \ref{sec:xmi} para fácil acesso a referência.
+    
+    \item Algumas das ferramentas listadas na Seção \ref{sec:related} permitem: a geração automática de código para funcionalidades diferentes das propostas pela solução AutoREST, e; o gerenciamento da documentação e versionamento de APIs REST. Visto que algumas destas ferramentas utilizam especificações em notações derivadas de JSON, seria útil a adequação das especificações destas diversas ferramentas e a integração de seus ambientes para execução em conjunto.
+    
+    \item Devido a limitações da ferramenta Astah, determinados tipos de associação disponíveis na UML não puderam ser definidos para modelagem neste estudo. A definição de regras para a modelagem e conversão destes tipos de associação seria útil para aumentar a versatilidade da solução proposta. Dentre estas associações, se destacam: as associações de Generalização/Especialização para representar o conceito de herança múltipla; o uso dos esteriótipos \textit{Disjoint} e \textit{Overlapping} para associações de Generalização/Especialização, e; a definição de navegabilidade em associações de agregação.
+    
+    \item A modelagem e implementação da ferramenta usada como prova de conceito da arquitetura proposta está limitada as tecnologias determinadas em sua especificação. A criação de outras possíveis implementações da arquitetura AutoREST serviria para validar a sua proposta de independência de tecnologia. Tecnologias que poderiam ser utilizadas para diferentes implementações são: para modelos de configuração, Diagramas de Classes UML gerados por ferramentas diferentes do Astah, ou Modelos Entidade-Relacionais; para PFIS, estruturas em linguagem RAML, Swagger ou WSDL, e; para geração de código, linguagens como ASP.NET ou php.
+\end{itemize}

@@ -1,0 +1,911 @@
+\begin{anexosenv}
+\partanexos
+\chapter{Lista de \textit{Status Codes}}
+\label{anexo:status}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|}
+    \hline
+    \textit{Code} & \textit{Reason-Phrase}                 \\
+    \hline
+    100  & Continue                      \\
+    101  & Switching Protocols           \\
+    200  & OK                            \\
+    201  & Created                       \\
+    202  & Accepted                      \\
+    203  & Non-Authoritative Information \\
+    204  & No Content                    \\
+    205  & Reset Content                 \\
+    206  & Partial Content               \\
+    300  & Multiple Choices              \\
+    301  & Moved Permanently             \\
+    302  & Found                         \\
+    303  & See Other                     \\
+    304  & Not Modified                  \\
+    305  & Use Proxy                     \\
+    307  & Temporary Redirect            \\
+    400  & Bad Request                   \\
+    401  & Unauthorized                  \\
+    402  & Payment Required              \\
+    403  & Forbidden                     \\
+    404  & Not Found                     \\
+    405  & Method Not Allowed            \\
+    406  & Not Acceptable                \\
+    407  & Proxy Authentication Required \\
+    408  & Request Timeout               \\
+    409  & Conflict                      \\
+    410  & Gone                          \\
+    411  & Length Required               \\
+    412  & Precondition Failed           \\
+    413  & Payload Too Large             \\
+    414  & URI Too Long                  \\
+    415  & Unsupported Media Type        \\
+    416  & Range Not Satisfiable         \\
+    417  & Expectation Failed            \\
+    426  & Upgrade Required              \\
+    500  & Internal Server Error         \\
+    501  & Not Implemented               \\
+    502  & Bad Gateway                   \\
+    503  & Service Unavailable           \\
+    504  & Gateway Timeout               \\
+    505  & HTTP Version Not Supported    \\
+    \hline
+    \end{tabular}
+\end{table}
+
+\chapter{Gramática BNF de JSON Schema}
+\label{anexo:bnfjs}
+Gramática BNF conforme \citeonline{CSWR:GRAMMAR}.
+
+\begin{lstlisting}
+JSDoc := { ( id, )? ( defs, )? JSch }
+id := "id": "uri"
+defs := "definitions": { kSch (, kSch)*}
+kSch := kword: { JSch }
+JSch := ( res (, res)*)
+res := type | strRes | numRes | arrRes | objRes | multRes
+     | refSch | title | description
+type := "type" : ([typename (, typename)*] | typename)
+typename := "string" | "integer" | "number" | "boolean" | "null"
+          | "array" | "object"
+title := "title":  string
+description := "description":  string
+strRes :=  minLen | maxLen | pattern
+minLen := "minLength": n
+maxLen := "maxLength": n
+pattern := "pattern": "regExp"
+numRes := min | max | multiple 
+min := "minimum": r (,exMin)?
+exMin := "exclusiveMinimum": bool
+max := "maximum": r (,exMax)?
+exMax := "exclusiveMaximum": bool
+multiple := "multipleOf": r   (r >= 0)
+arrRes := items | additems | minitems | maxitems  | unique
+items := ( sameitems |  varitems )
+sameitems := "items": { JSch }
+varitems := "items": [{ JSch }(,{ JSch })*] 
+additems :=  "additionalItems": (bool | { JSch })
+minitems := "minItems": n
+maxitems := "maxItems": n
+unique := "uniqueItems": bool
+objRes := prop | addprop | req | minprop | maxprop | dep | pattprop
+prop := "properties": { kSch (, kSch)*}
+kSch := kword: { JSch }
+addprop := "additionalProperties": (bool | { JSch })
+req := "required": [ kword (, kword)*]
+minprop := "minProperties": n
+maxprop := "maxProperties": n
+dep := "dependencies": { kDep (, kDep)*}
+kDep := (kArr | kSch)
+kArr := kword: [ kword (, kword)*]
+pattprop := "patternProperties": { patSch (, patSch)*}
+patSch := "regExp": { JSch }
+multRes := allOf | anyOf| oneOf | not | enum
+anyOf := "anyOf": [ { JSch } (, { JSch }) * ]
+allOf := "allOf": [ { JSch } (, { JSch }) * ]
+oneOf := "oneOf": [ { JSch } (, { JSch }) * ]
+not := "not": { JSch }
+enum := "enum": [Jval (, Jval)*]
+refSch := "\$ref": "uriRef" 
+uriRef := ( address )? ( \# / JPointer )?
+JPointer := ( / path )
+path := ( unescaped | escaped )
+escaped := ~0 | ~1
+address = (scheme : )? hier-part (? query )
+
+\end{lstlisting}
+
+%-----------------------------------------
+
+\chapter{JSON Schema relativo a Figura \ref{fig_example_class}}
+\label{fig_example_class_j}
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               linenos=true,
+               xleftmargin=21pt,
+               tabsize=4]{js}
+{     
+    "definitions": {
+        "Example_Class": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "attribute0": {
+                    "type": "integer"
+                },
+                "attribute1": {
+                    "type": "boolean"
+                },
+                "attribute2": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 255
+                },
+                "attribute3": {
+                    "type": "string",
+                    "maxLength": 1
+                },
+                "attribute4": {
+                    "type": "number"
+                },
+                "attribute5": {
+                    "type": "number"
+                },
+                "attribute6": {
+                    "type": "integer"
+                },
+                ...
+            }
+        }
+    }
+}
+\end{minted}
+\caption{JSON Schema criado a partir da Figura \ref{fig_example_class} - Parte 1}
+\end{listing}
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               linenos=true,
+               xleftmargin=21pt,
+               breaklines=true,
+               tabsize=4]{js}
+{
+    {
+        {
+            {
+                ...
+                "attribute7": {
+                    "type": "integer"
+                },
+                "attribute8": {
+                    "type": "array"
+                    "items":{
+                        "type": "integer"
+                    }
+                },
+                "attribute9": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "attribute10": {
+                    "type": "object"
+                },
+                "attribute11": {
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 140,
+                    "pattern": "/^[a-zA-Z]*$/"
+                }
+            },
+            "dependencies": {
+                "attribute1": [ "attribute0" ],
+                "attribute2": [ "attribute0" ],
+                "attribute3": [ "attribute0" ],
+                "attribute4": [ "attribute0" ],
+                "attribute5": [ "attribute0" ],
+                "attribute6": [ "attribute0" ],
+                "attribute7": [ "attribute0" ],
+                "attribute8": [ "attribute0" ],
+                "attribute9": [ "attribute0" ],
+                "attribute10": [ "attribute0" ],
+                "attribute11": [ "attribute0" ]
+            }
+            "required": {
+                [ "attribute0", "attribute1", "attribute3", "attribute4", "attribute5", "attribute6", "attribute7", "attribute8", "attribute9", "attribute10", "attribute11" ]
+            }
+        }
+    }
+}
+\end{minted}
+\caption{JSON Schema criado a partir da Figura \ref{fig_example_class} - Parte 2}
+\end{listing}
+
+%-----------------------------------------
+
+\chapter{JSON Schema relativo a Figura \ref{fig_example_multiplicity}}
+\label{fig_example_multiplicity_j}
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               linenos=true,
+               xleftmargin=21pt,
+               breaklines=true,
+               tabsize=4]{js}
+{
+    "definitions": {
+        "Class0": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "attribute0": {
+                    "type": "integer"
+                },
+                "attribute1": {
+                    "type": "integer"
+                },
+                "Class1_created_identifier": {
+                    "type": "integer"
+                },
+                "Class2_attribute3": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "dependencies": {
+                "attribute1": [ "attribute0" ],
+                "Class1_created_identifier": [ "attribute0" ],
+                "Class2_attribute3": [ "attribute0" ]
+            },
+            "required": { 
+                [ "attribute0" ]
+            }
+        },
+        ...
+    }
+}
+\end{minted}
+\caption{JSON Schema criado a partir da Figura \ref{fig_example_multiplicity} - Parte 1}
+\end{listing}
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               linenos=true,
+               xleftmargin=21pt,
+               breaklines=true,
+               tabsize=4]{js}
+{    
+    {
+        ...,
+        "Class1": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "created_identifier": {
+                    "type": "integer"
+                },
+                "attribute2": {
+                    "type": "integer"
+                },
+                "Class0_attribute0": {
+                    "type": "integer"
+                },
+                "Class3_attribute4": {
+                    "type": "integer"
+                }
+            },
+            "dependencies": {
+                "attribute2": [ "created_identifier" ],
+                "Class0_attribute0": [ "created_identifier" ],
+                "Class3_attribute4": [ "created_identifier" ]
+            },
+            "required": {
+                [ "created_identifier", "attribute0" ]
+            }
+        },
+        ...
+    }
+}
+\end{minted}
+\caption{JSON Schema criado a partir da Figura \ref{fig_example_multiplicity} - Parte 2}
+\end{listing}
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               linenos=true,
+               xleftmargin=21pt,
+               breaklines=true,
+               tabsize=4]{js}
+{
+    {
+        ...,
+        "Class2": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "attribute3": {
+                    "type": "integer"
+                },
+                "Class0_attribute0": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "Class3_attribute4": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                    "minLength": 1
+                }
+            },
+            "dependencies": {
+                "Class0_attribute0": [ "attribute3" ],
+                "Class3_attribute4": [ "attribute3" ]
+            },
+            "required": {
+                [ "attribute3", "attribute4" ]
+            }
+        },
+        ...
+    }
+}
+\end{minted}
+\caption{JSON Schema criado a partir da Figura \ref{fig_example_multiplicity} - Parte 3}
+\end{listing}
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               linenos=true,
+               xleftmargin=21pt,
+               breaklines=true,
+               tabsize=4]{js}
+{
+    {
+        ...,
+        "Class3": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "attribute4": {
+                    "type": "integer"
+                }
+            },
+            "dependencies": {
+            
+            },
+            "required": {
+                [ "attribute4" ]
+            }
+        }
+    }
+}
+\end{minted}
+\caption{JSON Schema criado a partir da Figura \ref{fig_example_multiplicity} - Parte 4}
+\end{listing}
+
+%-----------------------------------------
+
+\chapter{JSON Schema relativo a Figura \ref{fig_example_realization}}
+\label{fig_example_realization_j}
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               linenos=true,
+               xleftmargin=21pt,
+               breaklines=true,
+               tabsize=4]{js}
+{
+    "definitions": {
+        "Class4": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "attribute5": {
+                    "type": "integer"
+                }
+            },
+            "dependencies": {
+            
+            },
+            "required": {
+                [ "attribute5" ]
+            }
+        },
+        ...,
+    }
+}
+\end{minted}
+\caption{JSON Schema criado a partir da Figura \ref{fig_example_realization} - Parte 1}
+\end{listing}
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               linenos=true,
+               xleftmargin=21pt,
+               breaklines=true,
+               tabsize=4]{js}
+{
+    {
+        ...,
+        "Class5": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Class4_Inherited": {
+                    "\$ref": "#/definitions/Class4"
+                },
+                "attribute7": {
+                    "type": "integer"
+                }
+            },
+            "dependencies": {
+            
+            },
+            "required": {
+                
+            }
+        }, 
+        "Class8": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Class4_Inherited": {
+                    "\$ref": "#/definitions/Class4"
+                },
+                "attribute6": {
+                    "type": "integer"
+                }
+            },
+            "dependencies": {
+            
+            },
+            "required": {
+                
+            }
+        },
+        ...,
+    }
+}
+\end{minted}
+\caption{JSON Schema criado a partir da Figura \ref{fig_example_realization} - Parte 2}
+\end{listing}
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               linenos=true,
+               xleftmargin=21pt,
+               breaklines=true,
+               tabsize=4]{js}
+{
+    {
+        ...,
+        "Class6": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Class5_Inherited": {
+                    "\$ref": "#/definitions/Class4"
+                },
+                "attribute9": {
+                    "type": "integer"
+                }
+            },
+            "dependencies": {
+            
+            },
+            "required": {
+                
+            }
+        },
+        
+        "Class7": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Class5_Inherited": {
+                    "\$ref": "#/definitions/Class4"
+                },
+                "attribute8": {
+                    "type": "integer"
+                }
+            },
+            "dependencies": {
+            
+            },
+            "required": {
+                
+            }
+        }
+    }
+}              
+\end{minted}
+\caption{JSON Schema criado a partir da Figura \ref{fig_example_realization} - Parte 3}
+\end{listing}
+
+%-----------------------------------------
+
+\chapter{JSON Schema relativo a Figura \ref{fig_example_aggregation}}
+\label{fig_example_aggregation_j}
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               linenos=true,
+               xleftmargin=21pt,
+               breaklines=true,
+               tabsize=4]{js}
+{
+    "definitions": {
+        "Class10": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "attribute2": {
+                    "type": "integer"
+                },
+                "Class11_attribute1": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "Class12_attribute3": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "dependencies": {
+                "Class11_attribute1": [ "attribute2" ],
+                "Class12_attribute3": [ "attribute2" ]
+            },
+            "required": {
+                [ "attribute2" ]
+            }
+        },
+        ...
+    }
+}
+\end{minted}
+\caption{JSON Schema criado a partir da Figura \ref{fig_example_aggregation} - Parte 1}
+\end{listing}
+
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               linenos=true,
+               xleftmargin=21pt,
+               breaklines=true,
+               tabsize=4]{js}
+{
+    {
+        ...,
+        "Class11": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "attribute1": {
+                    "type": "integer"
+                },
+                "Class9": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "attribute0": {
+                            "type": "integer"
+                        }
+                    },
+                    "dependencies": {
+                    
+                    },
+                    "required": {
+                        [ "attribute0" ]
+                    }
+                }
+            },
+            "dependencies": {
+                "Class9": [ "attribute1" ]
+            },
+            "required": {
+                [ "attribute1" ]
+            }
+        },
+        ...
+    }
+}
+\end{minted}
+\caption{JSON Schema criado a partir da Figura \ref{fig_example_aggregation} - Parte 2}
+\end{listing}
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               linenos=true,
+               xleftmargin=21pt,
+               breaklines=true,
+               tabsize=4]{js}
+{
+    {
+        ...,
+        "Class12": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "attribute3": {
+                    "type": "integer"
+                },
+                "Class10_Refs": {
+                    "type": "array",
+                    "items": {
+                        "\$ref": "#/definitions/Class10"
+                    },
+                    "minLength": 1
+                }
+            },
+            "dependencies": {
+                "Class10_Refs": [ "attribute3" ]
+            },
+            "required": {
+                [ "attribute3" ]
+            }
+        }
+    }
+}
+\end{minted}
+\caption{JSON Schema criado a partir da Figura \ref{fig_example_aggregation} - Parte 3}
+\end{listing}
+
+%-----------------------------------------
+
+\chapter{JSON Schema relativo a Figura \ref{fig_example_association_class}}
+\label{fig_example_association_class_j}
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               linenos=true,
+               xleftmargin=21pt,
+               breaklines=true,
+               tabsize=4]{js}
+{
+    "definitions": {
+        "AssociationClass0": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Class13_attribute0": {
+                    "type": "integer"
+                },
+                "Class14_attribute1": {
+                    "type": "integer"
+                },
+                "attribute2": {
+                    "type": "integer"
+                },
+                "attribute3": {
+                    "type": "integer"
+                }
+            },
+            "dependencies": {
+                "attribute2": [ "Class13_attribute0", "Class14_attribute1" ],
+                "attribute3": [ "Class13_attribute0", "Class14_attribute1" ],
+                "Class13_attribute0": [ "Class14_attribute1" ],
+                "Class14_attribute1": [ "Class13_attribute0" ]
+            },
+            "required": {
+                [ "Class13_attribute0", "Class14_attribute1" ]
+            }
+        },
+        ...
+    }
+}
+\end{minted}
+\caption{JSON Schema criado a partir da Figura \ref{fig_example_association_class} - Parte 1}
+\end{listing}
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               linenos=true,
+               xleftmargin=21pt,
+               breaklines=true,
+               tabsize=4]{js}
+{
+    {
+        ...,
+        "Class13": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "attribute0": {
+                    "type": "integer"
+                },
+                "AssociationClass0_Link": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "\$ref": "#/definitions/AssociationClass0"
+                        }
+                    }
+                }
+            },
+            "dependencies": {
+                "AssociationClass0_Link": [ "attribute0" ]
+            },
+            "required": {
+                [ "attribute0" ]
+            }
+        },
+        ...
+    }
+}
+\end{minted}
+\caption{JSON Schema criado a partir da Figura \ref{fig_example_association_class} - Parte 2}
+\end{listing}
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               linenos=true,
+               xleftmargin=21pt,
+               breaklines=true,
+               tabsize=4]{js}
+{
+    {
+        ...,
+        "Class14": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "attribute1": {
+                    "type": "integer"
+                },
+                "AssociationClass0_Link": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "\$ref": "#/definitions/AssociationClass0"
+                        }
+                    }
+                }
+            },
+            "dependencies": {
+                "AssociationClass0_Link": [ "attribute1" ]
+            },
+            "required": {
+                [ "attribute1" ]
+            }
+        }
+    }
+}
+\end{minted}
+\caption{JSON Schema criado a partir da Figura \ref{fig_example_association_class} - Parte 3}
+\end{listing}
+
+%-----------------------------------------
+
+\chapter{Model Mongoose para a classe da Figura \ref{fig_example_class}}
+\label{anexo:model_mongoose}
+
+\begin{listing}
+
+\begin{minted}[frame=single,
+               framesep=3mm,
+               linenos=true,
+               xleftmargin=21pt,
+               breaklines=true,
+               tabsize=4]{js}
+var mongoose = require('mongoose'),
+    integerValidator = require('mongoose-integer'),
+    Schema = mongoose.Schema;
+
+var Example_ClassSchema = new Schema({
+    _id: {
+        type: Number,
+        integer: true,
+        required: true,
+        unique: true
+    },
+    attribute1: {
+        type: Boolean,  required: true
+    },
+    attribute2: {
+        type: Number,
+        integer: true,
+        minimum: 0,
+        maximum: 255
+    },
+    attribute3: {
+        type: String,   maxlength: 1,   required: true
+    },
+    attribute4: {
+        type: Number,   required: true
+    },
+    attribute5: {
+        type: Number,   required: true
+    },
+    attribute6: {
+        type: Number,
+        integer: true,
+        required: true
+    },
+    ...
+}
+\end{minted}
+%\caption{Model Mongoose - Parte 1}
+\end{listing}
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               linenos=true,
+               xleftmargin=21pt,
+               breaklines=true,
+               tabsize=4]{js}
+{
+    ...
+    attribute7: {
+        type: Number,
+        integer: true,
+        required: true
+    },
+    attribute8: {
+        any: [{ type: Number,   integer: true   }]
+    },
+    attribute9: {
+        type: Date,
+        required: true
+    },
+    attribute10: {
+        type: Object,   required: true
+    },
+    attribute11: {
+        type: String,
+        minlength: 3,
+        maxlength: 140,
+        match: /^[a-zA-Z]*$/,
+        required: true
+    }
+});
+
+Example_ClassSchema.virtual('attribute0').get(function() {
+    return this._id;
+});
+Example_ClassSchema.virtual('attribute0').set(function (value) {
+    this._id = value;
+});
+
+Example_ClassSchema.plugin(integerValidator);
+
+Example_ClassSchema.methods.cleanObject = function() {
+    var doc = this.toObject({ virtuals: true });
+    delete doc.__v;
+    delete doc._id;
+    delete doc.id;
+    return doc;
+};
+
+module.exports = mongoose.model('Example_Class', Example_ClassSchema);
+
+\end{minted}
+\caption{Model Mongoose - Parte 2}
+\end{listing}
+
+\end{anexosenv}
