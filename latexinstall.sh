@@ -9,3 +9,8 @@ apt-get install texlive-pictures -y
 apt-get install latexmk -y
 apt-get install python-pygments -y
 apt-get install evince -y
+apt-get install texlive-publishers -y
+apt-get install texlive-lang-portuguese -y
+apt-get install texlive-lang-french -y
+apt-get install lmodern -y
+apt-get install texlive-science -y
