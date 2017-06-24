@@ -1,16 +1,1 @@
-apt-get install texlive -y
-apt-get install texlive-binaries -y
-apt-get install texlive-fonts-recommended -y
-apt-get install texlive-generic-recommended -y
-apt-get install texlive-latex-base -y
-apt-get install texlive-latex-extra -y
-apt-get install texlive-latex-recommended -y
-apt-get install texlive-pictures -y
-apt-get install latexmk -y
-apt-get install python-pygments -y
-apt-get install evince -y
-apt-get install texlive-publishers -y
-apt-get install texlive-lang-portuguese -y
-apt-get install texlive-lang-french -y
-apt-get install lmodern -y
-apt-get install texlive-science -y
+apt-get install texlive texlive-binaries texlive-fonts-recommended texlive-generic-recommended texlive-latex-base texlive-latex-extra texlive-latex-recommended texlive-pictures latexmk python-pygments evince texlive-publishers texlive-lang-portuguese texlive-lang-french lmodern texlive-science -y
