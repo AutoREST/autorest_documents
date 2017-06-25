@@ -62,7 +62,7 @@ Projetada com base nos preceitos da abordagem CBSE, utilizando como domínio de 
 A Figura \ref{fig_aba} apresenta um diagrama de componentes UML representando os quatro subsistemas e suas interfaces. As seções a seguir descrevem cada um destes subsistemas e interfaces em maior detalhe.
 
 \begin{itemize}
-    \item \textit{Execution Core}: é o subsistema encarregado de controlar a execução da ferramenta, provendo as interfaces de usuário e gerenciando a comunicação dos outros subsistemas; 
+    \item \textit{Execution Core}: é o subsistema encarregado de controlar a execução da ferramenta, provendo as interfaces de usuário e gerenciando a comunicação dos outros subsistemas;
     \item \textit{Configuration Model Reader} (CMR): é o subsistema encarregado da leitura do modelo conceitual em linguagem gráfica, criado conforme orientações dadas pela documentação do componente utilizado na implementação da arquitetura;
     \item \textit{Processing-Friendly Intermediate Structure Reader} (PFIS-R): é o subsistema encarregado de realizar a tradução do modelo conceitual em linguagem gráfica para uma estrutura intermediária de fácil processamento;
     \item \textit{REST API Generator}: é o subsistema encarregado da geração de uma implementação da API REST representada no esquema conceitual de entrada do sistema;
@@ -189,17 +189,17 @@ Esta classe contém doze atributos numerados de 0 a 11, sendo o primeiro (\texti
 
 \begin{itemize}
     \item RM01: Todo elemento Classe deve ter um nome único dentro do escopo do diagrama, maior do que um caractere, sem espaços (utilizar CamelCase ou \_underscore).
-    
+
     \item RM02: Todo elemento Classe deve ter um e apenas um atributo identificado com o Esteriótipo <<id>>, representando o atributo identificador da classe. Caso nenhum atributo seja identificado com este esteriótipo, um atributo identificador será gerado pela ferramenta AutoREST durante a conversão para JSON Schema.
-    
+
     \item RM03: Todo elemento Atributo deve ter um nome único dentro do escopo da classe, maior do que um caractere, sem espaços (utilizar CamelCase ou \_underscore).
-    
+
     \item RM04: A visibilidade de um elemento Atributo será ignorado pela ferramenta AutoREST, e portanto pode ser demarcado com quaisquer opções disponíveis.
-    
+
     \item RM05: Um elemento Atributo pode assumir os seguintes tipos: \textit{int}; \textit{boolean}; \textit{byte}; \textit{char}; \textit{double}; \textit{float}; \textit{long}; \textit{short}; \textit{Date}; \textit{Object}; \textit{String}. Também pode ser assumido como tipo quaisquer outras Classes disponíveis no diagrama. Os tipos \textit{double} e \textit{float} serão considerados como o mesmo tipo. Os tipos \textit{int}, \textit{long} e \textit{short} serão considerados como o mesmo tipo.
-    
+
     \item RM06: Um elemento Atributo com multiplicidade 0..1 será considerado como opcional.
-    
+
     \item RM07: Um elemento Atributo com multiplicidade diferente de 0..1 ou 1 será considerado um vetor do tipo especificado, tal que o primeiro valor representa o tamanho mínimo do vetor (utilizar 0 para valor mínimo não definido) e o segundo valor representa o valor máximo do vetor (utilizar * para valor máximo não definido).
 \end{itemize}
 
@@ -207,21 +207,21 @@ A partir destas regras de modelagem, podem ser estabelecidas as seguintes regras
 
 \begin{itemize}
     \item RC01: Cada elemento Classe será convertido em um elemento de tipo \textit{object} no campo \textit{definition} de um JSON Schema, com o mesmo nome da Classe em questão.
-    
+
     \item RC02: Cada elemento Atributo será convertido em um elemento de \textit{properties} de JSON Schema, com o mesmo nome do Atributo em questão.
-    
+
     \item RC03: Atributos de tipo \textit{int}, \textit{short}, \textit{long} e \textit{byte} serão representados pelo tipo JSON Schema \textit{integer}. Adicionalmente, Atributos de tipo \textit{byte} serão marcados com as restrições de integridade de valor mínimo 0 e valor máximo 255.
-    
+
     \item RC04: Atributos de tipo \textit{boolean} serão representados pelo tipo JSON Schema \textit{boolean}.
-    
+
     \item RC05: Atributos de tipo \textit{char}, \textit{String} e \textit{Date} serão representados pelo tipo JSON Schema \textit{string}. Adicionalmente, atributos de tipo \textit{char} serão marcados com a restrição de integridade de tamanho máximo 1, e atributos de tipo \textit{Date} serão marcados com a restrição de integridade \textit{"format"\ : "date-time"}.
-    
+
     \item RC06: Atributos de tipo \textit{Object} ou atributos tipados com outras Classes disponíveis no diagrama serão representados pelo tipo JSON Schema \textit{object}. Adicionalmente, atributos tipados com outras Classes disponíveis no diagrama terão como propriedade a referência da definição da respectiva Classe.
-    
+
     \item RC07: Todos os atributos serão definidos como dependentes do atributo identificador.
-    
+
     \item RC08: Atributos com multiplicidade diferente de 0..1 serão definidos como requeridos.
-    
+
     \item RC09: Atributos com multiplicidade diferente de 0..1 ou 1 serão definidos como vetores.
 \end{itemize}
 
@@ -233,17 +233,17 @@ Restrições de integridade de atributos devem ser anotados diretamente nos atri
 
 \begin{itemize}
     \item RM08: Atributos de tipos \textit{int}, \textit{short} e \textit{long} podem ser anotados com as \textit{tags}: \textit{min}, \textit{max}, \textit{exMin} e \textit{exMax}.
-    
+
     \item RM09: Atributos de tipo \textit{byte} e \textit{Date} não podem ser anotados, tendo em vista que estes tipos já consideram restrições de integridade próprias.
-    
+
     \item RM10: Atributos de tipo \textit{boolean} não podem ser anotados, dada a natureza primitiva deste tipo.
-    
+
     \item RM11: Atributos de tipo \textit{char} e \textit{String} podem ser anotados com a \textit{tag}: \textit{pattern}. Adicionalmente, atributos de tipo \textit{String} também podem ser anotados com as \textit{tags}: \textit{minLength} e \textit{maxLength}.
-    
+
     \item RM12: Atributos de tipo \textit{Object} não podem ser anotados, e servem como \textit{wildcard}. Para definições de objetos mais complexos, utilizar elementos do tipo Classe.
-    
+
     \item RM13: Atributos tipados com outras Classes disponíveis no diagrama não podem ser anotadas, visto que estes atributos farão referência às restrições de integridade da Classe referenciada.
-    
+
     \item RM14: Atributos com multiplicidade diferente de 0..1 ou 1 (tipo vetor) podem ser anotados com a \textit{tag}: \textit{uniqueItems}, de valor booleano (\textit{true} ou \textit{false}), representando a restrição de que todos os itens do vetor sejam diferentes entre si.
 \end{itemize}
 
@@ -272,9 +272,9 @@ Associações simples entre duas classes podem ser representadas utilizando as n
 
 \begin{itemize}
     \item RM15: Associações podem ser navegáveis ou não-navegáveis. Associações anotadas como tendo navegabilidade não-definida serão considerados não-navegáveis, a menos que ambos os vértices da associação sejam de navegabilidade não-definida. Neste caso, ambos são considerados navegáveis.
-    
+
     \item RM16: Associações podem ter multiplicidade 1, 0..1, 0..*, 1..* ou *. Associações de multiplicidade não definida serão consideradas como tendo multiplicidade 1.
-    
+
     \item RM17: Vértices não-navegáveis de associações são considerados como tendo multiplicidade 1, independentemente da multiplicidade anotada no diagrama.
 \end{itemize}
 
@@ -282,11 +282,11 @@ A partir destas regras de modelagem, podem ser estabelecidas as seguintes regras
 
 \begin{itemize}
     \item RC11: Classes localizadas em vértices não-navegáveis não terão referência à classe associada.
-    
+
     \item RC12: Classes localizadas em vértices navegáveis terão referência à classe associada conforme multiplicidade do vértice.
-    
+
     \item RC13: Vértices de multiplicidade 1 ou 0..1 serão representados pela adição do(s) atributo(s) identificador(es) da classe associada à sua especificação. Adicionalmente, vértices de multiplicidade 0..1 terão este atributo identificador representado como opcional.
-    
+
     \item RC14: Vértices de multiplicidade 0..*, * ou 1..* serão representados pela adição de vetores do(s) atributo(s) identificador(es) da classe associada à sua especificação. Adicionalmente, vértices de multiplicidade 1..* terão adicionada a este vetor a restrição de integridade de tamanho mínimo 1.
 \end{itemize}
 
@@ -301,23 +301,23 @@ A Figura \ref{fig_example_multiplicity} apresenta um exemplo de diversas possív
 
 \begin{itemize}
     \item Cada uma das classes tem um elemento criado em \textit{definitions}, conforme RCs 1-10.
-    
+
     \item \textit{Class1} tem um atributo identificador criado, visto que não possui nenhum atributo anotado com o esteriótipo <<id>>, conforme RM 2.
-    
+
     \item \textit{Class0} tem adicionado as suas propriedades o atributo identificador de \textit{Class1} anotado como opcional, dado o vértice navegável B de multiplicidade 0..1, conforme RC13.
-    
+
     \item \textit{Class0} tem adicionado as suas propriedades um vetor do atributo identificador de \textit{Class2} anotado como opcional, dado o vértice de navegabilidade não definida D de multiplicidade *, conforme RM 15 e RC14.
-    
+
     \item \textit{Class1} tem adicionado as suas propriedades o atributo identificador de \textit{Class0} anotado como opcional, dado o vértice navegável A de multiplicidade não definida, conforme RM 16 e RC 13.
-    
+
     \item \textit{Class1} tem adicionado as suas propriedades o atributo identificador de \textit{Class3} anotado como opcional, dado o vértice navegável F de multiplicidade 0..1, conforme RC 13.
-    
+
     \item \textit{Class2} tem adicionado as suas propriedades um vetor do atributo identificador de \textit{Class0} anotado como opcional, dado o vértice de navegabilidade não definida C de multiplicidade 0..*, conforme RM 15 e RC 14.
-    
+
     \item \textit{Class2} tem adicionado as suas propriedades um vetor do atributo identificador de \textit{Class3} com tamanho mínimo 1, dado o vértice navegável H de multiplicidade 1..*, conforme RC 14.
-    
+
     \item \textit{Class3} não tem adicionado as suas propriedades um vetor do atributo identificador de \textit{Class2}, dado o vértice não navegável G de multiplicidade *, conforme RMs 15 e 17.
-    
+
     \item \textit{Class3} não tem adicionado as suas propriedades o atributo identificador de \textit{Class1}, dado o vértice de navegabilidade não definida E de multiplicidade 1, conforme RM 15.
 \end{itemize}
 
@@ -329,9 +329,9 @@ Associações de Generalização/Especialização permitem o reuso e a extensão
 
 \begin{itemize}
     \item RM18: Uma classe pode ser uma Especialização de uma e apenas uma outra classe, não sendo permitida a modelagem de herança múltipla para fins desta ferramenta.
-    
+
     \item RM19: Todas as associações de Generalização/Especialização são consideradas Parciais e Não-exclusivas.
-    
+
     \item RM20: Uma classe "filha"\ não pode ter atributos identificadores, sendo estes necessariamente herdados da classe "pai".
 \end{itemize}
 
@@ -358,13 +358,13 @@ Associações de Agregação permitem a representação de posse de uma classe s
 
 \begin{itemize}
     \item RM21: Associações de Agregação Simples representam a posse de uma classe sobre outra, porém mantendo a independência funcional de cada uma das classes associadas.
-    
+
     \item RM22: Associações de Agregação por Composição representam a posse de uma classe sobre outra, sendo a classe "possuída"\ uma definição interna da classe "possessora". Desta forma, a classe possuída só pode existir no contexto da classe possessora.
-    
+
     \item RM23: O vértice possuído de Associações de Agregação pode ter multiplicidade 1, 0..1, 0..*, * ou 1..*.
-    
+
     \item RM24: O vértice possessor de Associações de Agregação deve ter multiplicidade 1.
-    
+
     \item RM26: Não é comportada navegabilidade direcionada da classe possuída para a classe possessora, por limitação da notação gráfica da ferramenta Astah. Por esta razão, assume-se sempre navegabilidade bidirecional para Agregação Simples e unidirecional para Agregação por Composição.
 \end{itemize}
 
@@ -372,11 +372,11 @@ São estabelecidas as seguintes regras de conversão para que este tipo de assoc
 
 \begin{itemize}
     \item RC16: O vértice possuído de Associações de Agregação, quando navegável, será representado da mesma forma descrita pelas RCs 11-14.
-    
+
     \item RC17: O vértice possessor de Associações de Agregação Simples será representado por uma referência à classe possuída, ou um vetor de referências à classe possuída, definido de acordo com a multiplicidade do vetor, de forma similar a RCs 13-14.
-    
+
     \item RC18: O vértice possessor de Associações de Agregação por Composição será representado por uma definição interna de classe, seguindo as regras de multiplicidade das RCs 13-14 para decisão de uso de definição única ou vetor.
-    
+
     \item RC19: Classes possuídas de Associações de Agregação por Composição não serão representadas nas definições base.
 \end{itemize}
 
@@ -403,7 +403,7 @@ As regras de conversão referentes a esta restrição são:
 
 \begin{itemize}
     \item RC20: Cada uma das classes associadas irá receber um vetor de referências à objetos da classe associativa.
-    
+
     \item RC21: Um objeto será criado em \textit{definitions} para a classe associativa, utilizando como identificador a composição dos identificadores das classes associadas.
 \end{itemize}
 
@@ -456,11 +456,11 @@ A Figura \ref{fig_example_association_class} apresenta um diagrama de classes ex
 %            \EndIf
 %        \EndFor
 %    \EndFor
-%    
+%
 %    \ForAll{Associations}
 %        \State Create appropriate foreign keys
 %    \EndFor
-%    
+%
 %    \State Create definition block
 %\end{algorithmic}
 %\end{algorithm}
@@ -498,18 +498,18 @@ Nesta seção serão apresentadas as derivações \textit{kSch}, que deriva de \
 
 Cada \textit{kSch} será considerada a definição de um \textit{resource} a ser fornecido pela API, logo a derivação \textit{kword} se tornará o nome deste \textit{resource} e a derivação \textit{JSch} será utilizada para a geração de métodos HTTP disponibilizados para o \textit{resource} e para a criação de um \textit{model} do modulo Mongoose de Node.js, que subsequentemente irá fazer as iterações com o MongoDB. As derivações utilizadas para um \textit{JSch} de um \textit{resource} serão:
 \begin{itemize}
-    \item \textbf{title}: título do \textit{resource}
-    
-    \item \textbf{description}: descrição do \textit{resource}
-    
+    %\item \textbf{title}: título do \textit{resource}
+
+    %\item \textbf{description}: descrição do \textit{resource}
+
     \item \textbf{type}: restringe o tipo do objeto sendo definido, para um \textit{resource} o valor deverá ser \textit{object}, outros valores serão considerados inválidos
     %\item \textbf{strRes}: restrições aplicáveis a \textit{strings}
     %\item \textbf{numRes}: restrições aplicáveis a números (inteiros e decimais)
     %\item \textbf{arrRes}: restrições a \textit{arrays}
-    
-    \item \textbf{objRes}: restrições do \textit{resource}, serão consideradas as definições na Subseção \ref{sec:bnf:obj}    
+
+    \item \textbf{objRes}: restrições do \textit{resource}, serão consideradas as definições na Subseção \ref{sec:bnf:obj}
     %\item \textbf{multRes}: restrições de multiplicidade, enumerações, conjunções e disjunções
-    %\item \textbf{refSch}: referências a outros \textit{schemas}, seja localmente ou em outro arquivo    
+    %\item \textbf{refSch}: referências a outros \textit{schemas}, seja localmente ou em outro arquivo
 \end{itemize}
 
 \subsubsubsection{Derivações de \textit{objRes}}
@@ -518,31 +518,31 @@ A diretiva \textit{objRes} representa as restrições relacionadas a definição
 
 \begin{itemize}
     \item \textbf{properties}: irá conter as propriedades do objeto sendo definido, será melhor detalhada na Seção \ref{sec:bnf:props}.
-    
-    \item \textbf{additionalProperties}: indica se o objeto poderá conter propriedades adicionais, para esta derivação é esperado somente um valor booleano (\textit{true} ou \textit{false}), outros valores serão considerados inválidos
-    
+
+    %\item \textbf{additionalProperties}: indica se o objeto poderá conter propriedades adicionais, para esta derivação é esperado somente um valor booleano (\textit{true} ou \textit{false}), outros valores serão considerados inválidos
+
     \item \textbf{required}: define quais propriedades são obrigatórias
-    
-    \item \textbf{dependencies}: será considerada nesta diretiva somente a derivação contendo um \textit{kArr}, que é o nome de uma propriedade e suas dependências, todas as propriedades serão dependentes da propriedade definida como chave primária, se a chave primária for composta significará que o objeto é uma associação entre outros objetos
+
+    \item \textbf{dependencies}: será considerada nesta diretiva somente a derivação contendo um \textit{kArr}, que é o nome de uma propriedade e suas dependências, todas as propriedades serão dependentes da propriedade definida como chave primária, para que a chave primária seja composta será necessario que as propriedades sejam dependentes de mais de uma propriedade
 \end{itemize}
 
 \subsubsubsection{Derivações de \textit{properties}}
 \label{sec:bnf:props}
 As propriedades de um objeto serão todas as derivações \textit{kSch} que fazem parte da diretiva \textit{properties} relacionada ao mesmo. Porém as derivações de um \textit{kSch} terão um significado diferente quando aplicadas a uma propriedade, do que quanto aplicadas a um \textit{resource}. A derivação \textit{kword} será o nome da propriedade e para a derivação \textit{JSch} serão consideradas válidas somente as derivações listadas a seguir:
 \begin{itemize}
-    \item \textbf{title}: título da propriedade
-    
-    \item \textbf{description}: descrição da propriedade
-    
+    %\item \textbf{title}: título da propriedade
+
+    %\item \textbf{description}: descrição da propriedade
+
     \item \textbf{type}: restringe o tipo da propriedade sendo definida, caso nenhum valor seja informado assume-se \textit{object}. Valores considerados válidos são: \textit{string}, \textit{integer}, \textit{number}, \textit{boolean}, \textit{object} e \textit{array}.
-    
+
     \item \textbf{strRes}: será aceita quando o \textit{type} for \textit{string} e serão consideradas válidas as seguintes derivações:
     \begin{itemize}
         \item \textbf{minLength}: tamanho minimo do valor da propriedade
         \item \textbf{maxLength}: tamanho máximo do valor da propriedade
-        \item \textbf{pattern}: expressão regular para validação do valor
+        %\item \textbf{pattern}: expressão regular para validação do valor
     \end{itemize}
-    
+
     \item \textbf{numRes}: será aceita quando o \textit{type} for \textit{integer} ou \textit{number} e serão consideradas válidas as seguintes derivações:
     \begin{itemize}
         \item \textbf{minimum}: valor minimo da propriedade
@@ -550,12 +550,12 @@ As propriedades de um objeto serão todas as derivações \textit{kSch} que faze
         \item \textbf{maximum}: valor máximo da propriedade
         \item \textbf{exclusiveMaximum}: valor booleano, indica se o valor máximo está incluído ou não no intervalo de validação
     \end{itemize}
-    
+
     \item \textbf{arrRes}: será aceita quando o \textit{type} for \textit{array}, será melhor detalhada na Subseção \ref{sec:bnf:arr}
-    
+
     \item \textbf{objRes}: será aceita quando o \textit{type} for \textit{object} e então serão aplicadas as definições da Subseção \ref{sec:bnf:obj}
     %\item \textbf{multRes}: restrições de multiplicidade, enumerações, conjunções e disjunções
-    
+
     \item \textbf{refSch}: referências a outros definições no arquivo JSON Schema que esta sendo processado, estas referencias possuirão significados diferentes, de acordo com seu contexto, na disponibilização dos \textit{resources} pela API, conforme Seções \ref{sec:bnf:mongo} e \ref{sec:bnf:http}
 \end{itemize}
 
@@ -566,15 +566,15 @@ As restrições desta diretiva são relacionadas ao \textit{type array} e serão
     \item \textbf{items}: definição dos tipos do \textit{array} e pode ser derivada de duas formas:
     \begin{itemize}
         \item \textbf{sameitems}: determina que todos os itens do \textit{array} possuem a mesma definição, que é determinada por um \textit{JSch}, e para esta definição são aceitas as mesmas derivações de \textit{JSch} da Subseção \ref{sec:bnf:props}
-        
+
         \item \textbf{varitems}: determina que o \textit{array} pode ter itens de definições variadas, esta derivação será considerada inválida pelo gerador
-        
+
     \end{itemize}
-    
+
     %\item \textbf{additems}: é uma derivação que espera um valor booleano e opcional pois
-    
+
     \item \textbf{minitems}: indica o numero minimo de itens do \textit{array}
-    
+
     \item \textbf{maxitems}: indica o numero máximo de itens do \textit{array}
 \end{itemize}
 
@@ -587,23 +587,23 @@ Para a criação dos \textit{models} de cada \textit{resource} serão usadas as 
     \item Cada propriedade do \textit{resource} no JSON Schema irá resultar em uma propriedade do \textit{model} Mongoose
 
     \item Uma propriedade do tipo \textit{integer} no JSON Schema resultará em uma propriedade Mongoose com propriedades \textit{type: Number} e \textit{integer: true}
-    
+
     \item Uma propriedade do tipo \textit{number} no JSON Schema resultará em uma propriedade Mongoose com a propriedade \textit{type: Number}
-        
+
     \item Uma propriedade do tipo \textit{boolean} no JSON Schema resultará em uma propriedade Mongoose com a propriedade \textit{type: Boolean}
-    
+
     \item Uma propriedade do tipo \textit{string} no JSON Schema resultará em uma propriedade Mongoose com a propriedade \textit{type: String}
-    
+
     \item Uma propriedade do tipo \textit{array} no JSON Schema resultará em uma propriedade Mongoose com uma propriedade \textit{any} que será um \textit{array} contendo o \textit{SchemaType} Mongoose dos elementos
-    
+
     \item Uma propriedade do tipo \textit{object} no JSON Schema resultará em uma propriedade Mongoose com a propriedade \textit{type: Object}, se esta propriedade \textit{object} possuir definições JSON Schema, esta serão criadas no Mongoose conforme estas mesmas regras
-    
+
     \item Todas as propriedades do JSON Schema especificadas como \textit{required} receberão uma propriedade Mongoose \textit{required: true}
-    
+
     \item Todas as propriedades do JSON Schema dos tipos \textit{number} e \textit{integer} que possuirem definições de máximo e minimo receberão propriedades Mongoose correspondentes
-    
-    \item Propriedades do JSON Schema do tipo \textit{string} que possuírem definições de tamanho máximo, tamanho minimo e expressão regular receberão propriedades Mongoose correspondentes
-    
+
+    \item Propriedades do JSON Schema do tipo \textit{string} que possuírem definições de tamanho máximo e tamanho minimo receberão propriedades Mongoose correspondentes
+
 \end{itemize}
 
 As definições \textit{dependencies} do JSON Schema são interpretadas como se referindo a chave primária de um \textit{resource}, logo a propriedade da qual todas as outras dependem será considerada a chave primária. O MongoDB considera como chave primária de suas \textit{collections} a propriedade \textit{\_id} e este comportamento é assimilado pelo Mongoose.
@@ -620,7 +620,7 @@ Para que os \textit{resources} fornecidos pela API não contenham propriedades n
                 linenos=true,
                 xleftmargin=21pt,
                 breaklines=true,
-                tabsize=4]{js}               
+                tabsize=4]{js}
 Example_ClassSchema.virtual('attribute0').get(function() {
     return this._id;
 });
@@ -640,7 +640,7 @@ Além da propriedade \textit{\_id} do MongoDB o Mongoose também adiciona outras
                 linenos=true,
                 xleftmargin=21pt,
                 breaklines=true,
-                tabsize=4]{js}               
+                tabsize=4]{js}
 Example_ClassSchema.methods.cleanObject = function() {
     var doc = this.toObject({ virtuals: true });
     delete doc.__v;
@@ -656,7 +656,7 @@ Example_ClassSchema.methods.cleanObject = function() {
 \subsubsubsection{Geração dos métodos HTTP}
 \label{sec:bnf:http}
 
-Cada \textit{resource} terá seus métodos HTTP dentro de um \textit{middleware} do tipo \textit{Router}, que será utilizado pelo módulo \textit{Express} do \textit{Node.js} para gerenciar as \textit{requests}. 
+Cada \textit{resource} terá seus métodos HTTP dentro de um \textit{middleware} do tipo \textit{Router}, que será utilizado pelo módulo \textit{Express} do \textit{Node.js} para gerenciar as \textit{requests}.
 
 Os métodos HTTP gerados para um \textit{resource} serão todos os identificados como necessários para realizar as operações CRUD, que são: GET, HEAD, POST, PUT, PATCH e DELETE.
 
@@ -759,9 +759,9 @@ Quando um \textit{resource} com chave primária simples possuir propriedades com
 
 \subsection{Funcionamento da API REST gerada}
 
-A API gerada poderá ser utilizada através de um arquivo "\textit{main.js}"\ que será gerado após todos os \textit{models} e \textit{routers} serem gerados. Neste arquivo o servidor \textit{Express} será criado e iniciado e os \textit{routers} gerados serão adicionados como \textit{middleware} do servidor. Também constarão no arquivo a criação da conexão com o MongoDB e outras utilidades que permitam uma melhor utilização dos recursos da linguagem.
+A API gerada poderá ser utilizada através de um arquivo "\textit{api.js}"\ que será gerado após todos os \textit{models} e \textit{routers} serem gerados. Neste arquivo o servidor \textit{Express} será criado e iniciado e os \textit{routers} gerados serão adicionados como \textit{middleware} do servidor. Também constarão no arquivo a criação da conexão com o MongoDB e outras utilidades que permitam uma melhor utilização dos recursos da linguagem.
 
-Ao final da geração da API é possivel utilizá-la através do arquivo \textit{main.js}, usando-o como parâmetro do \textit{runtime} de Node.js em um terminal e estando na pasta onde o arquivo se encontra, por exemplo: \textbf{node main.js}
+Ao final da geração da API é possivel utilizá-la através do arquivo \textit{api.js}, usando-o como parâmetro do \textit{runtime} de Node.js em um terminal e estando na pasta onde o arquivo se encontra, por exemplo: \textbf{node api.js}
 
 Após executar este comando o usuário será informado do endereço local que a API está executando e os \textit{endpoints} de GET de cada \textit{resource}, conforme exemplo da Figura \ref{fig:api_console}.
 
