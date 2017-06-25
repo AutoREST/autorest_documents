@@ -8,20 +8,20 @@ Este capítulo tem como objetivo contextualizar as metodologias de desenvolvimen
 \section{Metodologias de Desenvolvimento}
 \label{chap:metod}
 
-Dentre as metodologias de desenvolvimento que tem como foco central ou tem entre suas principais contribuições a automação da geração de código e aumento da confiabilidade de sistema, foram identificadas três metodologias que se destacam neste sentido e são pertinentes ao tema deste estudo.
+Dentre as metodologias de desenvolvimento que tem como foco central, ou tem entre suas principais contribuições, a automação da geração de código e aumento da confiabilidade de sistemas, foram identificadas três metodologias que se destacam neste sentido e são pertinentes ao tema deste estudo.
 
 %------------------------------------------------------
 
 \subsection{Engenharia de Software Baseada em Componentes}
 
-\citeonline{CRNKOVIC:2002a} oferecem uma excelente definição de CBSE, que é a que utilizamos neste trabalho (tradução livre):
+\citeonline{CRNKOVIC:2002a} oferece uma excelente definição de CBSE, que é a que utilizamos neste trabalho (tradução livre):
 
 \begin{citacao}
 Engenharia de Software Baseada em Componentes (CBSE) se preocupa com o desenvolvimento de sistemas de software a partir de partes reutilizáveis (componentes), o desenvolvimento de componentes, e a manutenção e aprimoramento de sistemas através da substituição ou customização de componentes.
 %Component-based Software Engineering (CBSE) is concerned with the development of software systems from reusable parts (components), the development of components, and system maintenance and improvement by means of component replacement or customization.
 \end{citacao}
 
-Esta definição é concisa e deixa em aberto o significado exato de certos termos, como o próprio termo "componente". Para a clarificação disto, temos a definição de componente apresentada por \citeonline{JIFENG:2005}. Os autores iniciam sua definição citando a definição da \textit{Oxford Advanced Learners Dictionary} (tradução livre): "Um componente é qualquer parte da qual algo é feito".
+Esta definição é concisa e deixa em aberto o significado exato de certos termos, como o próprio termo ``componente''. Para a clarificação disto, temos a definição de componente apresentada por \citeonline{JIFENG:2005}. Os autores iniciam sua definição citando a definição do \textit{Oxford Advanced Learners Dictionary} (tradução livre): ``Um componente é qualquer parte da qual algo é feito''.
 %A component is any part of which something is made.
 
 Como esta definição é insuficiente para a limitação do escopo do termo componente para a engenharia de software, os autores prosseguem listando quatro itens para a definição precisa de um componente reutilizável:
@@ -41,21 +41,21 @@ Mesmo com esses limitadores, os autores ainda mantém que podem existir interpre
     \item Componentes podem ser desenvolvidos independentemente um do outro, e;
     %Components may be developed independently from each other.
     \item O propósito da composição é permitir a cooperação entre os componentes constituintes.
-    %The purpose of composition is to enable cooperation between the constituent components. 
+    %The purpose of composition is to enable cooperation between the constituent components.
 \end{itemize}
 
-Outras definições de componentes, incluindo apresentações de como utilizar componentes no contexto de padrões de projeto, podem ser encontradas em \citeonline{GAMMA:1995} e \citeonline{HORSTMANN:2006}.
+Outras definições de componentes, incluindo apresentações de como utilizar componentes no contexto de padrões de projeto, podem ser encontradas nos trabalhos de \citeonline{GAMMA:1995} e \citeonline{HORSTMANN:2006}.
 
 Podemos concluir que uma das contribuições de CBSE é a diminuição do esforço de desenvolvimento, aqui medido em tempo, custo monetário e alocação de recursos humanos, e o aumento da confiabilidade de sistemas, na medida que estes são compostos por componentes mais maduros e robustos. Por esta razão, esta metodologia de desenvolvimento se apresenta como uma possível solução ao problema tratado por este trabalho.
 
-Crnkovic, Larsson e Stafford explicitam a diferença entre CBSE e outros métodos de Engenharia de Software que fazem uso de componentes (tradução livre):
+\citeonline{CRNKOVIC:2002b} explicitam a diferença entre CBSE e outros métodos de Engenharia de Software que fazem uso de componentes (tradução livre):
 
 \begin{citacao}
 Enquanto o objetivo primário da arquitetura de software e da engenharia de sistemas é entender o sistema através da sua divisão em componentes e da identificação de componentes como unidades compostas que expressam determinadas funções e propriedades, CBSE parte de dadas propriedades dos componentes e define o sistema utilizando estas propriedades.
 %While the primary goal of software architecture and system engineering is to understand the system by dividing it in components and identifying components as composable units that express certain functions and properties, CBSE starts from the given properties of the components and then defines a system by utilizing these properties.
 \end{citacao}
 
-Partindo-se desta definição, apesar da abordagem CBSE não ser apropriada para o processo que é proposto neste trabalho para a geração de APIs REST, ele é apropriada para a construção do sistema AutoREST em si. Após a identificação de características comuns entre APIs REST, é possível a representação destas características em componentes no formato de blocos de código parametrizáveis, que podem servir como base na geração das APIs. Portanto, CBSE mostra-se como uma metodologia apropriada para a modelagem da ferramenta AutoREST.
+Partindo-se desta definição, apesar da abordagem CBSE não ser apropriada para o processo que é proposto neste trabalho para a geração de APIs REST, ele é apropriada para a construção da solução AutoREST. Após a identificação de características comuns entre APIs REST, é possível a representação destas características em componentes no formato de blocos de código parametrizáveis, que podem servir como base na geração das APIs. Portanto, CBSE mostra-se como uma metodologia apropriada para a modelagem da solução AutoREST.
 
 %------------------------------------------------------
 
@@ -63,17 +63,17 @@ Partindo-se desta definição, apesar da abordagem CBSE não ser apropriada para
 
 O uso de modelos para a representação de abstrações dentro das diversas especialidades de Engenharia já é uma prática comum a milênios \cite{VITRUVIUS:1914}. Em seu livro, \citeonline{STAHL:2006} afirmam que o uso de modelos no processo de desenvolvimento de software é uma tradição antiga, que se tornou mais comum após a popularização da UML. Entretanto, os autores afirmam que na maioria dos projetos de software, modelos são usados apenas como documentação, e que a relação entre modelos e software implementado é "intencional, mas não formal".
 
-Em contraste a esta afirmação, os autores introduzem o conceito de Desenvolvimento de Software Dirigido por Modelos (MDD), em que os modelos de um projeto de software são considerados tão importantes quanto o código implementado, com a implementação sendo parcial ou totalmente automatizada. De acordo com \citeonline{SELIC:2003}, métodos MDD tem um enorme potencial dentro da área de engenharia de software que ainda não foi alcançado, em grande parte, devido a dificuldades em introduzir estes novos métodos ao contexto de projetos já existentes.
+Em contraste a esta afirmação, os autores introduzem o conceito de Desenvolvimento de Software Dirigido por Modelos (MDD), em que os modelos de um projeto de software são considerados tão importantes quanto o código implementado, com a implementação sendo parcial ou totalmente automatizada. De acordo com \citeonline{SELIC:2003}, métodos MDD tem um enorme potencial dentro da área de engenharia de software que ainda não foi alcançado, em grande parte, devido a dificuldades em introduzir estes novos métodos ao contexto de projetos já existentes (diminuindo assim a barreira de adoção).
 
-Para Selic, a base técnica do conceito de MDD são tecnologias de automação, que ele divide em duas partes: a geração completa de programas a partir de modelos, ao invés de fragmentos, e; a verificação automática de modelos. O autor afirma que uma das dificuldades na adoção de MDD seria a dificuldade de realizar a geração automática de modelos a partir de código, o que causa a atual prática de muitas ferramentas, de gerar apenas fragmentos de código, ineficiente, visto que alterações no código gerado não serão traduzidas em alterações nos modelos. O autor então propõe que a atual disseminação de padrões, como os administrados pela OMG, possibilita a criação de ferramentas que realizam a geração completa de programas a partir de modelos.
+Para Selic, a base técnica do conceito de MDD são tecnologias de automação, que ele divide em duas partes: a geração completa de programas a partir de modelos, ao invés de fragmentos, e; a verificação automática de modelos. O autor afirma que uma das dificuldades na adoção de MDD seria a dificuldade de realizar a geração automática de modelos a partir de código, o que causa a atual prática de muitas ferramentas, de gerar apenas fragmentos de código, ineficiente, visto que alterações no código gerado não serão traduzidas em alterações nos modelos; ou seja, o código não é rastreável. O autor então propõe que a atual disseminação de padrões, como os administrados pela OMG, possibilita a criação de ferramentas que realizam a geração completa de programas a partir de modelos.
 
-Para que isso seja possível, Selic propõe cinco qualidades essenciais de modelos, não apenas de software, mas de quaisquer elementos:
+Para que isso seja possível, Selic propõe cinco qualidades essenciais de modelos, não apenas de software, mas em qualquer domínio:
 
 \begin{itemize}
     \item A primeira qualidade definida pelo autor é \textit{Abstração}. Um modelo deve ser uma representação reduzida daquilo que está sendo representado.
     \item A segunda é \textit{Compreensibilidade}. Um modelo deve ser compreensível por um ser humano rapidamente, sem a necessidade do tempo e esforço necessários para se compreender, por exemplo, código implementado.
     \item A terceira qualidade é \textit{Precisão}. Um modelo deve ser uma representação correta daquilo que está sendo representado.
-    \item A quarta qualidade é \textit{Preditividade}. Um engenheiro deve ser capaz de prever detalhes sobre seu objeto de estudo através da representação do modelo.
+    \item A quarta qualidade é \textit{Preditividade}. Um engenheiro deve ser capaz de prever detalhes sobre seu objeto de estudo através do estudo do modelo.
     \item Por fim, um modelo deve ser \textit{Econômico}. Criar um modelo deve ser significativamente menos dispendioso do que construir o sistema em si.
 \end{itemize}
 
@@ -91,29 +91,29 @@ Programação Generativa é a criação de produtos de software a partir de comp
 
 Para que esta proposta seja possível, Czarnecki e Eisenecker apresentam dois requisitos fundamentais: a noção de famílias de sistemas, ao invés de sistemas únicos, e; a composição automática da implementação de componentes utilizando geradores.
 
-Os autores descrevem os passos para que estes requisitos sejam alcançados: 1) o projeto da implementação de componentes deve se encaixar em uma arquitetura de linha de produto comum; 2) um modelo de configuração deve ser criado descrevendo como traduzir requisitos abstratos em constelações de componentes; 3) este modelo de configuração deve ser implementado utilizando geradores.
+Os autores descrevem os passos para que estes requisitos sejam alcançados: 1) o projeto da implementação de componentes deve se encaixar em uma arquitetura de linha de produto; 2) um modelo de configuração deve ser criado descrevendo como traduzir requisitos abstratos em constelações de componentes, e; 3) este modelo de configuração deve ser implementado utilizando geradores.
 
-A metodologia de programação generativa é apropriada a este estudo na medida que são definidas pequenos blocos de código parametrizáveis que possam ser utilizados para a construção do código final gerado pelo tradutor desenvolvido. Desta forma, preenchem-se os três requisitos listados por Czarnecki e Eisenecker, visto que: 1) assume-se como domínio generativo as APIs REST de acesso a estruturas de dados; 2) assume-se como modelo de configuração a representação das estruturas de dados em diagramas de classes UML anotados, ou em definições JSON Schema; 3) assume-se como gerador o tradutor proposto, que irá gerar, a partir do modelo de configuração, os parâmetros necessários para o uso dos blocos de código na construção do sistema final.
+A metodologia de programação generativa é apropriada a este estudo na medida que são definidos pequenos blocos de código parametrizáveis que possam ser utilizados para a construção do código final gerado pelo tradutor desenvolvido. Desta forma, preenchem-se os três requisitos listados por Czarnecki e Eisenecker, visto que: 1) assume-se como domínio generativo as APIs REST de acesso a estruturas de dados; 2) assume-se como modelo de configuração a representação das estruturas de dados em diagramas de classes UML anotados, ou em definições JSON Schema; 3) assume-se como gerador o tradutor proposto, que irá gerar, a partir do modelo de configuração, os parâmetros necessários para o uso dos blocos de código na construção do sistema final.
 
 %------------------------------------------------------
 
 \subsection{Metodologias Utilizadas}
 
-As metodologias descritas nesta seção serão utilizadas em momentos diferentes deste trabalho. Como descrito acima, CBSE será utilizada durante a fase de modelagem da ferramenta AutoREST, na identificação das características comuns de APIs REST que possam ser reutilizadas, para que a AutoREST tenha uma base de componentes em comum que serão utilizados durante sua execução.
+As metodologias descritas nesta seção são utilizadas em momentos diferentes deste trabalho. Como descrito acima, CBSE é utilizada durante a fase de modelagem da ferramenta AutoREST, na identificação das características comuns de APIs REST que possam ser reutilizadas, para que a AutoREST tenha uma base de componentes em comum que são utilizados durante sua execução.
 
-MDD será utilizada na primeira metade do processo de execução da aplicação AutoREST, definindo regras de modelagem para a representação de APIs REST em alto nível de abstração, para posterior geração de código automatizada. Por fim, GP será utilizada na segunda metade do processo de execução da aplicação, utilizando os componentes parametrizáveis implementados durante o desenvolvimento da AutoREST para construir uma aplicação final, utilizando os modelos gerados na fase anterior como modelos de configuração.
+MDD é utilizada na primeira metade do processo de execução da aplicação AutoREST, definindo regras de modelagem para a representação de APIs REST em alto nível de abstração, para posterior geração de código automatizada. Por fim, GP é utilizada na segunda metade do processo de execução da aplicação, utilizando os componentes parametrizáveis implementados durante o desenvolvimento da AutoREST para construir uma aplicação final, utilizando os modelos gerados na fase anterior como modelos de configuração.
 
 %------------------------------------------------------
 
 \section{Linguagem Unificada de Modelagem (UML)}
 
-Para a modelagem dos sistemas que serão gerados pela ferramenta AutoREST, é necessário o uso de uma linguagem de modelagem de software que permita a anotação de todos os dados necessários para a geração do código final. Além disso, é importante que a linguagem de modelagem utilizada seja de fácil compreensão, visto para alcançar um nível de eficiência suficiente para a adoção da ferramenta em projetos reais, é necessário permitir a concepção de APIs REST de forma simples e abrangente.
+Para a modelagem dos sistemas que são gerados pela solução AutoREST, é necessário o uso de uma linguagem de modelagem de software que permita a anotação de todos os dados necessários para a geração do código final. Além disso, é importante que a linguagem de modelagem utilizada seja de fácil compreensão, visto que para alcançar um nível de eficiência suficiente para a adoção da ferramenta em projetos reais, é necessário permitir a concepção de APIs REST de forma simples e abrangente.
 
-Dentre as linguagens de especificação de sistemas, UML é considerada por vários autores como sendo a \textit{lingua franca} \cite{EVANS:2000} ou o padrão \textit{de facto} para a descrição de modelos de design orientados a objetos \cite{BUDGEN:2011}. Mesmo \citeonline{PETRE:2013}, ao questionar a veracidade destas afirmações ao demonstrar que UML não é nem universalmente adotada, nem utilizada da mesma forma por toda a indústria, afirma que de fato UML se mantém como um padrão na área.
+Dentre as linguagens de especificação de sistemas, UML é considerada por vários autores como sendo a \textit{lingua franca} \cite{EVANS:2000} ou o padrão \textit{de facto} para a descrição de modelos de design orientados a objetos \cite{BUDGEN:2011}. Mesmo \citeonline{PETRE:2013}, ao questionar a veracidade destas afirmações demonstrando que UML não é nem universalmente adotada, nem utilizada da mesma forma por toda a indústria, afirma que de fato UML se mantém como um padrão na área.
 
-Definida formalmente pelo \textit{Object Management Group} (OMG) no documento \cite{OMG:2011}, a UML tem como objetivo "provêr a arquitetos de sistemas, engenheiros de software, e desenvolvedores de software ferramentas para análise, design e implementação de sistemas baseados em software, assim como para a modelagem de negócios e processos similares".
+Definida formalmente pelo \textit{Object Management Group} (OMG) \cite{OMG:2011}, a UML tem como objetivo ``provêr a arquitetos de sistemas, engenheiros de software, e desenvolvedores de software ferramentas para análise, design e implementação de sistemas baseados em software, assim como para a modelagem de negócios e processos similares''.
 
-A linguagem é profundamente desenvolvida tanto em \cite{OMG:2011} como nos livros canônicos de \citeonline{RUMBAUGH:2004}, \citeonline{BOOCH:2005} e \citeonline{ARLOW:2005}, além de possuir inúmeras extensões que vão além do escopo deste trabalho.
+A linguagem é profundamente desenvolvida tanto em \cite{OMG:2011} como nos livros canônicos de \citeonline{RUMBAUGH:2004}, \citeonline{BOOCH:2005} e \citeonline{ARLOW:2005}, além de possuir inúmeras extensões (perfis) que vão além do escopo deste trabalho.
 
 A UML é uma excelente opção de linguagem de especificação para servir como base da AutoREST, visto que cobre o requisito citado acima de ser simples e abrangente, e como será apresentado a seguir, possui todas as características necessárias para a notação dos dados de representação de uma API REST.
 
@@ -125,15 +125,15 @@ Dentre os diagramas disponibilizados pela UML, o Diagrama de Classes serve parti
 
 Para a representação dos dados de uma API REST, esta representação de classes se mostra particularmente eficaz por permitir a definição de tipos de dados e relacionamentos entre classes. Além disso, como todos os diagramas da UML, o Diagrama de Classes é de fácil extensão através do uso de \textit{Stereotypes} e \textit{Tags}, que permitem a definição de regras mais refinadas para a composição dos atributos.
 
-Neste trabalho, será usado como artefato de entrada da ferramenta AutoREST um Diagrama de Classes em formato XML e anotado com certas definições derivadas da representação JSON Schema. Este diagrama servirá como modelo de configuração para a geração automática de APIs REST.
+Neste trabalho, será usado como artefato de entrada da solução AutoREST um Diagrama de Classes em formato XML e anotado com certas definições derivadas da representação JSON Schema. Este diagrama servirá como modelo de configuração para a geração automática de APIs REST.
 
 %------------------------------------------------------
 
 \section{JavaScript Object Notation (JSON)}
 
-Apesar de UML ser uma excelente forma de representação para os modelos de configuração da ferramenta AutoREST, ela provê apenas uma notação gráfica, o que é insuficiente para o processamento de um compilador por ser de difícil processamento por máquinas. Ainda que existam notações para a representação textual de UML, como determinadas formas de XML, estas notações são de difícil compreensão humana, o que vai contra o preceito de MDD de utilizar representações que possam ser lidas e mantidas facilmente pelos seus usuários.
+Apesar da UML ser uma excelente forma de representação para os modelos de configuração da AutoREST, ela provê apenas uma notação gráfica, o que é insuficiente para o processamento de um compilador por ser de difícil processamento por máquinas. Ainda que existam notações para a representação textual de UML, como determinadas formas de XML, estas notações são de difícil compreensão humana, o que vai contra o preceito de MDD de utilizar representações que possam ser lidas e mantidas facilmente pelos seus usuários.
 
-Para cumprir os requisitos de MDD e a necessidade de uma representação textual para o processamento de um compilador, utilizamos a notação JSON, estabelecida por Crockford em \cite{JSON:2016}, \cite{RFC4627} e \cite{ECMA404}. Esta notação, criada para servir como um formato para troca de dados independente de linguagem, é baseada em um subconjunto da linguagem de programação JavaScript, e é considerada de fácil leitura por humanos e fácil processamento por máquinas.
+Para cumprir os requisitos de MDD e a necessidade de uma representação textual para o processamento de um compilador, utilizamos a notação JSON, estabelecida por Crockford \cite{JSON:2016} \cite{RFC4627} \cite{ECMA404}. Esta notação, criada para servir como um formato para troca de dados independente de linguagem, é baseada em um subconjunto da linguagem de programação JavaScript, e é considerada de fácil leitura por humanos e fácil processamento por máquinas.
 
 Além das vantagens inerentes da notação JSON, ela também é tradicionalmente utilizada nas transações de APIs REST \cite{PEZOA:2016} \cite{POLAK:2015}, sendo por esta razão particularmente apropriada para a solução descrita neste trabalho.
 
@@ -141,8 +141,8 @@ Além das vantagens inerentes da notação JSON, ela também é tradicionalmente
 
 \subsection{JSON Schema}
 
-A notação JSON normalmente serve para a representação de dados propriamente ditos, e não para a representação de estruturas de dados. Visto que os modelos de configuração da ferramenta AutoREST são estruturas de dados, é necessária uma notação que descreve o formato de arquivos JSON para que possam ser abstraídas estruturas de dados. Para este propósito, utilizamos JSON Schema \cite{GALIEGUE:2013}.
+A notação JSON normalmente serve para a representação de dados propriamente ditos, e não para a representação de estruturas de dados. Visto que os modelos de configuração da AutoREST são estruturas de dados, é necessária uma notação que descreva o formato de arquivos JSON para que possam ser abstraídas estruturas de dados. Para este propósito, utilizamos JSON Schema \cite{GALIEGUE:2013}.
 
-JSON Schema é uma linguagem de descrição de formato de dados baseada na linguagem JSON que, apesar de já ser amplamente aceita, ainda não está totalmente definida e continua em desenvolvimento por \citeonline{GALIEGUE:2013}. Apesar de não possuir uma definição completa, \citeonline{PEZOA:2016} já disponibilizam uma ótima definição para JSON Schema, provendo uma especificação formal e também uma gramática formal.
+JSON Schema é uma linguagem de descrição de formato de dados baseada na linguagem JSON que, apesar de já ser amplamente aceita, ainda não está totalmente definida e continua em desenvolvimento por \citeonline{GALIEGUE:2013}. Apesar de não possuir uma definição completa, \citeonline{PEZOA:2016} já disponibilizam uma ótima definição para JSON Schema, provendo uma especificação formal e uma gramática formal.
 
 Como será apresentado na descrição da solução proposta neste estudo, o mapeamento de um diagrama de classes UML anotado para uma definição JSON Schema completa é possível, dadas certas limitações e o uso de um subconjunto pré-determinado da linguagem JSON Schema proposta por Pezoa.

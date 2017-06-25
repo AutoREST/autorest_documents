@@ -1,13 +1,13 @@
 \chapter{Arquiteturas de Software}
 \label{chap:arquitetura}
 
-Neste capítulo são apresentados os modelos arquiteturais pertinentes a este trabalho, focando nas arquiteturas REST e HTTP, que serão aplicadas diretamente na solução proposta.
+Neste capítulo são apresentados os modelos arquiteturais pertinentes a este trabalho, focando nas arquiteturas REST e HTTP, que são aplicadas diretamente na solução proposta.
 
 %------------------------------------------------------------
 
 \section{Arquitetura Cliente/Servidor}
 \label{sec:arq:cli-serv}
-A arquitetura cliente/servidor tem como fundamento a existência de duas camadas distintas de software, onde o servidor disponibiliza serviços que serão utilizados pelos clientes, conforme \citeonline{REESE:2000}. \citeonline{Israel:120764} definem um cliente como sendo um computador que acessa recursos de outro computador, que é um servidor.
+A arquitetura cliente/servidor tem como fundamento a existência de duas camadas distintas de software, onde o servidor disponibiliza serviços que serão utilizados pelos clientes, conforme \citeonline{REESE:2000}. \citeonline{Israel:120764} definem um cliente como sendo um computador que acessa recursos de outro computador. O computador que provê os serviços é, por sua vez, o servidor.
 
 %Hm, acho interessante tu só conceituar o que são serviços e recursos, na seção de Cliente-Servidor. Tu usa essas palavras mas não conceitua elas.
 %RE: bem, respondido... embora reconheça que referencias para isto não encontrei nada 100% puro, sempre era algo implicito no texto.
@@ -18,56 +18,56 @@ Um recurso pode ser considerado como qualquer função de software, hardware ou 
 
 \section{Arquitetura REST}
 
-Nesta seção será apresentada e estudada a arquitetura de Transferência de Estado Representacional, do inglês \textit{REpresentational State Transfer} (REST). Esta arquitetura foi criada por Roy T. Fielding e é em \cite{FIELDING:2000} da seguinte forma, em tradução livre:
+Nesta seção será apresentada e estudada a arquitetura de Transferência de Estado Representacional, do inglês \textit{REpresentational State Transfer} (REST). Esta arquitetura foi criada por Roy T. Fielding e é definida em sua tese \cite{FIELDING:2000} da seguinte forma, em tradução livre:
 
 \begin{citacao}
 O modelo \textit{REpresentational State Transfer} (REST) é uma abstração dos elementos arquiteturais internos de um sistema de \textit{hypermedia} distribuído. REST ignora os detalhes de implementação dos componentes e sintaxe de protocolo para focar na função dos componentes, as restrições a respeito das interações com outros componentes, e a interpretação de elementos significativos de dados. Ele abrange as restrições fundamentais sobre componentes, conectores e dados que definem a base da arquitetura Web, e por conseguinte a essência de seu comportamento como uma aplicação baseada em rede.
 \end{citacao}
 %The Representational State Transfer (REST) style is an abstraction of the architectural elements within a distributed hypermedia system. REST ignores the details of component implementation and protocol syntax in order to focus on the roles of components, the constraints upon their interaction with other components, and their interpretation of significant data elements. It encompasses the fundamental constraints upon components, connectors, and data that define the basis of the Web architecture, and thus the essence of its behavior as a network-based application.
 
-Por se tratar de um modelo arquitetural para Web, REST é uma arquitetura fundamentalmente restritiva, sendo suas principais restrições:
+Por se tratar de um modelo arquitetural para Web, REST é uma arquitetura fundamentalmente restritiva. Das restrições da arquitetura REST, as principais são:
 
 \begin{itemize}
-    \item \textbf{Cliente-servidor: }Esta restrição define que um cliente é um componente da arquitetura que utiliza os serviços disponibilizados por um servidor, conforme a Seção \ref{sec:arq:cli-serv}
-    
-    \item \textbf{Stateless: }Define que não há estados na arquitetura, ou seja, todas as iterações são independentes e auto contidas, não havendo assim a necessidade do servidor gerenciar estados internamente
-    
-    \item \textbf{Cache: }Requer que os dados de resposta a uma requisição sejam implícita ou explicitamente categorizados como \textit{cacheable} ou \textit{non-cacheable}. Se uma resposta for \textit{cacheable} o cliente poderá utiliza-la para requisições futuras
-    
-    \item \textbf{Interface uniforme: }Define que os componentes irão utilizar uma interface uniforme, facilitando implementações, desacoplamento e integrações
-    
-    \item \textbf{Sistema em camadas: }Restringe o sistema a ser organizado hierarquicamente em camadas, cada uma com visibilidade a suas camadas adjacentes, conforme \cite{garlan:1993}
+    \item \textbf{Cliente-servidor: }Esta restrição define que um cliente é um componente da arquitetura que utiliza os serviços disponibilizados por um servidor, conforme a Seção \ref{sec:arq:cli-serv};
+
+    \item \textbf{Stateless: }Define que não há estados na arquitetura, ou seja, todas as iterações são independentes e auto-contidas, não havendo assim a necessidade do servidor gerenciar estados internamente;
+
+    \item \textbf{Cache: }Requer que os dados de resposta a uma requisição sejam implícita ou explicitamente categorizados como \textit{cacheable} ou \textit{non-cacheable}. Se uma resposta for \textit{cacheable} o cliente poderá utiliza-la para requisições futuras;
+
+    \item \textbf{Interface uniforme: }Define que os componentes irão utilizar uma interface uniforme, facilitando implementações, desacoplamento e integrações;
+
+    \item \textbf{Sistema em camadas: }Restringe o sistema a ser organizado hierarquicamente em camadas, cada uma com visibilidade a suas camadas adjacentes, conforme \cite{garlan:1993}.
 \end{itemize}
 
 %------------------------------------------------------------
 
 \subsection{Elementos Arquiteturais REST}
 
-Como citado no início desta seção, \citeonline{FIELDING:2000} define REST como um modelo abstrato de elementos arquiteturais, estes elementos arquiteturais definem um padrão no formato de interfaces web que pode ser explorado para a geração automática destas interfaces". A seguir, estes elementos e suas características serão apresentados.
+Como citado no início desta seção, \citeonline{FIELDING:2000} define REST como um modelo abstrato de elementos arquiteturais. Estes elementos arquiteturais definem um padrão no formato de interfaces web que pode ser explorado para a geração automática destas interfaces.
 
 %------------------------------------------------------------
 
 \subsubsection{Elementos de dados}
-Os dados devem ser providos em um formato que satisfaça uma interface padronizada, ainda que isto seja diferente do formato de origem nas camadas inferiores. Para isto qualquer informação que pode receber um nome é chamada de \textit{resource} (recurso). Um \textit{resource} define características em comum de um determinado conjunto de dados. Quando é necessário referenciar determinado \textit{resource} usa-se um \textit{resource identifier} (identificador de recurso), que será usado nos vários conectores quando estiverem utilizando o mesmo \textit{resource}.
+Os dados devem ser providos em um formato que satisfaça uma interface padronizada, ainda que isto seja diferente do formato de origem nas camadas inferiores. Para isto, qualquer informação que pode receber um nome é chamada de \textit{resource} (recurso). Um \textit{resource} define características em comum de um determinado conjunto de dados. Quando é necessário referenciar determinado \textit{resource}, usa-se um \textit{resource identifier} (identificador de recurso), que será usado nos vários conectores quando estiverem utilizando o mesmo \textit{resource}.
 
-Ações nos \textit{resources} serão realizadas por componentes utilizando \textit{representations} (representações), que capturam o estado atual ou desejado. Junto com a \textit{representation} também podem ser enviados metadados descrevendo o conteúdo que está sendo transportado. O formato dos dados de uma \textit{representation} é conhecido como \textit{media type} ou \textit{MIME type}, conforme apresentados por \citeonline{RFC2048}.
+Ações nos \textit{resources} serão realizadas por componentes utilizando \textit{representations} (representações) que capturam o estado atual ou desejado. Junto com a \textit{representation}, também podem ser enviados metadados descrevendo o conteúdo que está sendo transportado. O formato dos dados de uma \textit{representation} é conhecido como \textit{media type} ou \textit{MIME type}, conforme apresentado por \citeonline{RFC2048}.
 
-Para que as ações em uma \textit{representation} tenham significado entre os componentes existem os dados de controle (\textit{control data}). Conforme os dados de controle uma \textit{representation} pode significar o estado atual ou o estado desejado de um \textit{resource}.
+Para que as ações em uma \textit{representation} tenham significado entre os componentes, existem os dados de controle (\textit{control data}). Conforme os dados de controle, uma \textit{representation} pode significar o estado atual ou o estado desejado de um \textit{resource}.
 
 %------------------------------------------------------------
 
-\subsubsection{Conectores}		
+\subsubsection{Conectores}
 
-Conectores são utilizados para encapsular atividades, possuindo uma interface abstrata de comunicação que oculta a implementação dos \textit{resources} e mecanismos de comunicação, aplicando assim a restrição de camadas de \citeonline{garlan:1993}. A utilização de um conector é similar a utilização de um método em programação estrutural \cite{WATT:2004}, onde os parâmetros de entrada seriam os dados de controle, um \textit{resource identifier} e opcionalmente uma \textit{representation}. Já o resultado consistiria de dados de controle e opcionalmente metadados de \textit{resource} e/ou uma \textit{representation}.
+Conectores são utilizados para encapsular atividades, possuindo uma interface abstrata de comunicação que oculta a implementação dos \textit{resources} e mecanismos de comunicação, aplicando assim a restrição de camadas de \citeonline{garlan:1993}. A utilização de um conector é similar a utilização de um método em programação estrutural \cite{WATT:2004}, onde os parâmetros de entrada seriam os dados de controle, um \textit{resource identifier} e, opcionalmente, uma \textit{representation}. Já o resultado consistiria de dados de controle e, opcionalmente, metadados de \textit{resource} e/ou uma \textit{representation}.
 
 Os principais conectores em REST são o cliente e o servidor. Um cliente iniciará comunicações através de \textit{requests} (requisições) e um servidor ficará encarregado de esperar estas \textit{requests} de forma a prover acesso a seus serviços.
 
 Outros conectores, embora estejam fora do escopo deste trabalho, seriam:
 
 \begin{itemize}
-    \item \textit{cache}: para que clientes e servidores evitem envio e processamento, respectivamente, de \textit{requests} com resultado já em \textit{cache}
-    \item \textit{resolver}: para resolução parcial ou total de endereços para o estabelecimento de conexões
-    \item \textit{tunnel}: para que componentes REST troquem seu comportamento para o de um túnel, responsável apenas por repassar a \textit{request} para outro destinatário
+    \item \textit{cache}: para que clientes e servidores evitem envio e processamento, respectivamente, de \textit{requests} com resultado já em \textit{cache};
+    \item \textit{resolver}: para resolução parcial ou total de endereços para o estabelecimento de conexões;
+    \item \textit{tunnel}: para que componentes REST troquem seu comportamento para o de um túnel, responsável apenas por repassar a \textit{request} para outro destinatário.
 \end{itemize}
 
 
@@ -76,32 +76,30 @@ Outros conectores, embora estejam fora do escopo deste trabalho, seriam:
 
 \subsubsection{Componentes}
 
-Os principais componentes REST são: \textit{user agent} que é um conector cliente e iniciará uma \textit{request}, se tornando assim o recipiente final da \textit{response}, e; \textit{origin server}, é um conector servidor e é a origem das \textit{representations} dos \textit{resources} e, portanto o recipiente final de todas as \textit{requests}. Também existem dois componentes secundários em REST, o \textit{proxy} \cite{WWWProxy:1994} e o \textit{gateway}. Estes componentes possuem como objetivo agir como intermediários, encapsulando funcionalidades de rede como tradução de endereço e roteamento de \textit{requests} e \textit{responses}.
+Os principais componentes REST são: \textit{user agent}, que é um conector cliente e iniciará uma \textit{request}, se tornando assim o recipiente final da \textit{response}, e; \textit{origin server}, um conector servidor e é a origem das \textit{representations} dos \textit{resources} e, portanto, o recipiente final de todas as \textit{requests}. Também existem dois componentes secundários em REST: o \textit{proxy} \cite{WWWProxy:1994} e o \textit{gateway}. Estes componentes possuem como objetivo agir como intermediários, encapsulando funcionalidades de rede como tradução de endereço e roteamento de \textit{requests} e \textit{responses}.
 
 %------------------------------------------------------------
 
 \section{Hypertext Transfer Protocol (HTTP)}
 
-\textit{Hypertext Transfer Protocol} (HTTP) é um protocolo de aplicação \cite{RFC1123} usado amplamente na \textit{World Wide Web} (WWW). A versão inicial, HTTP/1.1, foi publicada na RFC 2616 \cite{RFC2616}, e a maioria de seus conceitos são válidos até hoje. Uma versão mais atual, HTTP/2.0, foi publicada na RFC 7540 \cite{RFC7540}, porém não substitui a versão anterior, sendo ao invés disto uma alternativa para ela, mantendo a semântica do HTTP.
+\textit{Hypertext Transfer Protocol} (HTTP) é um protocolo de aplicação \cite{RFC1123} usado amplamente na \textit{World Wide Web} (WWW). A versão inicial, HTTP/1.1, foi publicada na RFC 2616 \cite{RFC2616} e a maioria de seus conceitos são válidos até hoje. Uma versão mais atual, HTTP/2.0, foi publicada na RFC 7540 \cite{RFC7540} mas não substitui a versão anterior, sendo ao invés disto uma alternativa para ela, compatível com a semântica do HTTP/1.1.
 
-O protocolo HTTP possui vários parâmetros pertinentes a seu transporte pela Web e também dois tipos de mensagens, \textit{request} e \textit{response}. As mensagens possuem duas áreas principais, o \textit{header} (cabeçalho), que é constituído de um conjunto de chaves e valores, e o \textit{message body} (corpo da mensagem). As partes mais importantes para o desenvolvimento da ferramenta AutoREST são as que constituem estas duas áreas.
+O protocolo HTTP possui vários parâmetros pertinentes a seu transporte pela Web e também dois tipos de mensagens, \textit{request} e \textit{response}. As mensagens possuem duas áreas principais: o \textit{header} (cabeçalho), que é constituído de um conjunto de chaves e valores, e; o \textit{message body} (corpo da mensagem). As partes mais importantes para o desenvolvimento da ferramenta AutoREST são as que constituem estas duas áreas.
 
-Em uma \textit{request} o \textit{header} irá conter um \textit{method} (método), uma \textit{Uniform Resource Identifier} (URI) além de outros valores que descrevem a \textit{request} e o \textit{entity-body}, ou a falta do mesmo. Os métodos HTTP serão detalhados na Seção \ref{sec:http:meth}.
+Em uma \textit{request} o \textit{header} irá conter um \textit{method} (método), uma \textit{Uniform Resource Identifier} (URI) e outros valores que descrevem a \textit{request} e o \textit{entity-body} (ou a falta do mesmo). Os métodos HTTP são detalhados na Seção \ref{sec:http:meth}. Já na \textit{response}, o \textit{header} irá conter um \textit{status code} e uma respectiva \textit{reason phrase} e, assim como a \textit{request}, outros valores que descrevem a \textit{response} e o \textit{entity-body} ou a falta do mesmo. O protocolo HTTP possui um considerável conjunto de \textit{status codes}. Suas categorias e relevância para este trabalho são definidos na Seção \ref{sec:http:status}.
 
-Já na \textit{response} o \textit{header} irá conter um \textit{status code} e uma respectiva \textit{reason phrase} e, assim como a \textit{request}, outros valores que descrevem a \textit{response} e o \textit{entity-body} ou a falta do mesmo. O protocolo HTTP possui um considerável conjunto de \textit{status codes}. Suas categorias e relevância para este trabalho serão definidos na Seção \ref{sec:http:status}.
-
-A definição mais atual para URI está na RFC 3986 por \citeonline{RFC3986}. Conforme os autores, uma URI proporciona uma maneira simples e extensível para a identificação de \textit{resources}. O principal uso para o protocolo HTTP é exatamente este, identificar os \textit{resources} de um determinado servidor que um cliente quer utilizar.
+A definição mais atual para URI está na RFC 3986, de autoria de \citeonline{RFC3986}. Conforme os autores, uma URI proporciona uma maneira simples e extensível para a identificação de \textit{resources}. O principal uso para o protocolo HTTP é exatamente este: identificar os \textit{resources} de um determinado servidor que um cliente quer utilizar.
 %A Uniform Resource Identifier (URI) provides a simple and extensible means for identifying a resource.
 
-Um item importante para as mensagens HTTP é o tipo do conteúdo sendo transportado. Para isto os \textit{headers} possuem duas configurações que são muito importantes para a arquitetura REST: \textit{Content-Length} e \textit{Content-Type}. \textit{Content-Length} indica o tamanho da \textit{entity} sendo transportada; se este valor for zero então não existe conteúdo sendo transportado. \textit{Content-Type} indica o tipo de conteúdo sendo transportado, o que possibilita ao cliente saber como interpretá-la. Os tipos de conteúdo aceitos em \textit{Content-Type} foram definidos em várias publicações ao longo dos anos, iniciando em \citeonline{RFC1049}, e atualmente mantidos pela Internet Assigned Numbers Authority (IANA)\footnote{\url{http://www.iana.org/assignments/media-types/media-types.xhtml}}.
+Um item importante para as mensagens HTTP é o tipo do conteúdo sendo transportado. Para isto, os \textit{headers} possuem duas configurações que são muito importantes para a arquitetura REST: \textit{Content-Length} e \textit{Content-Type}. \textit{Content-Length} indica o tamanho da \textit{entity} sendo transportada; se este valor for zero, não existe conteúdo sendo transportado. \textit{Content-Type} indica o tipo de conteúdo sendo transportado, o que possibilita ao cliente saber como interpretá-lo. Os tipos de conteúdo aceitos em \textit{Content-Type} foram definidos em várias publicações ao longo dos anos, iniciando em \citeonline{RFC1049}, e atualmente são mantidos pela Internet Assigned Numbers Authority (IANA)\footnote{\url{http://www.iana.org/assignments/media-types/media-types.xhtml}}.
 
 %------------------------------------------------------------
 
 \subsection{Métodos}
 \label{sec:http:meth}
-Os métodos HTTP servem para o cliente especificar qual o objetivo da \textit{request} que está sendo enviada. Isto faz com que os métodos adquiram propriedades importantes na comunicação de cliente e servidor. Por convenção um método não deve executar mais tarefas que sua definição. Mas como não é possível garantir que o servidor não as executará, o cliente é isento no caso de tarefas além do escopo do método.
+Os métodos HTTP servem para que o cliente especifique qual o objetivo da \textit{request} que está sendo enviada; isto faz com que os métodos adquiram propriedades importantes na comunicação de cliente e servidor. Por convenção, um método não deve executar mais tarefas que sua definição. Como não é possível garantir que o servidor não as executará, o cliente é isento no caso de tarefas além do escopo do método.
 
-Outra característica muito importante é a \textit{idempotência}, isto é, a execução de uma mesma \textit{request} várias vezes gerar sempre o mesmo resultado.
+Outra característica muito importante é a \textit{idempotência}; isto é, a execução de uma mesma \textit{request} várias vezes deve gerar sempre o mesmo resultado.
 
 A seguir são definidos os métodos atualmente suportados pelo protocolo HTTP, sejam eles originalmente definidos pela versão HTTP/1.1 ou através de documentos posteriores \cite{RFC7231}.
 
@@ -111,7 +109,7 @@ A seguir são definidos os métodos atualmente suportados pelo protocolo HTTP, s
 %definir metadados?
 
 \subsubsection{OPTIONS}
-Quando um cliente deseja saber as opções ou requisitos de comunicação de um \textit{resource} ou servidor, o cliente poderá utilizar o método OPTIONS, evitando assim a necessidade de informar uma ação. A \textit{response} do servidor deve conter em seu \textit{header} o máximo de informações possíveis sobre suas funcionalidades, sendo também possível enviar dados adicionais no \textit{message body}.
+Quando um cliente deseja saber as opções ou requisitos de comunicação de um \textit{resource} ou servidor, o cliente pode utilizar o método OPTIONS, evitando assim a necessidade de informar uma ação. A \textit{response} do servidor deve conter em seu \textit{header} o máximo de informações possíveis sobre suas funcionalidades, sendo também possível enviar dados adicionais no \textit{message body}.
 %------------------------------------------------------------
 
 \subsubsection{GET}
@@ -119,15 +117,15 @@ Indica que o cliente está requisitando o \textit{resource} indicado na URI da \
 %------------------------------------------------------------
 
 \subsubsection{HEAD}
-É similar ao GET, porem não deve retornar um \textit{message body}. Para uma \textit{request} com HEAD o servidor deve retornar a mesma \textit{response} que seria esperada se usado o método GET, porém sem \textit{message body} e \textit{headers} relacionados ao mesmo.
+É similar ao GET, porém não deve retornar um \textit{message body}. Para uma \textit{request} com HEAD, o servidor deve retornar a mesma \textit{response} que seria esperada se usado o método GET, porém sem \textit{message body} e \textit{headers} relacionados ao mesmo.
 %------------------------------------------------------------
 
 \subsubsection{POST}
-Tem o propósito de realizar o processamento de \textit{resources} no servidor. Para realizar tal função o \textit{resource} deve ser enviado no \textit{message body} da \textit{request} para a URI desejada. O resultado do processamento deste \textit{resource} no servidor é indicado pelo \textit{status code} na \textit{response}, é possível também que a \textit{response} tenha o \textit{resource} resultante no \textit{message body} ou o local do \textit{resource} no campo \textit{Location} do \textit{header}.
+Tem o propósito de realizar o processamento de \textit{resources} no servidor. Para realizar tal função, o \textit{resource} deve ser enviado no \textit{message body} da \textit{request} para a URI desejada. O resultado do processamento deste \textit{resource} no servidor é indicado pelo \textit{status code} na \textit{response}; é possível também que a \textit{response} tenha o \textit{resource} resultante no \textit{message body} ou o local do \textit{resource} no campo \textit{Location} do \textit{header}.
 %------------------------------------------------------------
 
 \subsubsection{PUT}
-O método PUT define que o \textit{resource} especificado na URI da \textit{request} seja criado ou substituído usando a \textit{entity} no \textit{message body}, o que já permitiria um subsequente GET para a mesma URI. A \textit{response} irá conter em seu \textit{status code} o resultado da operação. 
+O método PUT define que o \textit{resource} especificado na URI da \textit{request} seja criado ou substituído usando a \textit{entity} no \textit{message body}, o que já permitiria um subsequente GET para a mesma URI. A \textit{response} irá conter em seu \textit{status code} o resultado da operação.
 %------------------------------------------------------------
 
 \subsubsection{DELETE}
@@ -136,7 +134,7 @@ Este método informa ao servidor que o \textit{resource} indicado na URI da \tex
 %------------------------------------------------------------
 
 \subsubsection{TRACE}
-Quando um servidor recebe uma \textit{request} com o método TRACE ele deverá enviar uma \textit{response} com o mesmo conteúdo da \textit{request}, porém com o \textit{status code} de sucesso (\ref{item:codes:2xx}).
+Quando um servidor recebe uma \textit{request} com o método TRACE, ele deverá enviar uma \textit{response} com o mesmo conteúdo da \textit{request}, porém com o \textit{status code} de sucesso (\ref{item:codes:2xx}).
 %------------------------------------------------------------
 
 \subsubsection{CONNECT}
@@ -144,18 +142,18 @@ Um cliente envia um \textit{request} de CONNECT quando deseja estabelecer um tú
 %------------------------------------------------------------
 
 \subsubsection{PATCH}
-O método PATCH é utilizado para que o cliente solicite a atualização parcial de um \textit{resource}. Uma \textit{request} que utiliza PATCH terá um descrição das modificações, no \textit{message body}, que deseja realizar no \textit{resource} contido na URI. A definição mais atual para o método PATCH pode ser encontrada em \cite{RFC5789}. Também existe uma definição específica para PATCH em \textit{resources} do tipo JSON em \citeonline{RFC7396}.
+O método PATCH é utilizado para que o cliente solicite a atualização parcial de um \textit{resource}. Uma \textit{request} que utiliza PATCH terá uma descrição das modificações, no \textit{message body}, que deseja realizar no \textit{resource} contido na URI. A definição mais atual para o método PATCH pode ser encontrada em \cite{RFC5789}. Também existe uma definição específica para PATCH em \textit{resources} do tipo JSON \cite{RFC7396}.
 %------------------------------------------------------------
 
 \subsection{Status Codes}
 \label{sec:http:status}
 
-Os \textit{status codes} servem para indicar ao cliente o resultado de uma \textit{request}. Eles fazem parte do \textit{header} da \textit{response} e são divididos nas categorias a seguir. Uma lista dos \textit{status codes} definidos em \citeonline{RFC7231} pode ser encontrada no Anexo \ref{anexo:status}.
+Os \textit{status codes} servem para indicar ao cliente o resultado de uma \textit{request}. Eles fazem parte do \textit{header} da \textit{response} e são divididos nas categorias a seguir. Uma lista dos \textit{status codes} \cite{RFC7231} pode ser encontrada no Anexo \ref{anexo:status}.
 
 \begin{itemize}
     \item 1xx (Informação): A \textit{request} foi recebida, processamento em andamento
     \item 2xx \label{item:codes:2xx}(Sucesso): A \textit{request} foi recebida com sucesso, compreendida, e aceita
     \item 3xx (Redirecionamento): Ações adicionais precisam ser realizadas para completar a \textit{request}
     \item 4xx (Erro do cliente): A \textit{request} contém erros de sintaxe ou não pode ser completada
-    \item 5xx (Erro do servidor): O servidor falhou para completar uma \textit{request} aparentemente válida
+    \item 5xx (Erro do servidor): O servidor falhou em completar uma \textit{request} aparentemente válida
 \end{itemize}

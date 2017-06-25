@@ -1,13 +1,13 @@
 \chapter{Tecnologias e Ferramentas}
 \label{chap:tecno}
 
-Este capítulo descreve as tecnologias e ferramentas que são utilizadas na solução proposta neste estudo, desde a linguagem de programação que será utilizada na implementação da ferramenta AutoREST até as ferramentas de validação dos modelos de configuração e o sistema gerenciador de bases de dados utilizado pelo sistema gerado pela solução.
+Este capítulo descreve as tecnologias e ferramentas que são utilizadas na solução proposta neste estudo, desde a linguagem de programação que será utilizada na implementação da ferramenta AutoREST até as ferramentas de validação dos modelos de configuração e o sistema gerenciador de bases de dados utilizado pela API gerada pela solução.
 
 %------------------------------------------------------
 
 \section{Astah}
 
-A ferramenta de modelagem Astah\footnote{\url{http://astah.net/}} foi criada pela empresa \textit{Change Vision} e tem como fundamento básico a facilidade de uso. O Astah Professional dispõe de diversas formas de modelagem, como múltiplos diagramas UML (Classes, Componentes, Casos de Uso, Atividades, entre outros), modelos Entidade-Relacional, etc.
+A ferramenta de modelagem Astah\footnote{\url{http://astah.net/}} foi criada pela empresa \textit{Change Vision} e tem como fundamento básico a facilidade de uso. O Astah Professional dispõe de diversas formas de modelagem, como múltiplos diagramas UML (Classes, Componentes, Casos de Uso, Atividades, entre outros) e modelos Entidade-Relacional.
 
 Esta ferramenta será usada como base para a modelagem dos Diagramas de Classes UML que serão utilizados na solução proposta neste estudo. Esta escolha foi motivada tanto pela aceitação do Astah pela comunidade de usuários quanto pela disponibilidade da licença para o sistema completo oferecida a estudantes.
 
@@ -21,38 +21,38 @@ Existem muitas soluções que se propõem à validação e geração de JSON Sch
 
 \subsection{Newtonsoft JSON Schema Validator}
 
-O validador da Newtonsoft é implementado em .Net \cite{NEWTONSOFT} e é uma das escolhas padrões para programadores nesta linguagem, devido a sua confiabilidade adquirida. É contruído para fornecer suporte aos \textit{Drafts} 3 e 4 de JSON Schema criados por \citeonline{GALIEGUE:2013}. Para validações \textit{online} de JSON é disponibilizado um site que utiliza o validador\footnote{\url{http://www.jsonschemavalidator.net/}}.
+O validador da Newtonsoft é implementado em .NET \cite{NEWTONSOFT} e é uma das escolhas padrões para programadores neste framework devido a sua confiabilidade adquirida. É contruído para fornecer suporte aos \textit{Drafts} 3 e 4 de JSON Schema criados por \citeonline{GALIEGUE:2013}. Para validações \textit{online} de JSON é disponibilizado um site que utiliza o validador\footnote{\url{http://www.jsonschemavalidator.net/}}.
 
 %------------------------------------------------------
 \subsection{JSON Schema Validator}
 
-Conforme as definições de \citeonline{GALIEGUE:2013}, o JSON Schema Validator foi desenvolvido em Java, por um dos autores, para realizar a validação de JSONs e JSON Schemas. Atualmente está com seu código aberto e livre\footnote{\url{https://github.com/daveclayton/json-schema-validator}}, tornando-o assim uma das melhores alternativas de mercado para as validações de JSON Schema na linguagem Java. Também é possível testá-lo \textit{online} através de um site que o utiliza internamente\footnote{\url{http://json-schema-validator.herokuapp.com/}}.
+Conforme as definições de \citeonline{GALIEGUE:2013}, o JSON Schema Validator foi desenvolvido em Java por um dos autores para realizar a validação de JSONs e JSON Schemas. Atualmente está com seu código aberto e livre\footnote{\url{https://github.com/daveclayton/json-schema-validator}}, tornando-o assim uma das melhores alternativas de mercado para as validações de JSON Schema na linguagem Java. Também é possível testá-lo \textit{online} através de um site que o utiliza internamente\footnote{\url{http://json-schema-validator.herokuapp.com/}}.
 
 %------------------------------------------------------
 
 \subsection{PUC/Chile JSON Validator}
 
-Em \citeonline{PEZOA:2016} os autores buscavam uma definição formal e que pudesse ser usada para pesquisas e automação de ferramentas utilizando JSON Schema. Após definirem formalmente uma gramática BNF, foi criado um validador em Python utilizando a gramática em questão como base\footnote{\url{https://github.com/CSWR/json_schema_validator}}.
+No trabalho de \citeonline{PEZOA:2016}, os autores buscavam uma definição formal e que pudesse ser usada para pesquisas e automação de ferramentas utilizando JSON Schema. Após definirem formalmente uma gramática BNF, criaram um validador em Python utilizando a gramática em questão como base\footnote{\url{https://github.com/CSWR/json_schema_validator}}.
 
 %------------------------------------------------------
 
 \section{Java}
 
-A linguagem de programação Java é amplamente conhecida, e será a linguagem utilizada na implementação da ferramenta proposta neste estudo. Esta linguagem possui diversas vantagens, como por exemplo: ser construída com base em uma máquina virtual que permite que programas escritos em Java sejam executados em múltiplas plataformas; ser primariamente orientada a objetos, o que permite maior facilidade de uso em conjunto com a notação UML; ser uma linguagem de licença pública; possuir ambientes de desenvolvimento maduros; ser ensinada em diversas universidades ao redor do mundo; entre outras. Informações específicas da linguagem podem ser encontradas em diversos livros, como \cite{HORSTMANN:2010}, \cite{DEITEL:1999} e \cite{GOSLING:2014}.
+A linguagem de programação Java é amplamente conhecida e será a linguagem utilizada na implementação da ferramenta proposta neste estudo. Esta linguagem possui diversas vantagens, como por exemplo: ser construída com base em uma máquina virtual que permite que programas escritos em Java sejam executados em múltiplas plataformas; ser primariamente orientada a objetos, o que permite maior facilidade de uso em conjunto com a notação UML; ser uma linguagem de licença pública; possuir ambientes de desenvolvimento maduros, e; ser ensinada em diversas universidades ao redor do mundo. Informações específicas da linguagem podem ser encontradas em diversos livros, como os de \citeonline{HORSTMANN:2010}, \citeonline{DEITEL:1999} e \citeonline{GOSLING:2014}.
 
 %------------------------------------------------------
 
 \section{Node.js}
 \label{tec:node}
 
-Node.js é um \textit{runtime} de JavaScript orientado a eventos \cite{NODEORG:2009}, com capacidade de operações de leitura e escrita assíncronas. Estas características permitem uma alta escalabilidade para as aplicações, tornando Node.js altamente usado em aplicações Web.
+Node.js é um \textit{runtime} de JavaScript orientado a eventos \cite{NODEORG:2009} e com capacidade de operações de leitura e escrita assíncronas. Estas características permitem uma alta escalabilidade para as aplicações, tornando Node.js altamente usado em aplicações Web.
 
 %------------------------------------------------------
 
 \subsection{NPM e Módulos}
 \label{node:mod}
 
-No ambiente Node.js cada arquivo é considerado um módulo; assim, as funções e classes contidas em um arquivo de código podem ser facilmente utilizadas em outros, tornando necessário apenas "carregar" o módulo desejado. O ambiente Node.js possui uma comunidade de desenvolvedores ampla e ativa. Com isso muitas funcionalidades foram se tornando necessárias por todos. Para que estas funcionalidades sejam providas, o NPM (\textit{Node Package Manager}, Gerenciador de Pacodes Node) é utilizado para distribuição dos módulos criados e publicados pela própria comunidade.
+No ambiente Node.js cada arquivo é considerado um módulo; assim, as funções e classes contidas em um arquivo de código podem ser facilmente utilizadas em outros, tornando necessário apenas ``carregar'' o módulo desejado. O ambiente Node.js possui uma comunidade de desenvolvedores ampla e ativa. Com isto, muitas funcionalidades foram se tornando necessárias por todos. Para que estas funcionalidades sejam providas, o NPM (\textit{Node Package Manager}, Gerenciador de Pacodes Node) é utilizado para distribuição dos módulos criados e publicados pela própria comunidade.
 
 Apesar das várias opções disponíveis no NPM, muitos módulos acabam sendo amplamente adotados e se tornando parte do ferramental diário de desenvolvedores Node.js. Um destes é o Express, um módulo robusto para a criação de servidores HTTP.
 
@@ -61,9 +61,9 @@ Apesar das várias opções disponíveis no NPM, muitos módulos acabam sendo am
 \subsection{Padrões de Projeto}
 \label{node:design}
 
-Conforme apresentados por \citeonline{CASCIARO:2016}, Node.js possui muitas peculiaridades quanto a aplicação dos padrões de projeto clássicos da orientação a objetos \cite{GAMMA:1995}. Devido a suas peculiaridades, muitos padrões de projeto sofrem algumas alterações quando aplicados a Node.js, porém estas peculiaridades também permitiram o surgimento de alguns padrões no ecossistema de Node.js.
+Conforme apresentado por \citeonline{CASCIARO:2016}, Node.js possui muitas peculiaridades quanto a aplicação dos padrões de projeto clássicos da orientação a objetos \cite{GAMMA:1995}. Devido a estas peculiaridades, muitos padrões de projeto sofrem algumas alterações quando aplicados a Node.js; estas peculiaridades também permitiram o surgimento de alguns padrões no ecossistema de Node.js.
 
-Entre estes padrões um dos que se destaca é o \textit{Padrão Middleware}. Nele há uma série de funções que devem ser executadas em um determinado processo, porem estas funções podem ser substituídas por outras que tenham a mesma entrada e a mesma saída. Assim um \textit{middleware} seria um \textit{software do meio}, que pode ser trocado por outro com o mesmo propósito mas outra implementação.
+Entre estes padrões, um dos que se destaca é o \textit{Padrão Middleware}. Nele, há uma série de funções que devem ser executadas em um determinado processo; porém, estas funções podem ser substituídas por outras que tenham a mesma entrada e a mesma saída. Assim, um \textit{middleware} seria um \textit{software do meio}, que pode ser trocado por outro com o mesmo propósito mas outra implementação.
 
 %------------------------------------------------------
 
@@ -75,6 +75,6 @@ MongoDB \cite{MONGODB} é um banco de dados \textit{NoSQL} \cite{NOSQLORG} orien
 
 \subsection{Mongoose}
 
-Para a utilização do MongoDB em aplicações usam-se \textit{drivers}, que são programas para o estabelecimento de conexão e realização de operações no banco de dados. O Mongoose é um módulo de Node.js que serve exatamente este propósito. Ele também proporciona a criação de \textit{models} para as \textit{collections} do MongoDB; desta forma é possível realizar validação de tipos e valores dos dados, além de adicionar regras de negócio próprias.
+Para a utilização do MongoDB em aplicações, usam-se \textit{drivers}, que são programas para o estabelecimento de conexão e realização de operações no banco de dados. O Mongoose é um módulo de Node.js que serve exatamente este propósito; ele também proporciona a criação de \textit{models} para as \textit{collections} do MongoDB. Desta forma, é possível realizar validação de tipos e valores dos dados, além de adicionar regras de negócio próprias.
 
-No Mongoose é possível a adição de \textit{middlewares} e \textit{plugins} para novos recursos e validações.
+No Mongoose, é possível a adição de \textit{middlewares} e \textit{plugins} para novos recursos e validações.
