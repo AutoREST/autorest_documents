@@ -788,3 +788,42 @@ O servidor \textit{Express} criado irá processar as \textit{requests} que forem
     \end{center}
 	\caption{\label{fig:seq_api_2}Exemplo de processamento de \textit{request} no servidor da API - Parte 2}
 \end{figure}
+
+\subsection{Demonstração de resultados}
+\label{sec:demo}
+
+Para demonstrar a instanciação da solução AutoREST uma applicação \textit{web}, disponível no endereço \url{https://autorest-site.herokuapp.com/}, foi criada para a geração de APIs usando os componentes AutoREST, que são os seguintes:
+
+\begin{itemize}
+    \item \textit{\textbf{asta-xml-parser\footnote{\url{https://github.com/AutoREST/astah-xml-parser}}}}: responsavél por realizar a conversão de XMLs em JSON Schemas. Também tem a funcionalidade de extrair os pacotes presentes no XML, para que seja possivel a escolha de qual pacote a API deve ser gerada;
+    \item \textit{\textbf{rest-api-generator\footnote{\url{https://github.com/AutoREST/rest-api-generator}}}}: responsavél por gerar as APIs usando um JSON Schema e algumas opções informadas na interface com o usuário;
+    \item \textit{\textbf{autorest-site\footnote{\url{https://github.com/AutoREST/autorest-site}}}}: applicação \textit{web} responsavél por receber o arquivo de entrada para geração e algumas opções adicionais.
+\end{itemize}
+
+A interface com o usuário tem duas telas principais que são baseadas nos \textit{mockups} das Figuras \ref{fig:mindex} e \ref{fig:mpacks}. Na tela da Figura \ref{fig:mindex} temos a entrada básica para a geração da API, onde:
+
+\begin{figure}
+    \begin{center}
+        \includegraphics[scale=0.7]{imagens/Mockup_index.png}
+    \end{center}
+	\caption{\label{fig:mindex}Tela de entrada de dados para geração de API}
+\end{figure}
+
+\begin{figure}
+    \begin{center}
+        \includegraphics[scale=0.7]{imagens/Mockup_pack_select.png}
+    \end{center}
+	\caption{\label{fig:mpacks}Tela para seleção de \textit{package} da API}
+\end{figure}
+
+\begin{itemize}
+    \item \textit{API Name}: é o nome da API, é usado para dar um nome em alguns pontos da API, assim como no arquivo de retorno final;
+    \item \textit{Data Base Name}: nome do banco de dados usado na conexão com o MongoDB;
+    \item \textit{Respository URL}: a URL onde a API será guardada, é somente para fins de documentação no \textit{package.json} da API;
+    \item \textit{Source File}: arquivo contendo a especificação da API, aceita-se um XML da ferramenta Astah modelado conforme as regras de modelagem AutoREST, ou um arquivo JSON Schema com restrições aceitas e coerentes com as regras de sintaxe e semântica AutoREST
+    \item \textit{Generate API}: botão que inicia a geração da API
+\end{itemize}
+
+Caso o \textit{Source File} seja um XML que contenha mais de um \textit{package} de classes o componente \textit{asta-xml-parser} irá retornar a lista de \textit{packages} disponíveis para o usuário escolher qual que deseja ser a fonte de sua API, este é o comportamento apresentado na tela da Figura \ref{fig:mpacks}.
+
+%end Demonstração de resultados
