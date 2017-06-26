@@ -540,7 +540,7 @@ As propriedades de um objeto serão todas as derivações \textit{kSch} que faze
     \begin{itemize}
         \item \textbf{minLength}: tamanho minimo do valor da propriedade
         \item \textbf{maxLength}: tamanho máximo do valor da propriedade
-        %\item \textbf{pattern}: expressão regular para validação do valor
+        \item \textbf{pattern}: expressão regular para validação do valor
     \end{itemize}
 
     \item \textbf{numRes}: será aceita quando o \textit{type} for \textit{integer} ou \textit{number} e serão consideradas válidas as seguintes derivações:
@@ -602,7 +602,7 @@ Para a criação dos \textit{models} de cada \textit{resource} serão usadas as 
 
     \item Todas as propriedades do JSON Schema dos tipos \textit{number} e \textit{integer} que possuirem definições de máximo e minimo receberão propriedades Mongoose correspondentes
 
-    \item Propriedades do JSON Schema do tipo \textit{string} que possuírem definições de tamanho máximo e tamanho minimo receberão propriedades Mongoose correspondentes
+    \item Propriedades do JSON Schema do tipo \textit{string} que possuírem definições de tamanho máximo, tamanho minimo e expressão regular receberão propriedades Mongoose correspondentes
 
 \end{itemize}
 
