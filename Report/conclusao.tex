@@ -74,6 +74,7 @@ Esta automação é viável, desde que sejam compreendidos seus pontos positivos
 	\item \textbf{Contras}
 	\begin{itemize}
 		\item APIs customizadas tem seu código customizado perdido no momento de uma nova geração a partir do modelo
+		\item É necessário uma boa compreenção das regras de modelagem a serem utilizadas
 	\end{itemize}
 \end{itemize}
 
@@ -86,7 +87,7 @@ Esta automação é viável, desde que sejam compreendidos seus pontos positivos
 
 \subsection{QP3. Existe a necessidade de criação de um modelo intermediário, a partir de um modelo de configuração, que sirva como artefato de entrada para um gerador de APIs REST?}
 
-Existe se o modelo de configuração for muito abstrato e o gerador de APIs não compreender o mesmo nivel de abstração
+Existe se o modelo de configuração for muito abstrato e o gerador de APIs não compreender o mesmo nivel de abstração. No caso da solução apresentada neste trabalho tomou-se a decisão de usar um modelo intermediário que possibilitasse uma validação sintática automática, e uma leitura humana e computacional rápida
 
 \subsection{QP4. As APIs REST são suficientemente modularizáveis a ponto de permitir a geração automática de código a partir de blocos de código parametrizáveis? Qual a complexidade de se criar um compilador de APIs REST que não se utiliza de uma abordagem GP?}
 
@@ -94,7 +95,7 @@ Considerando que a API gerada pela solução apresentada neste trabalho é em No
 
 \subsection{QP5. É possível a geração automática de um banco de dados auxiliar à API REST?}
 
-O trabalho nos elva a concluir que sim, é possivel gerar um banoc de dados auxiliar a uma API REST. Algumas incompatibilidades entre a especificação MDD e o banco de dados podem atrapalhar esta geração. Neste trabalho estas imcompatibilidades foram endereçadas gerando uma API mais robusta, e utilizando algumas funções do bando de dados de uma forma semãntica especifica, por exemplo a relação de herança entre \textit{resources} foi tratada adicionando um atributo oculto de tipo (\textit{__type}) e armazenando todas as classe filhas na mesma coleção da classe pai.
+O trabalho nos leva a concluir que sim, é possivel gerar um banco de dados auxiliar a uma API REST. Algumas incompatibilidades entre a especificação MDD e o banco de dados podem atrapalhar esta geração. Neste trabalho estas imcompatibilidades foram endereçadas gerando uma API mais robusta, e utilizando algumas funções do bando de dados de uma forma semantica especifica, por exemplo a relação de herança entre \textit{resources} foi tratada adicionando um atributo oculto de tipo (\textit{__type}) e armazenando todas as classe filhas na mesma coleção da classe pai.
 
 \subsection{QP6. Diagramas de Classes UML são uma notação adequada para a modelagem de APIs REST?}
 
