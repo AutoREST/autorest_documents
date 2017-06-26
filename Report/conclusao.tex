@@ -60,11 +60,49 @@ Similar ao Prmd, esta aplicação da plataforma DaemonX apresenta uma forma de r
 
 %------------------------------------------------------------
 
-\section{Próximos Passos}
+\section{Conclusão}
 
-Os próximos passos neste estudo serão a implementação da ferramenta detalhada com base na arquitetura proposta, e a validação desta ferramenta como prova de conceito da solução proposta. Esta implementação será realizada na linguagem de programação Java, utilizando os padrões de projeto \textit{Factory} para possibilitar a criação de subsistemas autônomos.
+\subsection{QP1. Existe viabilidade na automação da geração de uma API REST utilizando uma abordagem baseada em MDD?}
 
-Para a validação da ferramenta, APIs REST terão que ser propostas e modeladas conforme a especificação deste documento, e casos de teste terão que ser especificados para estas APIs REST. Desta forma será possível determinar se o código gerado automaticamente é funcional e representa corretamente as APIs modeladas.
+Esta automação é viável, desde que sejam compreendidos seus pontos positivos e negativos, que no decorrer deste trabalho podemos assumir como sendo:
+\begin{itemize}
+	\item \textbf{Positivos}
+	\begin{itemize}
+		\item Para APIs não customizadas após a geração, há alto nivel de compreensão e custo muito baixo após alterações no modelo
+		\item Fácil transição de conhecimento sobre o funcionamento da API, sem a necessidade de olhar código fonte e outras estruturas não gráficas
+	\end{itemize}
+	\item \textbf{Contras}
+	\begin{itemize}
+		\item APIs customizadas tem seu código customizado perdido no momento de uma nova geração a partir do modelo
+	\end{itemize}
+\end{itemize}
+
+\subsection{QP2. Quais os elementos necessários para a representação completa de uma API REST em um modelo gráfico para que este possa ser utilizado como modelo de configuração em uma abordagem MDD para a geração de uma API com todas as funcionalidades CRUD fundamentais?}
+
+\begin{itemize}
+	\item identificadores
+	\item navegabilidade entre \textit{resources}
+\end{itemize}
+
+\subsection{QP3. Existe a necessidade de criação de um modelo intermediário, a partir de um modelo de configuração, que sirva como artefato de entrada para um gerador de APIs REST?}
+
+Existe se o modelo de configuração for muito abstrato e o gerador de APIs não compreender o mesmo nivel de abstração
+
+\subsection{QP4. As APIs REST são suficientemente modularizáveis a ponto de permitir a geração automática de código a partir de blocos de código parametrizáveis? Qual a complexidade de se criar um compilador de APIs REST que não se utiliza de uma abordagem GP?}
+
+Considerando que a API gerada pela solução apresentada neste trabalho é em Node.js, nós conseguimos uma boa utilização dos blocos de código parametrizáveis (\textit{snippets}). O fato da arquitetura REST impor a divisão em camadas e reforçar o uso de um formato de \textit{resource} no sistema contribuiu para esta modularização. Sem a abordagem GP acreditamos que a implementação poderia ficar maior e mais dificil de manter, pois a necessidade de atualizar um \textit{snippet} geraria um trabalho mais manual.
+
+\subsection{QP5. É possível a geração automática de um banco de dados auxiliar à API REST?}
+
+O trabalho nos elva a concluir que sim, é possivel gerar um banoc de dados auxiliar a uma API REST. Algumas incompatibilidades entre a especificação MDD e o banco de dados podem atrapalhar esta geração. Neste trabalho estas imcompatibilidades foram endereçadas gerando uma API mais robusta, e utilizando algumas funções do bando de dados de uma forma semãntica especifica, por exemplo a relação de herança entre \textit{resources} foi tratada adicionando um atributo oculto de tipo (\textit{__type}) e armazenando todas as classe filhas na mesma coleção da classe pai.
+
+\subsection{QP6. Diagramas de Classes UML são uma notação adequada para a modelagem de APIs REST?}
+
+Muitos fatores podem influenciar a resposta para esta pergunta, um dos mais importante deles seria a respeito do tipo de banco de dados utilizado. Se o banco de dados for relacional então algumas definições de dados serão levemente alteradas, porem as restrições de relacionamento entre os \textit{resources} serão melhor reforçadas. No caso do banco de dados não for relacional as restrições de relacionamento podem ficar um pouco mais livres, podendo levar a referencias inválidas, porem as definições dos dados possam ser mais fieis ao diagrama de classes.
+
+\subsection{QP7. Arquivos JSON Schema são adequados para a representação de APIs REST?}
+
+\subsection{QP8. O SGBD MongoDB, a linguagem Node.js e a biblioteca Mongoose são adequadas como tecnologias para a geração automática de APIs REST?}
 
 %------------------------------------------------------------
 
@@ -74,10 +112,10 @@ Diversos trabalhos podem ser realizados expandindo o tema deste estudo. Nesta se
 
 \begin{itemize}
     \item A ferramenta Astah é extensível através do uso de \textit{plugins}. A implementação de um \textit{plugin} Astah para a geração de modelos de configuração segundo as especificações deste trabalho seria de grande ajuda na modelagem de APIs REST e execução de ferramentas AutoREST. Dentre os requisitos que este \textit{plugin} deverá cumprir estão a criação automática de \textit{tags} conforme as especificações da Seção \ref{sec:xmi}, a limitação dos tipos de atributos disponíveis, a limitação dos tipos de associação disponíveis e uma interface de ajuda que apresente as regras listadas na Seção \ref{sec:xmi} para fácil acesso a referência.
-    
+
     \item Algumas das ferramentas listadas na Seção \ref{sec:related} permitem: a geração automática de código para funcionalidades diferentes das propostas pela solução AutoREST, e; o gerenciamento da documentação e versionamento de APIs REST. Visto que algumas destas ferramentas utilizam especificações em notações derivadas de JSON, seria útil a adequação das especificações destas diversas ferramentas e a integração de seus ambientes para execução em conjunto.
-    
+
     \item Devido a limitações da ferramenta Astah, determinados tipos de associação disponíveis na UML não puderam ser definidos para modelagem neste estudo. A definição de regras para a modelagem e conversão destes tipos de associação seria útil para aumentar a versatilidade da solução proposta. Dentre estas associações, se destacam: as associações de Generalização/Especialização para representar o conceito de herança múltipla; o uso dos esteriótipos \textit{Disjoint} e \textit{Overlapping} para associações de Generalização/Especialização, e; a definição de navegabilidade em associações de agregação.
-    
+
     \item A modelagem e implementação da ferramenta usada como prova de conceito da arquitetura proposta está limitada as tecnologias determinadas em sua especificação. A criação de outras possíveis implementações da arquitetura AutoREST serviria para validar a sua proposta de independência de tecnologia. Tecnologias que poderiam ser utilizadas para diferentes implementações são: para modelos de configuração, Diagramas de Classes UML gerados por ferramentas diferentes do Astah, ou Modelos Entidade-Relacionais; para PFIS, estruturas em linguagem RAML, Swagger ou WSDL, e; para geração de código, linguagens como ASP.NET ou php.
 \end{itemize}
