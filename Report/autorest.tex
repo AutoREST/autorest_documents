@@ -477,25 +477,25 @@ A Figura \ref{fig_example_association_class} apresenta um diagrama de classes ex
 \subsection{Gramática BNF para Geração de Código a partir de JSON Schema}
 \label{sec:bnf}
 
-Em \cite{PEZOA:2016} é definida e validada formalmente uma gramática na forma de Backus-Naur (BNF), para a estrutura JSON Schema \citeonline{GALIEGUE:2013}. A seguir serão exploradas as partes desta gramática utilizadas no subsistema \textit{REST API Generator} e seu significado semântico.
+No trabalho de \citeonline{PEZOA:2016} é definida e validada formalmente uma gramática na forma de Backus-Naur (BNF) para a estrutura JSON Schema \cite{GALIEGUE:2013}. Nesta seção, serão exploradas as partes desta gramática utilizadas no subsistema \textit{REST API Generator} e seu significado semântico.
 
 %------------------------------------------------------------
 
 \subsubsection{Sintaxe}
-A gramática BNF irá ser usada como entrada para a geração de um \textit{parser} na ferramenta BYACC/J \cite{BYACCJ}. O subconjunto de definições que serão relevantes para o subsistema está contido na definição \textit{defs}, que corresponde à propriedade \textit{definitions} de um JSON Schema. Cada \textit{defs} possui no minimo um \textit{kSch}, que é composto de um nome (\textit{kword}) e uma ou mais restrições (\textit{res}). Conforme segmento extraído de \cite{PEZOA:2016}:
+A gramática BNF foi usada como entrada para a geração de um \textit{parser} na ferramenta BYACC/J \cite{BYACCJ}. O subconjunto de definições que serão relevantes para o subsistema está contido na definição \textit{defs}, que corresponde à propriedade \textit{definitions} de um JSON Schema. Cada \textit{defs} possui no mínimo um \textit{kSch}, que é composto de um nome (\textit{kword}) e uma ou mais restrições (\textit{res}). Conforme segmento extraído de \cite{PEZOA:2016}:
 
 \begin{algorithmic}
-    \item \textbf{defs} := "definitions": \{ \textbf{kSch} (, \textbf{kSch})*\}
+    \item \textbf{defs} := ``definitions'': \{ \textbf{kSch} (, \textbf{kSch})*\}
     \item \textbf{kSch} := \textbf{kword}: \{ \textbf{JSch} \}
     \item \textbf{JSch} := ( \textbf{res} (, \textbf{res})*)
     \item \textbf{res} := \textbf{type} | \textbf{strRes} | \textbf{numRes} | \textbf{arrRes} | \textbf{objRes} | \textbf{multRes} | \textbf{refSch} | \textbf{title} | \textbf{description}
 \end{algorithmic}
 
-A gramática utilizada serve para a validação sintática completa de um JSON Schema, porém somente algumas das definições terão significado semântico para o subsistema, conforme seção a seguir. A gramática completa está no Anexo \ref{anexo:bnfjs}.
+A gramática utilizada serve para a validação sintática completa de um JSON Schema; porém somente algumas das definições terão significado semântico para o subsistema, conforme seção a seguir. A gramática completa está no Anexo \ref{anexo:bnfjs}.
 
 \subsubsection{Semântica}
 
-Nesta seção serão apresentadas as derivações \textit{kSch}, que deriva de \textit{defs}, consideradas no processo de criação da API REST, assim como suas derivações utilizadas. Depois serão apresentados os processos de geração do código fonte final, subseções \ref{sec:bnf:http} e \ref{sec:bnf:mongo}.
+Nesta seção, serão apresentadas as derivações \textit{kSch}, que deriva de \textit{defs}, consideradas no processo de criação da API REST, assim como suas derivações utilizadas. Em sequência, serão apresentados os processos de geração do código fonte final, subseções \ref{sec:bnf:http} e \ref{sec:bnf:mongo}.
 
 %Todas as 'definitions' devem estar no primeiro nivel e somente serem referenciadas referenciadas nos niveis abaixo
 %Verificar termos abaixo desta derivação que serão ignorados, por nao se aplicarão a nossa ferramenta, candicados possiveis sao as restrições de multiplicidade
@@ -503,84 +503,84 @@ Nesta seção serão apresentadas as derivações \textit{kSch}, que deriva de \
 \subsubsubsection{Derivações de \textit{kSch}}
 \label{sec:bnf:ksch}
 
-Cada \textit{kSch} será considerada a definição de um \textit{resource} a ser fornecido pela API, logo a derivação \textit{kword} se tornará o nome deste \textit{resource} e a derivação \textit{JSch} será utilizada para a geração de métodos HTTP disponibilizados para o \textit{resource} e para a criação de um \textit{model} do modulo Mongoose de Node.js, que subsequentemente irá fazer as iterações com o MongoDB. As derivações utilizadas para um \textit{JSch} de um \textit{resource} serão:
+Cada \textit{kSch} será considerada a definição de um \textit{resource} a ser fornecido pela API. Logo, a derivação \textit{kword} se tornará o nome deste \textit{resource}. A derivação \textit{JSch} será utilizada para a geração de métodos HTTP disponibilizados para o \textit{resource}, assim como para a criação de um \textit{model} do módulo Mongoose de Node.js, que subsequentemente irá fazer as interações com o MongoDB. As derivações utilizadas para um \textit{JSch} de um \textit{resource} são:
 \begin{itemize}
     %\item \textbf{title}: título do \textit{resource}
 
     %\item \textbf{description}: descrição do \textit{resource}
 
-    \item \textbf{type}: restringe o tipo do objeto sendo definido, para um \textit{resource} o valor deverá ser \textit{object}, outros valores serão considerados inválidos
+    \item \textbf{type}: restringe o tipo do objeto sendo definido. Para um \textit{resource} o valor deverá ser \textit{object}; outros valores serão considerados inválidos
     %\item \textbf{strRes}: restrições aplicáveis a \textit{strings}
     %\item \textbf{numRes}: restrições aplicáveis a números (inteiros e decimais)
     %\item \textbf{arrRes}: restrições a \textit{arrays}
 
-    \item \textbf{objRes}: restrições do \textit{resource}, serão consideradas as definições na Subseção \ref{sec:bnf:obj}
+    \item \textbf{objRes}: restrições do \textit{resource}; serão consideradas as definições na Subseção \ref{sec:bnf:obj}
     %\item \textbf{multRes}: restrições de multiplicidade, enumerações, conjunções e disjunções
     %\item \textbf{refSch}: referências a outros \textit{schemas}, seja localmente ou em outro arquivo
 \end{itemize}
 
 \subsubsubsection{Derivações de \textit{objRes}}
 \label{sec:bnf:obj}
-A diretiva \textit{objRes} representa as restrições relacionadas a definição de um objeto, ela pode ser usada tanto para definição de \textit{resources} quanto para a definição de propriedades do tipo objeto. As derivações consideradas válidas são as seguintes:
+A diretiva \textit{objRes} representa as restrições relacionadas a definição de um objeto. Ela pode ser usada tanto para definição de \textit{resources} quanto para a definição de propriedades do tipo objeto. As derivações consideradas válidas são as seguintes:
 
 \begin{itemize}
-    \item \textbf{properties}: irá conter as propriedades do objeto sendo definido, será melhor detalhada na Seção \ref{sec:bnf:props}.
+    \item \textbf{properties}: irá conter as propriedades do objeto sendo definido; será melhor detalhada na Seção \ref{sec:bnf:props}.
 
     %\item \textbf{additionalProperties}: indica se o objeto poderá conter propriedades adicionais, para esta derivação é esperado somente um valor booleano (\textit{true} ou \textit{false}), outros valores serão considerados inválidos
 
     \item \textbf{required}: define quais propriedades são obrigatórias
 
-    \item \textbf{dependencies}: será considerada nesta diretiva somente a derivação contendo um \textit{kArr}, que é o nome de uma propriedade e suas dependências, todas as propriedades serão dependentes da propriedade definida como chave primária, para que a chave primária seja composta será necessario que as propriedades sejam dependentes de mais de uma propriedade
+    \item \textbf{dependencies}: será considerada nesta diretiva somente a derivação contendo um \textit{kArr}, que é o nome de uma propriedade e suas dependências. Todas as propriedades serão dependentes da propriedade definida como chave primária, para que a chave primária seja composta será necessario que as propriedades sejam dependentes de mais de uma propriedade
 \end{itemize}
 
 \subsubsubsection{Derivações de \textit{properties}}
 \label{sec:bnf:props}
-As propriedades de um objeto serão todas as derivações \textit{kSch} que fazem parte da diretiva \textit{properties} relacionada ao mesmo. Porém as derivações de um \textit{kSch} terão um significado diferente quando aplicadas a uma propriedade, do que quanto aplicadas a um \textit{resource}. A derivação \textit{kword} será o nome da propriedade e para a derivação \textit{JSch} serão consideradas válidas somente as derivações listadas a seguir:
+As propriedades de um objeto serão todas as derivações \textit{kSch} que fazem parte da diretiva \textit{properties} relacionada ao mesmo. Porém, as derivações de um \textit{kSch} terão um significado diferente quando aplicadas a uma propriedade do que quanto aplicadas a um \textit{resource}. A derivação \textit{kword} será o nome da propriedade e para a derivação \textit{JSch} serão consideradas válidas somente as derivações listadas a seguir:
 \begin{itemize}
     %\item \textbf{title}: título da propriedade
 
     %\item \textbf{description}: descrição da propriedade
 
-    \item \textbf{type}: restringe o tipo da propriedade sendo definida, caso nenhum valor seja informado assume-se \textit{object}. Valores considerados válidos são: \textit{string}, \textit{integer}, \textit{number}, \textit{boolean}, \textit{object} e \textit{array}.
+    \item \textbf{type}: restringe o tipo da propriedade sendo definida. Caso nenhum valor seja informado assume-se \textit{object}. Valores considerados válidos são: \textit{string}, \textit{integer}, \textit{number}, \textit{boolean}, \textit{object} e \textit{array}.
 
     \item \textbf{strRes}: será aceita quando o \textit{type} for \textit{string} e serão consideradas válidas as seguintes derivações:
     \begin{itemize}
-        \item \textbf{minLength}: tamanho minimo do valor da propriedade
+        \item \textbf{minLength}: tamanho mínimo do valor da propriedade
         \item \textbf{maxLength}: tamanho máximo do valor da propriedade
-        \item \textbf{pattern}: expressão regular para validação do valor
+        \item \textbf{pattern}: expressão regular para validação do valor\footnote{Esta funcionalidade apesar de especificada, não está presente na ferramenta prova de conceito}
     \end{itemize}
 
     \item \textbf{numRes}: será aceita quando o \textit{type} for \textit{integer} ou \textit{number} e serão consideradas válidas as seguintes derivações:
     \begin{itemize}
-        \item \textbf{minimum}: valor minimo da propriedade
-        \item \textbf{exclusiveMinimum}: valor booleano, indica se o valor minimo está incluído ou não no intervalo de validação
+        \item \textbf{minimum}: valor mínimo da propriedade
+        \item \textbf{exclusiveMinimum}: valor booleano. Indica se o valor mínimo está incluído ou não no intervalo de validação
         \item \textbf{maximum}: valor máximo da propriedade
-        \item \textbf{exclusiveMaximum}: valor booleano, indica se o valor máximo está incluído ou não no intervalo de validação
+        \item \textbf{exclusiveMaximum}: valor booleano. Indica se o valor máximo está incluído ou não no intervalo de validação
     \end{itemize}
 
     \item \textbf{arrRes}: será aceita quando o \textit{type} for \textit{array}, será melhor detalhada na Subseção \ref{sec:bnf:arr}
 
-    \item \textbf{objRes}: será aceita quando o \textit{type} for \textit{object} e então serão aplicadas as definições da Subseção \ref{sec:bnf:obj}
+    \item \textbf{objRes}: será aceita quando o \textit{type} for \textit{object}. Serão aplicadas as definições da Subseção \ref{sec:bnf:obj}
     %\item \textbf{multRes}: restrições de multiplicidade, enumerações, conjunções e disjunções
 
-    \item \textbf{refSch}: referências a outros definições no arquivo JSON Schema que esta sendo processado, estas referencias possuirão significados diferentes, de acordo com seu contexto, na disponibilização dos \textit{resources} pela API, conforme Seções \ref{sec:bnf:mongo} e \ref{sec:bnf:http}
+    \item \textbf{refSch}: referências a outras definições no arquivo JSON Schema que está sendo processado. Eestas referências possuirão significados diferentes, de acordo com seu contexto, na disponibilização dos \textit{resources} pela API, conforme Seções \ref{sec:bnf:mongo} e \ref{sec:bnf:http}
 \end{itemize}
 
 \subsubsubsection{Derivações de \textit{arrRes}}
 \label{sec:bnf:arr}
-As restrições desta diretiva são relacionadas ao \textit{type array} e serão aceitas as seguintes derivações:
+As restrições desta diretiva são relacionadas ao \textit{type array}. Serão aceitas as seguintes derivações:
 \begin{itemize}
-    \item \textbf{items}: definição dos tipos do \textit{array} e pode ser derivada de duas formas:
+    \item \textbf{items}: definição dos tipos do \textit{array}. Pode ser derivada de duas formas:
     \begin{itemize}
-        \item \textbf{sameitems}: determina que todos os itens do \textit{array} possuem a mesma definição, que é determinada por um \textit{JSch}, e para esta definição são aceitas as mesmas derivações de \textit{JSch} da Subseção \ref{sec:bnf:props}
+        \item \textbf{sameitems}: determina que todos os itens do \textit{array} possuem a mesma definição, que é determinada por um \textit{JSch}. Para esta definição são aceitas as mesmas derivações de \textit{JSch} da Subseção \ref{sec:bnf:props}
 
-        \item \textbf{varitems}: determina que o \textit{array} pode ter itens de definições variadas, esta derivação será considerada inválida pelo gerador
+        \item \textbf{varitems}: determina que o \textit{array} pode ter itens de definições variadas. Esta derivação é considerada inválida pelo gerador
 
     \end{itemize}
 
     %\item \textbf{additems}: é uma derivação que espera um valor booleano e opcional pois
 
-    \item \textbf{minitems}: indica o numero minimo de itens do \textit{array}
+    \item \textbf{minitems}: indica o numero mínimo de itens do \textit{array}
 
     \item \textbf{maxitems}: indica o numero máximo de itens do \textit{array}
 \end{itemize}
@@ -589,7 +589,7 @@ As restrições desta diretiva são relacionadas ao \textit{type array} e serão
 \subsubsubsection{Geração dos \textit{models} Mongoose}
 \label{sec:bnf:mongo}
 
-Para a criação dos \textit{models} de cada \textit{resource} serão usadas as seguintes regras de criação:
+Para a criação dos \textit{models} de cada \textit{resource} são usadas as seguintes regras de criação:
 \begin{itemize}
     \item Cada propriedade do \textit{resource} no JSON Schema irá resultar em uma propriedade do \textit{model} Mongoose
 
@@ -603,23 +603,23 @@ Para a criação dos \textit{models} de cada \textit{resource} serão usadas as 
 
     \item Uma propriedade do tipo \textit{array} no JSON Schema resultará em uma propriedade Mongoose com uma propriedade \textit{any} que será um \textit{array} contendo o \textit{SchemaType} Mongoose dos elementos
 
-    \item Uma propriedade do tipo \textit{object} no JSON Schema resultará em uma propriedade Mongoose com a propriedade \textit{type: Object}, se esta propriedade \textit{object} possuir definições JSON Schema, esta serão criadas no Mongoose conforme estas mesmas regras
+    \item Uma propriedade do tipo \textit{object} no JSON Schema resultará em uma propriedade Mongoose com a propriedade \textit{type: Object}. Se esta propriedade \textit{object} possuir definições JSON Schema, esta serão criadas no Mongoose conforme estas mesmas regras
 
     \item Todas as propriedades do JSON Schema especificadas como \textit{required} receberão uma propriedade Mongoose \textit{required: true}
 
-    \item Todas as propriedades do JSON Schema dos tipos \textit{number} e \textit{integer} que possuirem definições de máximo e minimo receberão propriedades Mongoose correspondentes
+    \item Todas as propriedades do JSON Schema dos tipos \textit{number} e \textit{integer} que possuírem definições de máximo e mínimo receberão propriedades Mongoose correspondentes
 
-    \item Propriedades do JSON Schema do tipo \textit{string} que possuírem definições de tamanho máximo, tamanho minimo e expressão regular receberão propriedades Mongoose correspondentes
+    \item Propriedades do JSON Schema do tipo \textit{string} que possuírem definições de tamanho máximo, tamanho mínimo e expressão regular receberão propriedades Mongoose correspondentes\footnote{Esta funcionalidade apesar de especificada, não está presente na ferramenta prova de conceito}
 
 \end{itemize}
 
-As definições \textit{dependencies} do JSON Schema são interpretadas como se referindo a chave primária de um \textit{resource}, logo a propriedade da qual todas as outras dependem será considerada a chave primária. O MongoDB considera como chave primária de suas \textit{collections} a propriedade \textit{\_id} e este comportamento é assimilado pelo Mongoose.
+As definições \textit{dependencies} do JSON Schema são interpretadas como se referindo a chave primária de um \textit{resource}. Logo, a propriedade da qual todas as outras dependem será considerada a chave primária. O MongoDB considera como chave primária de suas \textit{collections} a propriedade \textit{\_id} e este comportamento é assimilado pelo Mongoose.
 
 Se for identificado que um \textit{resource} possui uma chave primária composta por mais de uma propriedade, ele receberá um \textit{index unique} que contenha todas estas propriedades que compõem a chave, fazendo-o assim respeitar a restrição de unicidade da chave primária.
 
-Para \textit{arrays} e propriedades que possuam referencias (\textbf{refSch}) a outros \textit{resources} a criação do \textit{model} sofrerá alterações. Se um \textit{array} possuir itens que são referencias (\textbf{refSch}) a outro \textit{resource} então o que será armazenado no MongoDB serão os valores das chaves primárias deste \textit{resource}, e o \textit{model} Mongoose possuirá propriedades correspondentes. Quando uma propriedade for referencia a outro \textit{resource} isto implicará em uma herança, então o \textit{model} que contem esta propriedade será armazenado na mesma \textit{collection} no MongoDB e possuirá seu \textit{Schema} de Mongoose representando o relacionamento de herança.
+Para \textit{arrays} e propriedades que possuam referências (\textbf{refSch}) a outros \textit{resources}, a criação do \textit{model} sofrerá alterações. Se um \textit{array} possuir itens que são referências (\textbf{refSch}) a outro \textit{resource}, então o que será armazenado no MongoDB serão os valores das chaves primárias deste \textit{resource}, e o \textit{model} Mongoose possuirá propriedades correspondentes. Quando uma propriedade for referência a outro \textit{resource} isto implicará em uma herança. Neste caso o \textit{model} que contém esta propriedade será armazenado na mesma \textit{collection} no MongoDB e possuirá seu \textit{Schema} de Mongoose representando o relacionamento de herança.
 
-Para que os \textit{resources} fornecidos pela API não contenham propriedades não desejadas, e ainda seja possível utilizar a chave primária com seu nome original, serão utilizados métodos de acesso virtuais do Mongoose. Como exemplo temos o atributo \textit{attribute0} da classe apresentada na Figura \ref{fig_example_class} no Listing \ref{lst_virtual}, o código completo para o \textit{model} desta classe está no Anexo \ref{anexo:model_mongoose}.
+Para que os \textit{resources} fornecidos pela API não contenham propriedades não desejadas, e ainda seja possível utilizar a chave primária com seu nome original, serão utilizados métodos de acesso virtuais do Mongoose. Como exemplo temos no Listing \ref{lst_virtual} o atributo \textit{attribute0} da classe apresentada na Figura \ref{fig_example_class}. O código completo para o \textit{model} desta classe está no Anexo \ref{anexo:model_mongoose}.
 
 \begin{listing}
 \begin{minted}[frame=single,
@@ -639,7 +639,7 @@ Example_ClassSchema.virtual('attribute0').set(function (value) {
 \label{lst_virtual}
 \end{listing}
 
-Além da propriedade \textit{\_id} do MongoDB o Mongoose também adiciona outras propriedades que não estariam de acordo com o JSON Schema do \textit{resoruce}, para evitar o envio destas propriedades todos os \textit{models} possuirão o método \textit{cleanObject} que terá a função de retornar um objeto sem estas propriedades, um exemplo aplicado a classe \textit{Example\_Class} pode ser visto no Listing \ref{lst_clean_obj}.
+Além da propriedade \textit{\_id} do MongoDB, o Mongoose também adiciona outras propriedades que não estariam de acordo com o JSON Schema do \textit{resource}. Para evitar o envio destas propriedades, todos os \textit{models} possuirão o método \textit{cleanObject}, que terá a função de retornar um objeto sem estas propriedades. Um exemplo aplicado a classe \textit{Example\_Class} pode ser visto no Listing \ref{lst_clean_obj}.
 
 \begin{listing}
 \begin{minted}[frame=single,
@@ -667,7 +667,7 @@ Cada \textit{resource} terá seus métodos HTTP dentro de um \textit{middleware}
 
 Os métodos HTTP gerados para um \textit{resource} serão todos os identificados como necessários para realizar as operações CRUD, que são: GET, HEAD, POST, PUT, PATCH e DELETE.
 
-Um \textit{resource} com uma chave primária simples possuirá os \textit{endpoints} apresentados na Tabela \ref{tab:http_1}, onde: \textit{resourceName} é o nome do \textit{resource}, e; \textit{idendifier} é a chave primária do resource. As \textit{query strings} nas URIs indicadas são opcionais e os parâmetros esperados seriam \textit{propName}, que é o nome de uma propriedade, e \textit{valueX}, que é o valor desejado na propriedade; é possível mais de um parâmetro de filtro na \textit{query string}.
+Um \textit{resource} com uma chave primária simples possuirá os \textit{endpoints} apresentados na Tabela \ref{tab:http_1}, onde: \textit{resourceName} é o nome do \textit{resource}, e; \textit{identifier} é a chave primária do resource. As \textit{query strings} nas URIs indicadas são opcionais e os parâmetros esperados seriam \textit{propName}, que é o nome de uma propriedade, e \textit{valueX}, que é o valor desejado na propriedade; é possível mais de um parâmetro de filtro na \textit{query string}.
 
 \begin{table}[]
     \centering
@@ -679,22 +679,22 @@ Um \textit{resource} com uma chave primária simples possuirá os \textit{endpoi
         GET & /resourceName/[?propName=valueX]            & Retornar todos os \textit{resources} da \textit{collection}\\
         \hline
 
-        GET & /resourceName/:idendifier & Retornar o \textit{resource} com o \textit{idendifier} igual ao parâmetro na URI\\
+        GET & /resourceName/:identifier & Retornar o \textit{resource} com o \textit{identifier} igual ao parâmetro na URI\\
         \hline
 
-        HEAD & /resourceName/:idendifier & Verificar se o \textit{resource} com o \textit{idendifier} igual ao parâmetro indicado existe, sem retorna-lo\\
+        HEAD & /resourceName/:identifier & Verificar se o \textit{resource} com o \textit{identifier} igual ao parâmetro indicado existe, sem retorná-lo\\
         \hline
 
         POST & /resourceName/ & Inserir ou modificar totalmente o \textit{resource} contido no \textit{message body} da \textit{request}\\
         \hline
 
-        PUT & /resourceName/:idendifier & Inserir ou modificar totalmente o \textit{resource} indicado pelo parâmetro da URI, utilizando os dados contidos no \textit{message body} da \textit{request}\\
+        PUT & /resourceName/:identifier & Inserir ou modificar totalmente o \textit{resource} indicado pelo parâmetro da URI, utilizando os dados contidos no \textit{message body} da \textit{request}\\
         \hline
 
-        PATCH & /resourceName/:idendifier & Modificar parcialmente o \textit{resource} indicado pelo parâmetro da URI, utilizando os dados contidos no \textit{message body} da \textit{request}\\
+        PATCH & /resourceName/:identifier & Modificar parcialmente o \textit{resource} indicado pelo parâmetro da URI, utilizando os dados contidos no \textit{message body} da \textit{request}\\
         \hline
 
-        DELETE & /resourceName/:idendifier & Excluir o \textit{resource} com o \textit{idendifier} igual ao parametro indicado\\
+        DELETE & /resourceName/:identifier & Excluir o \textit{resource} com o \textit{identifier} igual ao parâmetro indicado\\
         \hline
     \end{tabularx}
     \caption{\textit{Resource} Simples - Métodos HTTP e URIs}
@@ -732,7 +732,7 @@ Se um \textit{resource} possuir uma chave composta, seus \textit{endpoints} ao i
     \label{tab:http_2}
 \end{table}
 
-Quando um \textit{resource} com chave primária simples possuir propriedades complexas, ou do tipo \textit{array}, estas poderão ser acessadas diretamente através de \textit{endpoints} dedicados a elas se o \textit{endpoint} já possuir o \textit{identifier} do \textit{resource}. Estes \textit{endpoints} serão formados utilizando o \textit{endpoint} do \textit{resource} e um sufixo com o nome da propriedade, conforme Tabela \ref{tab:end_prop}. Propriedades complexas que estão contidas dentro de outras propriedades complexas possuirão seus \textit{endpoints} também, sendo estes criados com o mesmo procedimento, adicionando um sufixo com o nome da propriedade aos \textit{endpoints} já existentes.
+Quando um \textit{resource} com chave primária simples possuir propriedades complexas ou do tipo \textit{array}, estas poderão ser acessadas diretamente através de \textit{endpoints} dedicados a elas se o \textit{endpoint} já possuir o \textit{identifier} do \textit{resource}. Estes \textit{endpoints} serão formados utilizando o \textit{endpoint} do \textit{resource} e um sufixo com o nome da propriedade, conforme Tabela \ref{tab:end_prop}. Propriedades complexas que estão contidas dentro de outras propriedades complexas possuirão seus \textit{endpoints} também, sendo estes criados com o mesmo procedimento: adicionando um sufixo com o nome da propriedade aos \textit{endpoints} já existentes.
 
 \begin{table}[]
     \centering
@@ -741,19 +741,19 @@ Quando um \textit{resource} com chave primária simples possuir propriedades com
         \textbf{Método} & \textbf{URI} & \textbf{\textit{Query string}} \\
         \hline
 
-        GET & /resourceName/:idendifier/propName & Retornar o conteúdo da propriedade \textit{propName} do \textit{resource} com o \textit{idendifier} igual ao parâmetro na URI\\
+        GET & /resourceName/:identifier/propName & Retornar o conteúdo da propriedade \textit{propName} do \textit{resource} com o \textit{identifier} igual ao parâmetro na URI\\
         \hline
 
-        HEAD & /resourceName/:idendifier/propName & Verificar se o \textit{resource} com o \textit{idendifier} igual ao parâmetro indicado existe e possui a propriedade \textit{propName}, sem retornar seu valor\\
+        HEAD & /resourceName/:identifier/propName & Verificar se o \textit{resource} com o \textit{identifier} igual ao parâmetro indicado existe e possui a propriedade \textit{propName}, sem retornar seu valor\\
         \hline
 
-        PUT & /resourceName/:idendifier/propName & Inserir ou modificar totalmente o conteúdo da propriedade \textit{propName} no \textit{resource} indicado pelo parâmetro da URI, utilizando os dados contidos no \textit{message body} da \textit{request}\\
+        PUT & /resourceName/:identifier/propName & Inserir ou modificar totalmente o conteúdo da propriedade \textit{propName} no \textit{resource} indicado pelo parâmetro da URI, utilizando os dados contidos no \textit{message body} da \textit{request}\\
         \hline
 
-        PATCH & /resourceName/:idendifier/propName & Modificar parcialmente o conteúdo da propriedade \textit{propName} do \textit{resource} indicado pelo parâmetro da URI, utilizando os dados contidos no \textit{message body} da \textit{request}. Não aplicável a propriedades \textit{array}\\
+        PATCH & /resourceName/:identifier/propName & Modificar parcialmente o conteúdo da propriedade \textit{propName} do \textit{resource} indicado pelo parâmetro da URI, utilizando os dados contidos no \textit{message body} da \textit{request}. Não aplicável a propriedades \textit{array}\\
         \hline
 
-        DELETE & /resourceName/:idendifier/propName & Excluir a propriedade \textit{propName} do \textit{resource} com o \textit{idendifier} igual ao parâmetro indicado\\
+        DELETE & /resourceName/:identifier/propName & Excluir a propriedade \textit{propName} do \textit{resource} com o \textit{identifier} igual ao parâmetro indicado\\
         \hline
         \hline
     \end{tabularx}
@@ -766,11 +766,11 @@ Quando um \textit{resource} com chave primária simples possuir propriedades com
 
 \subsection{Funcionamento da API REST gerada}
 
-A API gerada poderá ser utilizada através de um arquivo "\textit{api.js}"\ que será gerado após todos os \textit{models} e \textit{routers} serem gerados. Neste arquivo o servidor \textit{Express} será criado e iniciado e os \textit{routers} gerados serão adicionados como \textit{middleware} do servidor. Também constarão no arquivo a criação da conexão com o MongoDB e outras utilidades que permitam uma melhor utilização dos recursos da linguagem.
+A API gerada poderá ser utilizada através de um arquivo ``\textit{api.js}''\ que será gerado após todos os \textit{models} e \textit{routers} serem gerados. Neste arquivo, o servidor \textit{Express} será criado e iniciado e os \textit{routers} gerados serão adicionados como \textit{middleware} do servidor. Também constarão no arquivo a criação da conexão com o MongoDB e outras utilidades que permitam uma melhor utilização dos recursos da linguagem.
 
-Ao final da geração da API é possivel utilizá-la através do arquivo \textit{api.js}, usando-o como parâmetro do \textit{runtime} de Node.js em um terminal e estando na pasta onde o arquivo se encontra, por exemplo: \textbf{node api.js}
+Ao final da geração da API, é possivel utilizá-la através do arquivo \textit{api.js}, usando-o como parâmetro do \textit{runtime} de Node.js em um terminal e estando na pasta onde o arquivo se encontra; por exemplo: \textbf{node api.js}
 
-Após executar este comando o usuário será informado do endereço local que a API está executando e os \textit{endpoints} de GET de cada \textit{resource}, conforme exemplo da Figura \ref{fig:api_console}.
+Após executar este comando o usuário será informado de que a API está executando e também os \textit{endpoints} de GET de cada \textit{resource}, conforme exemplo da Figura \ref{fig:api_console}.
 
 \begin{figure}
     \begin{center}
@@ -799,15 +799,15 @@ O servidor \textit{Express} criado irá processar as \textit{requests} que forem
 \subsection{Demonstração de resultados}
 \label{sec:demo}
 
-Para demonstrar a instanciação da solução AutoREST uma applicação \textit{web}, disponível no endereço \url{https://autorest-site.herokuapp.com/}, foi criada para a geração de APIs usando os componentes AutoREST, que são os seguintes:
+Para demonstrar a instanciação da solução AutoREST, uma aplicação \textit{web}, disponível no endereço \url{https://autorest-site.herokuapp.com/}, foi criada para a geração de APIs usando os componentes AutoREST, que são os seguintes:
 
 \begin{itemize}
-    \item \textit{\textbf{asta-xml-parser\footnote{\url{https://github.com/AutoREST/astah-xml-parser}}}}: responsavél por realizar a conversão de XMLs em JSON Schemas. Também tem a funcionalidade de extrair os pacotes presentes no XML, para que seja possivel a escolha de qual pacote a API deve ser gerada;
-    \item \textit{\textbf{rest-api-generator\footnote{\url{https://github.com/AutoREST/rest-api-generator}}}}: responsavél por gerar as APIs usando um JSON Schema e algumas opções informadas na interface com o usuário;
-    \item \textit{\textbf{autorest-site\footnote{\url{https://github.com/AutoREST/autorest-site}}}}: applicação \textit{web} responsavél por receber o arquivo de entrada para geração e algumas opções adicionais.
+    \item \textit{\textbf{astah-xml-parser\footnote{\url{https://github.com/AutoREST/astah-xml-parser}}}}: responsável por realizar a conversão de XMLs em JSON Schemas. Também tem a funcionalidade de extrair os pacotes presentes no XML, para que seja possível a escolha de qual pacote contém as informações sobre a qual a API deve ser gerada;
+    \item \textit{\textbf{rest-api-generator\footnote{\url{https://github.com/AutoREST/rest-api-generator}}}}: responsável por gerar as APIs usando um JSON Schema e algumas opções informadas na interface com o usuário;
+    \item \textit{\textbf{autorest-site\footnote{\url{https://github.com/AutoREST/autorest-site}}}}: aplicação \textit{web} responsável por receber o arquivo de entrada para geração e algumas opções adicionais.
 \end{itemize}
 
-A interface com o usuário tem duas telas principais que são baseadas nos \textit{mockups} das Figuras \ref{fig:mindex} e \ref{fig:mpacks}. Na tela da Figura \ref{fig:mindex} temos a entrada básica para a geração da API, onde:
+A interface com o usuário tem duas telas principais que são baseadas nos \textit{mockups} das Figuras \ref{fig:mindex} e \ref{fig:mpacks}. Na tela da Figura \ref{fig:mindex}, temos a entrada básica para a geração da API, onde:
 
 \begin{figure}
     \begin{center}
@@ -824,13 +824,13 @@ A interface com o usuário tem duas telas principais que são baseadas nos \text
 \end{figure}
 
 \begin{itemize}
-    \item \textit{API Name}: é o nome da API, é usado para dar um nome em alguns pontos da API, assim como no arquivo de retorno final;
+    \item \textit{API Name}: é o nome da API; é usado para dar um nome em alguns pontos da API, assim como no arquivo de retorno final;
     \item \textit{Data Base Name}: nome do banco de dados usado na conexão com o MongoDB;
-    \item \textit{Respository URL}: a URL onde a API será guardada, é somente para fins de documentação no \textit{package.json} da API;
-    \item \textit{Source File}: arquivo contendo a especificação da API, aceita-se um XML da ferramenta Astah modelado conforme as regras de modelagem AutoREST, ou um arquivo JSON Schema com restrições aceitas e coerentes com as regras de sintaxe e semântica AutoREST
+    \item \textit{Respository URL}: a URL onde a API será guardada; é somente para fins de documentação no \textit{package.json} da API;
+    \item \textit{Source File}: arquivo contendo a especificação da API; aceita-se um XML da ferramenta Astah modelado conforme as regras de modelagem AutoREST ou um arquivo JSON Schema com restrições aceitas e coerentes com as regras de sintaxe e semântica AutoREST
     \item \textit{Generate API}: botão que inicia a geração da API
 \end{itemize}
 
-Caso o \textit{Source File} seja um XML que contenha mais de um \textit{package} de classes o componente \textit{asta-xml-parser} irá retornar a lista de \textit{packages} disponíveis para o usuário escolher qual que deseja ser a fonte de sua API, este é o comportamento apresentado na tela da Figura \ref{fig:mpacks}.
+Caso o \textit{Source File} seja um XML que contenha mais de um \textit{package} de classes, o componente \textit{astah-xml-parser} irá retornar a lista de \textit{packages} disponíveis para que o usuário escolha qual deve ser a fonte de sua API; este é o comportamento apresentado na tela da Figura \ref{fig:mpacks}.
 
 %end Demonstração de resultados
