@@ -1,15 +1,15 @@
 % ------------------------------------------------------------------------
-% abnTeX2: Modelo de Projeto de pesquisa em conformidade com 
+% abnTeX2: Modelo de Projeto de pesquisa em conformidade com
 % ABNT NBR 15287:2011 Informação e documentação - Projeto de pesquisa -
-% Apresentação 
+% Apresentação
 % ------------------------------------------------------------------------
 
 \documentclass[
 	% -- opções da classe memoir --
 	12pt,				% tamanho da fonte
 	openright,			% capítulos começam em pág ímpar (insere página vazia caso preciso)
-	oneside,			% twoside para impressão em recto e verso. Oposto a oneside 
-	a4paper,			% tamanho do papel. 
+	oneside,			% twoside para impressão em recto e verso. Oposto a oneside
+	a4paper,			% tamanho do papel.
 	% -- opções da classe abntex2 --
 	%chapter=TITLE,		% títulos de capítulos convertidos em letras maiúsculas
 	%section=TITLE,		% títulos de seções convertidos em letras maiúsculas
@@ -25,7 +25,7 @@
 % ---
 % PACOTES
 % ---
-% Pacotes fundamentais 
+% Pacotes fundamentais
 % ---
 \usepackage{lmodern}			% Usa a fonte Latin Modern
 \usepackage[T1]{fontenc}		% Selecao de codigos de fonte.
@@ -49,7 +49,7 @@
 \usepackage[brazilian,hyperpageref]{backref}	 % Paginas com as citações na bibl
 \usepackage[alf]{abntex2cite}	% Citações padrão ABNT
 
-% --- 
+% ---
 % CONFIGURAÇÕES DE PACOTES
 % ---
 % Configurações do pacote backref
@@ -83,8 +83,8 @@
   \par
   Curso de Bacharelado em Ciência da Computação}
 \tipotrabalho{Tese (Doutorado)}
-% O preambulo deve conter o tipo do trabalho, o objetivo, 
-% o nome da instituição e a área de concentração 
+% O preambulo deve conter o tipo do trabalho, o objetivo,
+% o nome da instituição e a área de concentração
 \preambulo{Relatório Final de Trabalho de Conclusão I, apresentado como  requisito  parcial  para obtenção  do  grau  de  Bacharel  em  Ciência  da Computação na Pontifícia    Universidade    Católica    do    Rio Grande  do  Sul}
 
 % ---
@@ -99,11 +99,11 @@
 \makeatletter
 \hypersetup{
      	%pagebackref=true,
-		pdftitle={\@title}, 
+		pdftitle={\@title},
 		pdfauthor={\@author},
     	pdfsubject={\imprimirpreambulo},
 	    pdfcreator={LaTeX with abnTeX2},
-		pdfkeywords={abnt}{latex}{abntex}{abntex2}{projeto de pesquisa}, 
+		pdfkeywords={abnt}{latex}{abntex}{abntex2}{projeto de pesquisa},
 		colorlinks=true,       		% false: boxed links; true: colored links
     	linkcolor=blue,          	% color of internal links
     	citecolor=blue,        		% color of links to bibliography
@@ -112,11 +112,11 @@
 		bookmarksdepth=4
 }
 \makeatother
-% --- 
+% ---
 
-% --- 
-% Espaçamentos entre linhas e parágrafos 
-% --- 
+% ---
+% Espaçamentos entre linhas e parágrafos
+% ---
 % O tamanho do parágrafo é dado por:
 \setlength{\parindent}{1.3cm}
 % Controle do espaçamento entre um parágrafo e outro:
@@ -136,7 +136,7 @@
 \selectlanguage{brazil}
 
 % Retira espaço extra obsoleto entre as frases.
-\frenchspacing 
+\frenchspacing
 
 % ----------------------------------------------------------
 % ELEMENTOS PRÉ-TEXTUAIS
@@ -212,6 +212,8 @@
 %  \item[$ \in $] Pertence
 %\end{simbolos}
 % ---
+
+\include{agradecimentos}
 
 % ---
 % inserir o sumario
