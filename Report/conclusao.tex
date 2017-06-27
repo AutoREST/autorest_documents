@@ -87,42 +87,43 @@ Esta automação é viável, desde que sejam compreendidos seus pontos positivos
 	\item QP2. Quais os elementos necessários para a representação completa de uma API REST em um modelo gráfico para que este possa ser utilizado como modelo de configuração em uma abordagem MDD para a geração de uma API com todas as funcionalidades CRUD fundamentais?
 \end{itemize}
 
-\begin{itemize}
-	\item identificadores
-	\item navegabilidade entre \textit{resources}
-\end{itemize}
+Como mencionado na Seção \ref{sec:cmr}, alguns elementos se mostraram essenciais para a representação de uma API REST. Em particular, a necessidade de representar todas as entidades com identificadores únicos se mostrou importante para a modelagem apropriada das APIs; reconhecer a restrição da arquitetura REST de como são definidos endpoints deve reger a escolha de modelos de representação e elementos utilizados nestes. A representação de associações deve ser suficientemente clara para que os endpoints gerados possam ser identificados corretamente. Pela experiência obtida durante o desenvolvimento da prova de conceito, não é recomendado o uso de chaves compostas para identificação de recursos.
 
 \begin{itemize}
 	\item QP3. Existe a necessidade de criação de um modelo intermediário, a partir de um modelo de configuração, que sirva como artefato de entrada para um gerador de APIs REST?
 \end{itemize}
 
-Existe se o modelo de configuração for muito abstrato e o gerador de APIs não compreender o mesmo nivel de abstração. No caso da solução apresentada neste trabalho tomou-se a decisão de usar um modelo intermediário que possibilitasse uma validação sintática automática, e uma leitura humana e computacional rápida
+Existe se o modelo de configuração for muito abstrato e o gerador de APIs não compreender o mesmo nível de abstração. No caso da solução apresentada neste trabalho, tomou-se a decisão de usar um modelo intermediário que possibilitasse uma validação sintática automática e uma leitura humana e computacional rápida. Acreditamos que se usado apenas um modelo gráfico, com definição semântica ampla, não teria um resultado de mesma qualidade.
 
 \begin{itemize}
 	\item QP4. As APIs REST são suficientemente modularizáveis a ponto de permitir a geração automática de código a partir de blocos de código parametrizáveis? Qual a complexidade de se criar um compilador de APIs REST que não se utiliza de uma abordagem GP?
 \end{itemize}
 
-Considerando que a API gerada pela solução apresentada neste trabalho é em Node.js, nós conseguimos uma boa utilização dos blocos de código parametrizáveis (\textit{snippets}). O fato da arquitetura REST impor a divisão em camadas e reforçar o uso de um formato de \textit{resource} no sistema contribuiu para esta modularização. Sem a abordagem GP acreditamos que a implementação poderia ficar maior e mais dificil de manter, pois a necessidade de atualizar um \textit{snippet} geraria um trabalho mais manual.
+Considerando que a API gerada pela solução apresentada neste trabalho é em Node.js, foi obtida boa utilização dos blocos de código parametrizáveis (\textit{snippets}). O fato da arquitetura REST impor a divisão em camadas e reforçar o uso de um formato de \textit{resource} no sistema contribuiu para esta modularização. Sem a abordagem GP, acreditamos que a implementação poderia ficar maior e mais difícil de manter, pois a necessidade de atualizar um \textit{snippet} geraria trabalho manual.
 
 \begin{itemize}
 	\item QP5. É possível a geração automática de um banco de dados auxiliar à API REST?
 \end{itemize}
 
-O trabalho nos leva a concluir que sim, é possivel gerar um banco de dados auxiliar a uma API REST. Algumas incompatibilidades entre a especificação MDD e o banco de dados podem atrapalhar esta geração. Neste trabalho estas imcompatibilidades foram endereçadas gerando uma API mais robusta, e utilizando algumas funções do bando de dados de uma forma semantica especifica, por exemplo a relação de herança entre \textit{resources} foi tratada adicionando um atributo oculto de tipo (\textit{\_\_type}) e armazenando todas as classe filhas na mesma coleção da classe pai.
+O trabalho nos leva a concluir que sim, é possivel gerar um banco de dados auxiliar a uma API REST. Algumas incompatibilidades entre a especificação MDD e o banco de dados podem atrapalhar esta geração. Neste trabalho, estas incompatibilidades foram endereçadas, gerando uma API mais robusta e utilizando algumas funções do banco de dados de uma forma semântica específica. Por exemplo, a relação de herança entre \textit{resources} foi tratada adicionando um atributo oculto de tipo (\textit{\_\_type}) e armazenando todas as classes filhas na mesma coleção da classe pai. Acreditamos que este seja um exemplo de boa utilização dos recursos de um sistema de gerência de banco de dados para a implementação de características da arquitetura REST.
 
 \begin{itemize}
 	\item QP6. Diagramas de Classes UML são uma notação adequada para a modelagem de APIs REST?
 \end{itemize}
 
-Muitos fatores podem influenciar a resposta para esta pergunta, um dos mais importante deles seria a respeito do tipo de banco de dados utilizado. Se o banco de dados for relacional então algumas definições de dados serão levemente alteradas, porem as restrições de relacionamento entre os \textit{resources} serão melhor reforçadas. No caso do banco de dados não for relacional as restrições de relacionamento podem ficar um pouco mais livres, podendo levar a referencias inválidas, porem as definições dos dados possam ser mais fieis ao diagrama de classes.
+Muitos fatores podem influenciar a resposta para esta pergunta. Um dos mais importante deles seria a respeito do tipo de banco de dados utilizado. Se o banco de dados for relacional, então algumas definições de dados serão levemente alteradas. Porém, as restrições de relacionamento entre os \textit{resources} serão melhor reforçadas. No caso de um banco de dados não-relacional, as restrições de relacionamento podem ficar um pouco mais livres, podendo levar a referências inválidas. Entretanto, as definições dos dados podem ser mais fiéis ao diagrama de classes.
 
 \begin{itemize}
 	\item QP7. Arquivos JSON Schema são adequados para a representação de APIs REST?
 \end{itemize}
 
+Acreditamos que a especificação JSON Schema, na forma restritiva especificada por \citeonline{PEZOA:2016}, seja insuficiente para a representação fiél de uma RESTful API. Apesar de ser um formato de dados que é utilizado na maioria das transações web e a geração de um JSON Schema ser algo de grande valor, as características do sistema requerem determinadas restrições e definições que não estão disponíveis em JSON Schema.
+
 \begin{itemize}
 	\item QP8. O SGBD MongoDB, a linguagem Node.js e a biblioteca Mongoose são adequadas como tecnologias para a geração automática de APIs REST?
 \end{itemize}
+
+
 
 %------------------------------------------------------------
 
@@ -137,5 +138,5 @@ Diversos trabalhos podem ser realizados expandindo o tema deste estudo. Nesta se
 
     \item Devido a limitações da ferramenta Astah, determinados tipos de associação disponíveis na UML não puderam ser definidos para modelagem neste estudo. A definição de regras para a modelagem e conversão destes tipos de associação seria útil para aumentar a versatilidade da solução proposta. Dentre estas associações, se destacam: as associações de Generalização/Especialização para representar o conceito de herança múltipla; o uso dos esteriótipos \textit{Disjoint} e \textit{Overlapping} para associações de Generalização/Especialização, e; a definição de navegabilidade em associações de agregação.
 
-    \item A modelagem e implementação da ferramenta usada como prova de conceito da arquitetura proposta está limitada as tecnologias determinadas em sua especificação. A criação de outras possíveis implementações da arquitetura AutoREST serviria para validar a sua proposta de independência de tecnologia. Tecnologias que poderiam ser utilizadas para diferentes implementações são: para modelos de configuração, Diagramas de Classes UML gerados por ferramentas diferentes do Astah, ou Modelos Entidade-Relacionais; para PFIS, estruturas em linguagem RAML, Swagger ou WSDL, e; para geração de código, linguagens como ASP.NET ou php.
+    \item A modelagem e implementação da ferramenta usada como prova de conceito da arquitetura proposta está limitada as tecnologias determinadas em sua especificação. A criação de outras possíveis implementações da arquitetura AutoREST serviria para validar a sua proposta de independência de tecnologia; além disto, acreditamos que possam haver tecnologias de modelagem mais apropriadas para a definição de uma API REST, permitindo a geração não só de operações CRUD mas de outras funcionalidades mais especializadas. Tecnologias que poderiam ser utilizadas para diferentes implementações são: para modelos de configuração, Diagramas de Classes UML gerados por ferramentas diferentes do Astah, ou Modelos Entidade-Relacionais; para PFIS, estruturas em linguagem RAML, Swagger ou WSDL, e; para geração de código, linguagens como ASP.NET ou php.
 \end{itemize}
