@@ -3,11 +3,11 @@
 
 Neste trabalho, foi proposta uma solução para o problema de geração automática de APIs REST que provejam as funcionalidades necessárias para que sejam executadas as operações básicas de manutenção de documentos (CRUD - \textit{Create, Read, Update, Delete}), com o objetivo de utilizar a geração automática de código como uma forma de aumentar a confiabilidade e produtividade do processo de criação de software.
 
-A solução AutoREST aplica os conceitos das metodologias de Engenharia de Software Baseada em Componentes, Desenvolvimento Dirigido por Modelos e Programação Generativa, concretizando heurísticas de cada uma destas metodologias em uma proposta de arquitetura de software. Além disto, propomos uma ferramenta como prova de conceito da arquitetura proposta, que servirá como instanciação desta arquitetura.
+A solução AutoREST aplica os conceitos das metodologias de Engenharia de Software Baseada em Componentes, Desenvolvimento Dirigido por Modelos e Programação Generativa, concretizando heurísticas de cada uma destas metodologias em uma proposta de arquitetura de software. Além disto, propomos uma ferramenta como prova de conceito, que serve como instanciação desta arquitetura.
 
-Este trabalho foi motivado pelo formalismo da arquitetura REST e a representatividade das notações JSON Schema e Diagrama de Classes UML. Através destas notações, foi possível a proposição de regras de modelagem que permitam a representação conceitual de uma API REST. Além disto, dada a estrutura da notação JSON Schema, que é baseada na Backus-Naur Form (BNF), foi possível a proposição de um método para a conversão da um documento JSON Schema em código fonte da API representada.
+Este trabalho foi motivado pelo formalismo da arquitetura REST e a representatividade das notações JSON Schema e Diagrama de Classes UML. Através destas notações, foi possível a proposição de regras de modelagem que permitem a representação conceitual de uma API REST. Além disto, dada a estrutura da notação JSON Schema conforme \citeonline{PEZOA:2016}, que é baseada na Backus-Naur Form (BNF), foi possível a proposição de um método para a conversão da um documento JSON Schema em código fonte da API representada.
 
-A arquitetura proposta, além dos componentes descritos para a instanciação desta arquitetura em uma prova de conceito, foram construídos a partir do estudo da arquitetura REST, do \textit{Hypertext Transfer Protocol} (HTTP) e das notações JSON Schema e UML, esta última particularmente no que concerne o conjunto da UML que é disponibilizado pela ferramenta Astah. Além destas tecnologias, foram estudadas a linguagem Node.js, o sistema gerenciador de bancos de dados MongoDB e o módulo Node.js Mongoose, que serão utilizados pelas APIs REST geradas pela ferramenta proposta.
+A arquitetura proposta, além dos componentes descritos para a instanciação desta arquitetura em uma prova de conceito, foram construídos a partir do estudo da arquitetura REST, do \textit{Hypertext Transfer Protocol} (HTTP) e das notações JSON Schema e UML, esta última particularmente no que concerne o conjunto da UML que é disponibilizado pela ferramenta Astah. Além destas tecnologias, foram estudadas a linguagem Node.js, o sistema gerenciador de bancos de dados MongoDB e o módulo Node.js Mongoose, que são utilizados pelas APIs REST geradas pela ferramenta proposta.
 
 %------------------------------------------------------------
 
@@ -22,7 +22,7 @@ Dentre os trabalhos encontrados que tratem de geração de código automática, 
 
 Heroics é um gerador que utiliza um JSON Schema que representa uma API para gerar clientes HTTP em Ruby para esta API \cite{HEROICS}. Outro gerador que utiliza uma entrada similar, em JSON Hyper-Schema \cite{JSHYPERSCH}, para gerar clientes HTTP em Go é o Schematic \cite{SCHEMATIC}.
 
-A principal diferença destas ferramentas para o AutoREST é pelo fato de gerarem apenas código cliente. Porem o fato de utilizarem JSON Schema em seus processos pode significar que uma interação com elas seria algo que acrescentaria valor a ferramenta AutoREST, permitindo assim que os clientes da API já fossem criados também.
+A principal diferença destas ferramentas para o AutoREST é o fato de gerarem apenas código cliente. Porém, o fato de utilizarem JSON Schema em seus processos pode significar que uma interação com elas seria algo que acrescentaria valor a solução AutoREST, permitindo assim que os clientes da API já fossem criados também de forma automática.
 
 %------------------------------------------------------------
 
@@ -36,7 +36,7 @@ Esta é outra ferramenta que utiliza o JSON Schema para um propósito diferente 
 
 \subsection{Swagger}
 
-Swagger \cite{SWAGGER} é uma representação de REST APIs com um grande conjunto de ferramentas de apoio ao desenvolvimento e suporte, em quase todas as linguagens de programação atuais. Com uma definição Swagger é possível a geração de documentação e geração de clientes. A especificação Swagger atualmente é gerenciada pela Open API Initiative (OAI) \cite{OpenAPII}.
+Swagger \cite{SWAGGER} é uma representação de REST APIs com um grande conjunto de ferramentas de apoio ao desenvolvimento e suporte, em várias das linguagens de programação atuais. Com uma definição Swagger, é possível a geração de documentação e geração de clientes. A especificação Swagger atualmente é gerenciada pela Open API Initiative (OAI) \cite{OpenAPII}.
 
 As definições Swagger e o grande número de ferramentas de geração disponibilizadas pela comunidade proporcionariam o escopo restante no processo de criação de APIs que não é explorado no AutoREST. Uma especificação Swagger gerada pelo AutoREST poderia proporcionar tanto a criação de documentações quanto de códigos clientes da API.
 
@@ -56,7 +56,7 @@ A principal diferença para o AutoREST é que a única coisa que seria necessár
 
 DaemonX é uma plataforma extensível para o gerenciamento de evolução de documentos representativos de estruturas de dados. Dentre os usos desta plataforma está o de gerenciar a evolução de APIs REST com uma notação baseada no princípio de Arquiteturas Dirigidas por Modelos (MDA - \textit{Model-Driven Architecture}) \cite{POLAK:2015}.
 
-Similar ao Prmd, esta aplicação da plataforma DaemonX apresenta uma forma de representar e gerenciar a evolução de APIs REST, uma funcionalidade não disponível na solução AutoREST. Entretanto, por utilizar uma representação específica, apesar de possivelmente atingir maior detalhamento das APIs, não seria de fácil integração com a solução AutoREST.
+Similar ao Prmd, esta aplicação da plataforma DaemonX apresenta uma forma de representar e gerenciar a evolução de APIs REST, uma funcionalidade não disponível na solução AutoREST. Entretanto, por utilizar uma representação específica, apesar de possivelmente atingir maior detalhamento das APIs, não seria de fácil integração com soluções mais gerais como a AutoREST.
 
 %------------------------------------------------------------
 
