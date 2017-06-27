@@ -1,30 +1,30 @@
 \chapter{AutoREST: Geração Automática de APIs REST para Funcionalidades CRUD}
 \label{chap:autorest}
 
-Neste capítulo iremos apresentar a solução proposta para as questões levantadas neste estudo, que é composta por um processo de modelagem de estruturas de dados e uma ferramenta de geração automática de APIs utilizando estes modelos como entrada. Serão apresentados os pontos motivadores deste estudo, seguidos dos requisitos para a validação da solução proposta. Em seguida, a arquitetura AutoREST é proposta para cumprir com estes requisitos, e finalmente a modelagem de uma instância desta arquitetura é apresentada como prova de conceito, utilizando as linguagens de modelagem UML e JSON Schema, o framework de programação Node.js e o sistema gerenciador de bancos de dados (SGBD) MongoDB, através da biblioteca Mongoose.
+Neste capítulo, iremos apresentar a solução proposta para as questões levantadas neste estudo. A solução proposta, chamada AutoREST, é composta por um processo de modelagem de estruturas de dados e uma ferramenta de geração automática de APIs utilizando estes modelos como entrada. Serão apresentados os pontos motivadores deste estudo seguidos dos requisitos para a validação da solução proposta. Em seguida, a arquitetura AutoREST é proposta para cumprir com estes requisitos e, finalmente, a modelagem de uma instância desta arquitetura é apresentada como prova de conceito, utilizando as linguagens de modelagem UML e JSON Schema, o framework de programação Node.js e o sistema gerenciador de bancos de dados (SGBD) MongoDB através da biblioteca Mongoose.
 
 %------------------------------------------------------------
 
 \section{Motivação}
 
-É parte essencial para sistemas Web que lidem com dados de persistência a implementação de APIs para a recepção e encaminhamento de requisições do tipo CRUD. Dentre as formas de implementação deste tipo de serviço, o estilo arquitetural REST se destaca como a base fundamental da Internet, e portanto é particularmente apropriada como base para o desenvolvimento de APIs de comunicação e acesso a recursos \cite{FIELDING:2000}.
+É parte essencial de sistemas Web que lidem com dados de persistência a implementação de APIs para a recepção e encaminhamento de requisições do tipo CRUD. Dentre as formas de implementação deste tipo de serviço o estilo arquitetural REST se destaca como a base fundamental da Internet e, portanto, é particularmente apropriada como base para o desenvolvimento de APIs de comunicação e acesso a recursos \cite{FIELDING:2000}.
 
 A geração automática de código a partir de modelos é uma maneira de garantir a confiabilidade destas APIs e aumentar a produtividade do processo de geração de sistemas \cite{SELIC:2003}. Visto que a arquitetura REST tem entre suas restrições a presença de interfaces uniformes, com interações auto-contidas, a geração de APIs REST se apresenta particularmente bem para a aplicação de métodos de representação conceitual e geração de código automática.
 
-O objetivo deste trabalho é a proposta de um paradigma para a representação de conceitual do fornecimento de objetos por uma API REST, baseado na abordagem MDD. Além disso, buscamos uma maneira de proporcionar a geração automática de APIs REST para funcionalidades de manutenção de documentos de persistência a partir destes modelos conceituais, baseada na abordagem GP. Finalmente, a solução é apresentada utilizando modelos arquiteturais baseados nos preceitos da abordagem CBSE.
+O objetivo deste trabalho é a proposta de um paradigma para a representação conceitual do fornecimento de objetos por uma API REST, baseado na abordagem MDD. Além disso, buscamos uma maneira de proporcionar a geração automática de APIs REST para funcionalidades de manutenção de documentos de persistência a partir destes modelos conceituais, baseada na abordagem GP. Finalmente, a solução é apresentada utilizando modelos arquiteturais baseados nos preceitos da abordagem CBSE.
 
 %------------------------------------------------------------
 
 \section{Requisitos}
 \label{sec:reqs}
 
-Nesta seção apresentamos os requisitos que foram identificados ao longo deste estudo para que o processo de modelagem conceitual e geração de automática de código para APIs REST seja possível. Foram levadas fortemente em consideração as metodologias apresentadas no Capítulo \ref{chap:modelagem} e os padrões arquiteturais apresentados no Capítulo \ref{chap:arquitetura}. Estes requisitos foram formulados para servir como base para o projeto de uma arquitetura de software altamente independente de tecnologias de implementação.
+Nesta seção, apresentamos os requisitos que foram identificados ao longo deste estudo para que o processo de modelagem conceitual e de geração automática de código para APIs REST seja possível. Foram levadas fortemente em consideração as metodologias apresentadas no Capítulo \ref{chap:modelagem} e os padrões arquiteturais apresentados no Capítulo \ref{chap:arquitetura}. Estes requisitos foram formulados para servir como base para o projeto de uma arquitetura de software altamente independente de tecnologias de implementação.
 
 \begin{itemize}
     \item RQ01: A solução apresentada deve proporcionar orientações exatas para a modelagem conceitual de uma estrutura de dados contendo todas as entidades, associações, atributos e restrições de integridade necessárias para a geração automática de uma API REST. Este modelo conceitual deve utilizar de linguagem gráfica que seja considerada de fácil compreensão e manutenção pela literatura de referência, conforme preceitos da abordagem MDD;
-    \item RQ02: O sistema deve ser capaz de converter um modelo conceitual criado em linguagem gráfica em uma estrutura intermediária de fácil processamento por máquinas. Esta estrutura deve conter todos os dados presentes no modelo conceitual original;
+    \item RQ02: O sistema deve ser capaz de converter um modelo conceitual criado em linguagem gráfica para uma estrutura intermediária de fácil processamento por máquinas. Esta estrutura deve conter todos os dados presentes no modelo conceitual original;
     \item RQ03: O sistema deve gerar automaticamente, a partir de um modelo conceitual conforme RQ01, uma API REST que implemente as operações básicas de manutenção das entidades componentes do esquema conceitual (CRUD). Esta geração deve se valer de blocos de código parametrizáveis para a padronização das APIs geradas, conforme preceitos da abordagem GP;
-    \item RQ04: O código fonte gerado deverá ser implementado de forma a permitir a persistência e manipulação dos objetos manipulados durante a operação da API REST através de um SGBD;
+    \item RQ04: O código fonte gerado deverá ser implementado de forma a permitir a persistência e manipulação dos recursos acessados durante a operação da API REST através de um SGBD;
     \item RQ05: A arquitetura da solução deverá se valer de interfaces com contratos bem definidos de forma a permitir a implementação de novos componentes para a extensão da aplicação, conforme preceitos da abordagem CBSE.
 \end{itemize}
 
@@ -33,15 +33,15 @@ Nesta seção apresentamos os requisitos que foram identificados ao longo deste 
 \section{Decisões de Projeto}
 \label{sec:dds}
 
-Nesta seção são apresentadas as decisões de projeto referentes a uma instância da arquitetura AutoREST, que será projetada e desenvolvida como prova de conceito da arquitetura. Estas decisões de projeto foram desenvolvidas com base nas tecnologias e linguagens apresentadas no Capítulo \ref{chap:tecno}.
+Nesta seção são apresentadas as decisões de projeto referentes a uma instância da arquitetura AutoREST, que será projetada e desenvolvida como prova de conceito da arquitetura e como embasamento para responder as perguntas de pesquisa propostas nesse trabalho. Estas decisões de projeto foram desenvolvidas com base nas tecnologias e linguagens apresentadas no Capítulo \ref{chap:tecno}.
 
 \begin{itemize}
     \item DD01 (referente ao RQ01): Serão criadas orientações para a modelagem de um Diagrama de Classes UML da ferramenta Astah para servir como modelo de configuração. Este diagrama irá representar um esquema conceitual de dados sobre a qual a API REST será gerada, com suas classes, relacionamentos, atributos e domínios, e anotado com um subconjunto da linguagem JSON Schema para representar as restrições de integridade das entidades.
-    \item DD02 (referente ao RQ02): O sistema irá dispor de algoritmos e regras de conversão de um Diagrama de Classes UML anotado conforme DD01 para uma representação de definições JSON Schema, que irá servir como PFIS do sistema.
+    \item DD02 (referente ao RQ02): O sistema irá dispor de algoritmos e regras de conversão de um Diagrama de Classes UML anotado conforme DD01 para uma representação de definições JSON Schema, que irá servir como PFIS (Processing-Friendly Intermediate Structure) do sistema.
     \item DD03 (referente ao RQ03): O sistema irá realizar a geração automática de uma API REST em código na linguagem Node.js a partir das definições JSON Schema geradas conforme DD02. Este código deverá desempenhar as operações básicas de manutenção de documentos de persistência (CRUD).
     \item DD04 (referente ao RQ04): A API REST gerada irá persistir os dados através do SGBD MongoDB, utilizando-se da biblioteca Mongoose.
     \item DD05 (referente ao RQ03): O sistema irá realizar a geração de código a partir de fragmentos de código pré-implementados representando cada um dos métodos HTTP (GET, HEAD, POST, PUT, PATCH, DELETE).
-    \item DD06 (referente ao RQ05): O sistema será desenvolvido em quatro partes independentes representadas na Figura \ref{fig_aba}, sendo estas: um leitor de arquivos XML representativos de Diagramas de Classes UML da ferramenta Astah, conforme DD01; um conversor de Diagramas de Classes UML anotados para definições em JSON Schema, conforme DD02; um gerador de código Node.js para APIs REST a partir de definições JSON Schema, conforme DD03, e; um componente de interface com usuário e controle de execução de sistema.
+    \item DD06 (referente ao RQ05): O sistema será desenvolvido em quatro partes independentes, como representadas na Figura \ref{fig_aba}, sendo estas: um leitor de arquivos XML representativos de Diagramas de Classes UML da ferramenta Astah, conforme DD01; um conversor de Diagramas de Classes UML anotados para definições em JSON Schema, conforme DD02; um gerador de código Node.js para APIs REST a partir de definições JSON Schema, conforme DD03, e; um componente de interface com usuário e controle de execução de sistema.
 \end{itemize}
 
 %------------------------------------------------------------
@@ -50,7 +50,7 @@ Nesta seção são apresentadas as decisões de projeto referentes a uma instân
 
 Para que todos os requisitos apresentados acima sejam cumpridos, é proposto o modelo arquitetural AutoREST, uma arquitetura independente de tecnologia, com seus modelos estruturais e comportamentais em linguagem UML. Exemplos de possíveis concretizações dos componentes conceituais são apresentadas para motivos de contextualização.
 
-Projetada com base nos preceitos da abordagem CBSE, utilizando como domínio de solução as aplicações para a geração automática de APIs REST a partir de esquemas conceituais, a AutoREST é composta de quatro subsistemas, na forma de componentes, que operam de forma autônoma e cinco interfaces de comunicação para permitir a cooperação entre estes quatro subsistemas. Cada subsistema possui uma dependência ligada às interfaces ao qual está relacionado, mas se mantém independente dos outros subsistemas. Desta forma, a arquitetura obedece o requisito RQ05 listado na Seção \ref{sec:reqs}.
+Projetada com base nos preceitos da abordagem CBSE, utilizando como domínio de solução as aplicações para a geração automática de APIs REST a partir de esquemas conceituais, a AutoREST é composta de quatro subsistemas na forma de componentes que operam de forma autônoma e cinco interfaces de comunicação para permitir a cooperação entre estes quatro subsistemas. Cada subsistema possui uma dependência ligada às interfaces ao qual está relacionado, mas se mantém independente dos outros subsistemas. Desta forma, a arquitetura obedece o requisito RQ05 listado na Seção \ref{sec:reqs}.
 
 \begin{figure}[htb]
     \begin{center}
@@ -66,7 +66,7 @@ A Figura \ref{fig_aba} apresenta um diagrama de componentes UML representando os
     \item \textit{Configuration Model Reader} (CMR): é o subsistema encarregado da leitura do modelo conceitual em linguagem gráfica, criado conforme orientações dadas pela documentação do componente utilizado na implementação da arquitetura;
     \item \textit{Processing-Friendly Intermediate Structure Reader} (PFIS-R): é o subsistema encarregado de realizar a tradução do modelo conceitual em linguagem gráfica para uma estrutura intermediária de fácil processamento;
     \item \textit{REST API Generator}: é o subsistema encarregado da geração de uma implementação da API REST representada no esquema conceitual de entrada do sistema;
-    \item \textit{Execution Facades}: são as interfaces utilizadas para a comunicação do subsistema de controle com os outros subsistemas, definidas utilizando o padrão de projeto Fachada \cite{GAMMA:1995};
+    \item \textit{Execution Facades}: são as interfaces utilizadas para a comunicação do subsistema de controle com os outros subsistemas e definidas utilizando o padrão de projeto Fachada \cite{GAMMA:1995};
     \item \textit{Configuration Model Structure}: é a interface de comunicação entre os subsistemas CMR e PFIS-R, servindo como ponto de transferência do modelo conceitual em linguagem gráfica entre os dois subsistemas;
     \item \textit{Processing-Friendly Structure}: é a interface de comunicação entre os subsistemas PFIS-R e \textit{REST API Generator}, servindo como ponto de transferência da estrutura intermediária de fácil processamento entre os dois subsistemas.
 \end{itemize}
@@ -75,7 +75,7 @@ A Figura \ref{fig_aba} apresenta um diagrama de componentes UML representando os
 
 \subsection{\textit{Execution Core} e \textit{Execution Facades}}
 
-O subsistema \textit{Execution Core} é responsável pelo controle da aplicação através de requisições às \textit{Execution Facades}. Estas requisições devem ser procedimentos ativadores das funções básicas de cada um dos subsistemas, transferindo pacotes de dados entre eles. Estes pacotes de dados serão estruturados conforme as interfaces de estruturas providas pelos subsistemas CMR e PFIS-R.
+O subsistema \textit{Execution Core} é responsável pelo controle da aplicação através de requisições às \textit{Execution Facades}. Estas requisições devem ser procedimentos ativadores das funções básicas de cada um dos subsistemas, transferindo pacotes de dados entre eles. Estes pacotes de dados serão estruturados conforme as interfaces providas pelos subsistemas CMR, PFIS-R e Generator.
 
 \begin{figure}[htb]
     \begin{center}
@@ -84,14 +84,15 @@ O subsistema \textit{Execution Core} é responsável pelo controle da aplicaçã
 	\caption{\label{fig_eccom}Diagrama de Comunicação do Subsistema \textit{Execution Core}}
 \end{figure}
 
-A Figura \ref{fig_eccom} apresenta um diagrama de comunicação entre a interface de usuário provida pelo \textit{Execution Core} e as interfaces de \textit{Execution Facade}. A comunicação ocorre através de cinco mensagens básicas:
+A Figura \ref{fig_eccom} apresenta um diagrama de comunicação entre a interface de usuário provida pelo \textit{Execution Core} e as interfaces de \textit{Execution Facade}. A comunicação ocorre através de seis mensagens básicas:
 
 \begin{enumerate}
     \item É realizada uma requisição ao \textit{Reader Execution Facade} para que o modelo conceitual, contido em um arquivo cuja localização é enviada como argumento, seja carregado em memória;
     \item Após a execução dos processos internos do subsistema CMR, o modelo conceitual é retornado ao \textit{Execution Core} para que este dê continuidade ao processo;
     \item É realizada uma requisição ao \textit{PFIS-R Execution Facade} para que o modelo conceitual em memória, contido em um pacote de dados enviado como argumento, seja convertido em uma PFIS;
     \item Após a execução dos processos internos do subsistema PFIS-R, a PFIS é retornada ao \textit{Execution Core} para que este dê continuidade ao processo;
-    \item É realizada uma requisição ao \textit{Generator Execution Facade} para que a API REST seja gerada a partir do PFIS em memória, contido em um pacote de dados enviado como argumento.
+    \item É realizada uma requisição ao \textit{Generator Execution Facade} para que a API REST seja gerada a partir do PFIS em memória, contido em um pacote de dados enviado como argumento;
+    \item O código gerado é retornado ao \textit{Execution Core} e entregue ao usuário.
 \end{enumerate}
 
 O resultado da composição do sistema através deste padrão de comportamento é um desacoplamento dos outros subsistemas componentes da arquitetura AutoREST, permitindo que estes sejam construídos de forma semi-autônoma, tendo como dependência apenas as estruturas de dados providas por interfaces de outros subsistemas.
@@ -99,16 +100,21 @@ O resultado da composição do sistema através deste padrão de comportamento �
 %------------------------------------------------------------
 
 \subsection{\textit{Configuration Model Reader} (CMR) e \textit{Configuration Model Structure}}
+\label{sec:cmr}
 
-O subsistema \textit{Configuration Model Reader} (CMR) é responsável por definir a estrutura interna de sistema do modelo conceitual em linguagem gráfica estabelecido como modelo de configuração para uma ferramenta AutoREST, além de prover a leitura de arquivos e carga em memória destes modelos. A definição das orientações necessárias para a construção do modelo conceitual representativo da API REST que se busca gerar é dependente da implementação deste subsistema. Desta forma, é importante que a documentação de uma implementação do subsistema CMR contenha todas as orientações necessárias, conforme RQ01 apresentada na Seção \ref{sec:reqs}.
+O subsistema \textit{Configuration Model Reader} (CMR) é responsável por definir a estrutura interna de sistema do modelo de configuração (representado por um modelo conceitual em linguagem gráfica) da ferramenta AutoREST. Além disto, é responsável por prover as funcionalidades de IO relacionadas a estes modelos. Este subsistema é composto de elementos de código e artefatos de documentação, visto que é parte dele também a definição de orientações e restrições para a construção dos modelos de configuração, conforme RQ01 apresentada na Seção \ref{sec:reqs}.
 
-Minimamente, a estrutura de dados definida pelo subsistema CMR deve conter representações de entidades, associações entre estas identidades, seus atributos e suas restrições de integridade. Exemplos de linguagens de modelagem que proveem estes elementos são Diagramas de Classes UML anotados (utilizado na prova de conceito apresentada na Seção \ref{sec:conceptproof}) e Modelos Entidade-Relacionamento \cite{POLAK:2015} \cite{VALVERDE:2009}.
+Minimamente, a estrutura de dados definida pelo subsistema CMR deve conter representações de entidades com identificadores únicos, associações entre estas entidades, seus atributos e suas restrições de integridade. Exemplos de linguagens de modelagem que proveem estes elementos são Diagramas de Classes UML anotados (utilizado na prova de conceito apresentada na Seção \ref{sec:conceptproof}) e Modelos Entidade-Relacionamento \cite{POLAK:2015} \cite{VALVERDE:2009}.
+
+Algumas restrições de integridade que se mostraram importantes na representação de uma RESTful API são: restrições de tipo de atributos, tipos de acesso aceitos para cada associação, notação de mandatório ou multiplicidade e notação de herança. Em relação à questão de tipos de acesso aceitos por associação, se quer dizer especificamente quais os atributos que podem ser utilizados em requisições HTTP a partir das entidades que compõe a associação.
+
+Nosso estudo não identificou utilidade prática de determinadas restrições de integridade na geração de RESTful APIs. São estas: notações de classes internas, modificadores de acesso, entidades com identificadores compostos (aridade maior do que um) e atributos com tipos de dado não primitivos. Também não conseguimos identificar uma forma de implementar associações sem atributo relacionado, visto que todo recurso REST deve ser acessado através de um identificador.
 
 %------------------------------------------------------------
 
 \subsection{\textit{Processing-Friendly Intermediate Structure Reader} (PFIS-R) e \textit{Processing-Friendly Structure}}
 
-O subsistema \textit{Processing-Friendly Intermediate Structure Reader} (PFIS-R) é responsável pela tradução do modelo conceitual gráfico em um modelo textual equivalente para fácil processamento no estágio de geração da API REST, no subsistema \textit{REST API Generator}. Este subsistema é composto por três componentes, como representado na Figura \ref{fig_pfisrcom}.
+O subsistema \textit{Processing-Friendly Intermediate Structure Reader} (PFIS-R) é responsável pela tradução do modelo de configuração em um modelo textual equivalente para fácil processamento no estágio de geração da API REST, no subsistema \textit{REST API Generator}. Este subsistema é composto por três componentes como representado na Figura \ref{fig_pfisrcom}.
 
 \begin{figure}[htb]
     \begin{center}
@@ -133,7 +139,7 @@ As interfaces internas do subsistema, que realizam a comunicação entre os comp
 	\caption{\label{fig_pfisrseq2}Diagrama de Sequência do Subsistema PFIS-R - Parte 2}
 \end{figure}
 
-Este subsistema também é responsável por definir a estrutura interna de sistema da representação textual equivalente do modelo de configuração. Esta representação deve ser feita através de uma linguagem textual bem definida por terceiros, em conformidade com as definições de CBSE de \citeonline{JIFENG:2005}. Exemplos de linguagens que podem ser utilizadas para esta representação são RAML \cite{RAML}, Swagger \cite{SWAGGER}, WSDL \cite{BOOTH:2005} e JSON Schema \cite{PEZOA:2016}, este último sendo utilizado na prova de conceito apresentada na Seção \ref{sec:conceptproof}.
+Este subsistema também é responsável por definir a estrutura interna de sistema da PFIS. Esta representação deve ser feita através de uma linguagem textual bem definida por terceiros, em conformidade com as definições de CBSE de \citeonline{JIFENG:2005}. Também é importante ressaltar mais uma vez que deve haver equivalência entre as representações CM e PFIS. Exemplos de linguagens que podem ser utilizadas para esta representação são RAML \cite{RAML}, Swagger \cite{SWAGGER}, WSDL \cite{BOOTH:2005} e JSON Schema \cite{PEZOA:2016}, este último sendo utilizado na prova de conceito apresentada na Seção \ref{sec:conceptproof}.
 
 %------------------------------------------------------------
 
@@ -155,28 +161,28 @@ A partir da leitura de uma PFIS, o subsistema realiza a geração de uma API RES
 \section{Prova de Conceito - Instanciando a Arquitetura AutoREST}
 \label{sec:conceptproof}
 
-Como prova de conceito da arquitetura AutoREST, será desenvolvido um sistema de geração de APIs REST baseado na arquitetura proposta, conforme as decisões de projeto delineadas na Seção \ref{sec:dds}. Este sistema irá utilizar as tecnologias de Diagramas de Classes UML, JSON Schema, Java, Node.js e MongoDB.
+Como prova de conceito da arquitetura AutoREST, foi desenvolvido um sistema de geração de APIs REST baseado na arquitetura proposta\footnote{Disponível em \url{https://autorest-site.herokuapp.com/}}, conforme as decisões de projeto delineadas na Seção \ref{sec:dds}. Este sistema utiliza as tecnologias de Diagramas de Classes UML, JSON Schema, Java, Node.js e MongoDB.
 
-Os componentes de sistema serão implementados na linguagem de programação Java, utilizando o padrão \textit{Factory} \cite{GAMMA:1995} para a realização das interfaces entre subsistemas \cite{LASER:2015}. Desta forma, garante-se o desacoplamento entre os subsistemas e cria-se um ponto único no código sobre a qual gerencias comutações entre componentes, garantindo o cumprimento da RQ05.
+Os componentes de sistema foram implementados na linguagem de programação Java, com exceção do subsistema Execution Core, que foi desenvolvido em JavaScript. Cada um dos subsistemas foi implementado de forma autônoma, e suas interações são realizadas através de arquivos, garantindo o cumprimento da RQ05.
 
-A notação utilizada para modelos de configuração será a de Diagramas de Classes UML anotados conforme Subseção \ref{sec:xmi}, utilizando um subconjunto da linguagem JSON Schema. O artefato de entrada do subsistema instância de \textit{Configuration Model Reader} será um XML gerado pela ferramenta Astah. A utilização de UML como linguagem gráfica para o modelo de configuração garante o cumprimento da RQ01 \cite{OMG:2011}.
+A notação utilizada para modelos de configuração foi a de Diagramas de Classes UML anotados conforme Subseção \ref{sec:xmi}, utilizando um subconjunto da linguagem JSON Schema conforme a definição de \citeonline{PEZOA:2016}. O artefato de entrada do subsistema instância de \textit{Configuration Model Reader} é um XML gerado pela ferramenta Astah. A utilização de UML como linguagem gráfica para o modelo de configuração garante o cumprimento da RQ01 \cite{OMG:2011}.
 
-A notação utilizada para modelos de fácil processamento será um conjunto de definições JSON Schema, conforme Subseção \ref{sec:bnf} \cite{PEZOA:2016}. Este modelo será gerado automaticamente pelo sistema a partir do modelo de configuração, garantindo o cumprimento da RQ02.
+A notação utilizada como PFIS foi um conjunto de definições JSON Schema, conforme Subseção \ref{sec:bnf} \cite{PEZOA:2016}. Este modelo é gerado automaticamente pelo sistema a partir do modelo de configuração, garantindo o cumprimento da RQ02.
 
-A API REST gerada será implementada utilizando a linguagem Node.js. Um compilador será criado utilizando a ferramenta BYACC/J \cite{BYACCJ}, utilizando chamadas de função a uma biblioteca que irá conter blocos de código parametrizáveis representando os métodos HTTP. Além disso, a API REST fará uso da biblioteca Mongoose para permitir a persistência de objetos a partir do SGBD MongoDB. Desta forma, são garantidos o cumprimento das RQ03 e RQ04.
+A API REST é gerada utilizando a linguagem Node.js. Um compilador foi criado utilizando a ferramenta BYACC/J \cite{BYACCJ}, utilizando chamadas de função a uma biblioteca que contém blocos de código parametrizáveis representando os métodos HTTP. Além disto, a API REST fará uso da biblioteca Mongoose para permitir a persistência de objetos a partir do SGBD MongoDB. Desta forma, é garantido o cumprimento das RQ03 e RQ04.
 
 %------------------------------------------------------------
 
 \subsection{Modelo de Configuração - Orientações de Modelagem}
 \label{sec:xmi}
 
-Para que seja possível a conversão automática de um modelo de configuração, é necessário que este tenha uma notação formal estabelecida de acordo com regras específicas. Nesta seção serão apresentadas as orientações para a modelagem de um Diagrama de Classes UML anotado, utilizando a ferramenta Astah, para que este sirva como modelo de configuração para a ferramenta AutoREST proposta. O uso de JSON Schema é majoritariamente baseado em \citeonline{DROETTBOOM:2015}. Todas as Regras de Modelagem serão indexadas como "RM\#\#" e as Regras de Conversão serão indexadas como "RC\#\#".
+Para que seja possível a conversão automática de um modelo de configuração, é necessário que este tenha uma notação formal estabelecida de acordo com regras específicas (conforme Seção \ref{sec:cmr}). Nesta seção serão apresentadas as orientações para a modelagem de um Diagrama de Classes UML anotado, utilizando a ferramenta Astah, para que este sirva como modelo de configuração para a ferramenta AutoREST implementada como prova de conceito. O uso de JSON Schema é majoritariamente baseado em \citeonline{DROETTBOOM:2015} e \citeonline{PEZOA:2016}. Todas as Regras de Modelagem serão indexadas como ``RM\#\#'' e as Regras de Conversão serão indexadas como ``RC\#\#''. A quebra de qualquer uma das RMs definidas nesta seção invalida o resultado da execução da ferramenta AutoREST implementada como prova de conceito, visto que implica na não-conformidade com um pré-requisito do uso da ferramenta.
 
 %------------------------------------------------------------
 
 \subsubsection{Classe e Atributos}
 
-Um modelo simples que pode ser utilizado como exemplo é uma única classe, sem associações, contendo apenas atributos não anotados. A Figura \ref{fig_example_class} apresenta uma classe contendo atributos de todos os tipos que serão suportados pela ferramenta.
+Um modelo simples que pode ser utilizado como exemplo é uma única classe, sem associações, contendo apenas atributos não anotados. A Figura \ref{fig_example_class} apresenta uma classe contendo atributos de todos os tipos que são suportados pela ferramenta.
 
 \begin{figure}[htb]
     \begin{center}
@@ -194,9 +200,9 @@ Esta classe contém doze atributos numerados de 0 a 11, sendo o primeiro (\texti
 
     \item RM03: Todo elemento Atributo deve ter um nome único dentro do escopo da classe, maior do que um caractere, sem espaços (utilizar CamelCase ou \_underscore).
 
-    \item RM04: A visibilidade de um elemento Atributo será ignorado pela ferramenta AutoREST, e portanto pode ser demarcado com quaisquer opções disponíveis.
+    \item RM04: A visibilidade (modificador de acesso) de um elemento Atributo será ignorado pela ferramenta, e portanto pode ser demarcado com quaisquer opções disponíveis.
 
-    \item RM05: Um elemento Atributo pode assumir os seguintes tipos: \textit{int}; \textit{boolean}; \textit{byte}; \textit{char}; \textit{double}; \textit{float}; \textit{long}; \textit{short}; \textit{Date}; \textit{Object}; \textit{String}. Também pode ser assumido como tipo quaisquer outras Classes disponíveis no diagrama. Os tipos \textit{double} e \textit{float} serão considerados como o mesmo tipo. Os tipos \textit{int}, \textit{long} e \textit{short} serão considerados como o mesmo tipo.
+    \item RM05: Um elemento Atributo pode assumir os seguintes tipos: \textit{int}; \textit{boolean}; \textit{byte}; \textit{char}; \textit{double}; \textit{float}; \textit{long}; \textit{short}; \textit{Date}; \textit{Object}, e; \textit{String}. Também pode ser assumido como tipo quaisquer outras Classes disponíveis no diagrama. Os tipos \textit{double} e \textit{float} serão considerados como o mesmo tipo; da mesma forma, os tipos \textit{int}, \textit{long} e \textit{short} serão considerados como o mesmo tipo.
 
     \item RM06: Um elemento Atributo com multiplicidade 0..1 será considerado como opcional.
 
@@ -206,30 +212,31 @@ Esta classe contém doze atributos numerados de 0 a 11, sendo o primeiro (\texti
 A partir destas regras de modelagem, podem ser estabelecidas as seguintes regras de conversão para notação JSON Schema, utilizada como PFIS:
 
 \begin{itemize}
-    \item RC01: Cada elemento Classe será convertido em um elemento de tipo \textit{object} no campo \textit{definition} de um JSON Schema, com o mesmo nome da Classe em questão.
+    \item RC01: Cada elemento Classe será convertido em um elemento de tipo \textit{object} no campo \textit{definitions}, com o mesmo nome da Classe em questão.
 
-    \item RC02: Cada elemento Atributo será convertido em um elemento de \textit{properties} de JSON Schema, com o mesmo nome do Atributo em questão.
+    \item RC02: Cada elemento Atributo será convertido em um elemento no campo \textit{properties} da classe relacionada, com o mesmo nome do Atributo em questão.
 
-    \item RC03: Atributos de tipo \textit{int}, \textit{short}, \textit{long} e \textit{byte} serão representados pelo tipo JSON Schema \textit{integer}. Adicionalmente, Atributos de tipo \textit{byte} serão marcados com as restrições de integridade de valor mínimo 0 e valor máximo 255.
+    \item RC03: Atributos de tipo \textit{int}, \textit{short}, \textit{long} e \textit{byte} serão representados pelo tipo \textit{integer}. Adicionalmente, Atributos de tipo \textit{byte} serão marcados com as restrições de integridade de valor mínimo 0 e valor máximo 255.
 
-    \item RC04: Atributos de tipo \textit{boolean} serão representados pelo tipo JSON Schema \textit{boolean}.
+    \item RC04: Atributos de tipo \textit{boolean} mantém o mesmo tipo na representação em PFIS.
 
-    \item RC05: Atributos de tipo \textit{char}, \textit{String} e \textit{Date} serão representados pelo tipo JSON Schema \textit{string}. Adicionalmente, atributos de tipo \textit{char} serão marcados com a restrição de integridade de tamanho máximo 1, e atributos de tipo \textit{Date} serão marcados com a restrição de integridade \textit{"format"\ : "date-time"}.
+    \item RC05: Atributos de tipo \textit{char}, \textit{String} e \textit{Date} serão representados pelo tipo \textit{string}. Adicionalmente, atributos de tipo \textit{char} serão marcados com a restrição de integridade de tamanho máximo 1, e atributos de tipo \textit{Date} serão marcados com a restrição de integridade \textit{``pattern'' : ``\^{}\textbackslash{}d\textbackslash{}d\textbackslash{}d\textbackslash{}d-(0?[1-9]\textbar{}1[0-2])-(0?[1-9]\textbar{}[12][0-9]\textbar{}3[01]) (00\textbar{}[0-9]\textbar{}1[0-9]\textbar{}2[0-3]):([0-9]\textbar{}[0-5][0-9]):([0-9]\textbar{}[0-5][0-9])\textdollar{}''} \footnote{Esta funcionalidade, apesar de especificada, não foi implementada na ferramenta prova de conceito.}.
+    %^\d\d\d\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01]) (00|[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]):([0-9]|[0-5][0-9])$
 
     \item RC06: Atributos de tipo \textit{Object} ou atributos tipados com outras Classes disponíveis no diagrama serão representados pelo tipo JSON Schema \textit{object}. Adicionalmente, atributos tipados com outras Classes disponíveis no diagrama terão como propriedade a referência da definição da respectiva Classe.
 
     \item RC07: Todos os atributos serão definidos como dependentes do atributo identificador.
 
-    \item RC08: Atributos com multiplicidade diferente de 0..1 serão definidos como requeridos.
+    \item RC08: Atributos com multiplicidade mínima maior do que 0 serão definidos como requeridos.
 
-    \item RC09: Atributos com multiplicidade diferente de 0..1 ou 1 serão definidos como vetores.
+    \item RC09: Atributos com multiplicidade máxima maior do que 1 serão definidos como vetores.
 \end{itemize}
 
 %------------------------------------------------------------
 
 \subsubsection{Restrições de integridade de atributos}
 
-Restrições de integridade de atributos devem ser anotados diretamente nos atributos com a utilização de \textit{tags}, no formato JSON Schema. Todas as restrições de integridade aqui definidas seguem a semântica definida por \cite{PEZOA:2016}. As restrições de integridade válidas são ditadas pelas regras de construção a seguir:
+Restrições de integridade de atributos devem ser anotados diretamente nos atributos com a utilização de \textit{tags} no formato JSON Schema. Todas as restrições de integridade aqui definidas seguem a semântica definida por \citeonline{PEZOA:2016}. As restrições de integridade válidas são ditadas pelas regras de construção a seguir:
 
 \begin{itemize}
     \item RM08: Atributos de tipos \textit{int}, \textit{short} e \textit{long} podem ser anotados com as \textit{tags}: \textit{min}, \textit{max}, \textit{exMin} e \textit{exMax}.
@@ -250,7 +257,7 @@ Restrições de integridade de atributos devem ser anotados diretamente nos atri
 Estas \textit{tags} serão convertidas diretamente para as restrições de integridade equivalentes em JSON Schema, gerando uma única regra de conversão:
 
 \begin{itemize}
-    \item RC10: Todas as \textit{tags} de elementos do tipo Atributo serão convertidas em suas respectivas restrições de integridade JSON Schema.
+    \item RC10: Todas as \textit{tags} de elementos do tipo Atributo serão convertidas em suas respectivas restrições de integridade JSON Schema \footnote{Esta funcionalidade, apesar de especificada, não foi implementada na ferramenta prova de conceito.}.
 \end{itemize}
 
 A Figura \ref{fig_example_tags} apresenta a parte da tela do Astah referente às \textit{tags}, com anotações referentes ao \textit{attribute11} da classe representada na Figura \ref{fig_example_class}.
@@ -271,23 +278,23 @@ A partir das regras de conversão apresentadas até este ponto, a Classe represe
 Associações simples entre duas classes podem ser representadas utilizando as notações de multiplicidade e navegabilidade. As restrições descritas nesta seção são detalhadas conforme \citeonline{BOOCH:2005}.
 
 \begin{itemize}
-    \item RM15: Associações podem ser navegáveis ou não-navegáveis. Associações anotadas como tendo navegabilidade não-definida serão considerados não-navegáveis, a menos que ambos os vértices da associação sejam de navegabilidade não-definida. Neste caso, ambos são considerados navegáveis.
+    \item RM15: Associações podem ser navegáveis ou não-navegáveis. Associações anotadas como tendo navegabilidade não-definida serão considerados não-navegáveis.
 
     \item RM16: Associações podem ter multiplicidade 1, 0..1, 0..*, 1..* ou *. Associações de multiplicidade não definida serão consideradas como tendo multiplicidade 1.
 
     \item RM17: Vértices não-navegáveis de associações são considerados como tendo multiplicidade 1, independentemente da multiplicidade anotada no diagrama.
 \end{itemize}
 
-A partir destas regras de modelagem, podem ser estabelecidas as seguintes regras de conversão para notação JSON Schema, utilizada como PFIS:
+A partir destas regras de modelagem, podem ser estabelecidas as seguintes regras de conversão para PFIS (um vértice é considerado como tendo a mesma navegabilidade e multiplicidade da ponta oposta de uma associação na qual está relacionado):
 
 \begin{itemize}
     \item RC11: Classes localizadas em vértices não-navegáveis não terão referência à classe associada.
 
     \item RC12: Classes localizadas em vértices navegáveis terão referência à classe associada conforme multiplicidade do vértice.
 
-    \item RC13: Vértices de multiplicidade 1 ou 0..1 serão representados pela adição do(s) atributo(s) identificador(es) da classe associada à sua especificação. Adicionalmente, vértices de multiplicidade 0..1 terão este atributo identificador representado como opcional.
+    \item RC13: Vértices de multiplicidade 1 ou 0..1 serão representados por uma referência ao atributo identificador da classe associada à sua especificação. Adicionalmente, vértices de multiplicidade 0..1 terão este atributo identificador representado como opcional.
 
-    \item RC14: Vértices de multiplicidade 0..*, * ou 1..* serão representados pela adição de vetores do(s) atributo(s) identificador(es) da classe associada à sua especificação. Adicionalmente, vértices de multiplicidade 1..* terão adicionada a este vetor a restrição de integridade de tamanho mínimo 1.
+    \item RC14: Vértices de multiplicidade 0..*, * ou 1..* serão representados por um vetor de referências ao atributo identificador da classe associada à sua especificação. Adicionalmente, vértices de multiplicidade 1..* terão adicionada a este vetor a restrição de integridade de tamanho mínimo 1.
 \end{itemize}
 
 \begin{figure}
@@ -297,24 +304,24 @@ A partir destas regras de modelagem, podem ser estabelecidas as seguintes regras
 	\caption{\label{fig_example_multiplicity}Exemplo de Diagrama de Classes UML com Associações Simples - Astah}
 \end{figure}
 
-A Figura \ref{fig_example_multiplicity} apresenta um exemplo de diversas possíveis aplicações de associações simples à um diagrama. O resultado da conversão deste diagrama é apresentado no Anexo \ref{fig_example_multiplicity_j}. A seguir é apresentada a aplicação das regras de conversão descritas até este ponto:
+A Figura \ref{fig_example_multiplicity} apresenta um exemplo de diversas possíveis aplicações de associações simples à um diagrama. O resultado da conversão deste diagrama é apresentado no Anexo \ref{fig_example_multiplicity_j}. A seguir é apresentada a aplicação das regras de conversão descritas até este ponto sobre o diagrama da Figura \ref{fig_example_multiplicity}:
 
 \begin{itemize}
     \item Cada uma das classes tem um elemento criado em \textit{definitions}, conforme RCs 1-10.
 
-    \item \textit{Class1} tem um atributo identificador criado, visto que não possui nenhum atributo anotado com o esteriótipo <<id>>, conforme RM 2.
+    \item \textit{Class1} tem um atributo identificador criado, visto que não possui nenhum atributo anotado com o esteriótipo <<id>>, conforme RM02.
 
     \item \textit{Class0} tem adicionado as suas propriedades o atributo identificador de \textit{Class1} anotado como opcional, dado o vértice navegável B de multiplicidade 0..1, conforme RC13.
 
-    \item \textit{Class0} tem adicionado as suas propriedades um vetor do atributo identificador de \textit{Class2} anotado como opcional, dado o vértice de navegabilidade não definida D de multiplicidade *, conforme RM 15 e RC14.
+    \item \textit{Class0} tem adicionado as suas propriedades um vetor do atributo identificador de \textit{Class2} anotado como opcional, dado o vértice navegável D de multiplicidade *, conforme e RC14.
 
-    \item \textit{Class1} tem adicionado as suas propriedades o atributo identificador de \textit{Class0} anotado como opcional, dado o vértice navegável A de multiplicidade não definida, conforme RM 16 e RC 13.
+    \item \textit{Class1} tem adicionado as suas propriedades o atributo identificador de \textit{Class0} anotado como opcional, dado o vértice navegável A de multiplicidade não definida, conforme RM16 e RC13.
 
-    \item \textit{Class1} tem adicionado as suas propriedades o atributo identificador de \textit{Class3} anotado como opcional, dado o vértice navegável F de multiplicidade 0..1, conforme RC 13.
+    \item \textit{Class1} tem adicionado as suas propriedades o atributo identificador de \textit{Class3} anotado como opcional, dado o vértice navegável F de multiplicidade 0..1, conforme RC13.
 
-    \item \textit{Class2} tem adicionado as suas propriedades um vetor do atributo identificador de \textit{Class0} anotado como opcional, dado o vértice de navegabilidade não definida C de multiplicidade 0..*, conforme RM 15 e RC 14.
+    \item \textit{Class2} tem adicionado as suas propriedades um vetor do atributo identificador de \textit{Class0} anotado como opcional, dado o vértice navegável C de multiplicidade 0..*, conforme RM15 e RC14.
 
-    \item \textit{Class2} tem adicionado as suas propriedades um vetor do atributo identificador de \textit{Class3} com tamanho mínimo 1, dado o vértice navegável H de multiplicidade 1..*, conforme RC 14.
+    \item \textit{Class2} tem adicionado as suas propriedades um vetor do atributo identificador de \textit{Class3} com tamanho mínimo 1, dado o vértice navegável H de multiplicidade 1..*, conforme RC14.
 
     \item \textit{Class3} não tem adicionado as suas propriedades um vetor do atributo identificador de \textit{Class2}, dado o vértice não navegável G de multiplicidade *, conforme RMs 15 e 17.
 
@@ -325,23 +332,23 @@ A Figura \ref{fig_example_multiplicity} apresenta um exemplo de diversas possív
 
 \subsubsection{Associações de Generalização/Especialização}
 
-Associações de Generalização/Especialização permitem o reuso e a extensão de classes representadas no modelo de configuração. As restrições aplicadas a este tipo de associação são:
+Associações de Generalização/Especialização (Herança) permitem o reuso e a extensão de classes representadas no modelo de configuração. As restrições aplicadas a este tipo de associação são:
 
 \begin{itemize}
     \item RM18: Uma classe pode ser uma Especialização de uma e apenas uma outra classe, não sendo permitida a modelagem de herança múltipla para fins desta ferramenta.
 
-    \item RM19: Todas as associações de Generalização/Especialização são consideradas Parciais e Não-exclusivas.
+    \item RM19: Todas as associações de Generalização/Especialização são consideradas Parciais e Não-exclusivas. Isto se dá devido a complexidade de modelar estas características de forma explícita na ferramenta Astah.
 
-    \item RM20: Uma classe "filha"\ não pode ter atributos identificadores, sendo estes necessariamente herdados da classe "pai".
+    \item RM20: Uma classe ``filha'' não pode ter atributos identificadores, sendo estes necessariamente herdados da classe ``pai''.
 \end{itemize}
 
 É necessária uma única regra de conversão para que este tipo de associação seja contemplado:
 
 \begin{itemize}
-    \item RC15: A classe "filha"\ de uma associação de Realização/Especialização será representada em JSON Schema pela composição de seus atributos e uma referência à classe "pai".
+    \item RC15: A classe ``filha'' de uma associação de Realização/Especialização será representada na PFIS pela composição de seus atributos e uma referência à classe ``pai''.
 \end{itemize}
 
-A razão da ferramenta AutoREST utilizar apenas um subconjunto restrito das associações de Generalização/Especialização é descrita no Capítulo \ref{chap:concl}. A Figura \ref{fig_example_realization} apresenta um exemplo válido de diagrama de classes utilizando associações de Especialização/Generalização. O JSON Schema relacionado é apresentado no Anexo \ref{fig_example_realization_j}.
+A Figura \ref{fig_example_realization} apresenta um exemplo válido de diagrama de classes utilizando associações de Especialização/Generalização. O JSON Schema relacionado é apresentado no Anexo \ref{fig_example_realization_j}.
 
 \begin{figure}
     \begin{center}
@@ -359,19 +366,19 @@ Associações de Agregação permitem a representação de posse de uma classe s
 \begin{itemize}
     \item RM21: Associações de Agregação Simples representam a posse de uma classe sobre outra, porém mantendo a independência funcional de cada uma das classes associadas.
 
-    \item RM22: Associações de Agregação por Composição representam a posse de uma classe sobre outra, sendo a classe "possuída"\ uma definição interna da classe "possessora". Desta forma, a classe possuída só pode existir no contexto da classe possessora.
+    \item RM22: Associações de Agregação por Composição representam a posse de uma classe sobre outra, sendo a classe ``possuída'' uma definição interna da classe ``possessora''. Desta forma, a classe possuída só pode existir no contexto da classe possessora.
 
     \item RM23: O vértice possuído de Associações de Agregação pode ter multiplicidade 1, 0..1, 0..*, * ou 1..*.
 
     \item RM24: O vértice possessor de Associações de Agregação deve ter multiplicidade 1.
 
-    \item RM26: Não é comportada navegabilidade direcionada da classe possuída para a classe possessora, por limitação da notação gráfica da ferramenta Astah. Por esta razão, assume-se sempre navegabilidade bidirecional para Agregação Simples e unidirecional para Agregação por Composição.
+    \item RM26: Não é comportada navegabilidade direcionada da classe possuída para a classe possessora, por limitação da notação gráfica da ferramenta Astah. Por esta razão, assume-se sempre navegabilidade unidirecional para associações de agregação.
 \end{itemize}
 
 São estabelecidas as seguintes regras de conversão para que este tipo de associação seja contemplado:
 
 \begin{itemize}
-    \item RC16: O vértice possuído de Associações de Agregação, quando navegável, será representado da mesma forma descrita pelas RCs 11-14.
+    \item RC16: O vértice possuído de Associações de Agregação não será representado.
 
     \item RC17: O vértice possessor de Associações de Agregação Simples será representado por uma referência à classe possuída, ou um vetor de referências à classe possuída, definido de acordo com a multiplicidade do vetor, de forma similar a RCs 13-14.
 

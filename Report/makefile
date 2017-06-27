@@ -13,5 +13,6 @@ all:
 	rm principal.alg ;\
 	rm principal.acr ;\
 	rm principal.acn ;\
+	rm principal.brf ;\
 	evince "autorest_report_laser_dumer".pdf ;\
 	}
