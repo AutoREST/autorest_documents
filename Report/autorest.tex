@@ -47,6 +47,7 @@ Nesta seção são apresentadas as decisões de projeto referentes a uma instân
 %------------------------------------------------------------
 
 \section{Proposta de Solução}
+\label{sec:propsol}
 
 Para que todos os requisitos apresentados acima sejam cumpridos, é proposto o modelo arquitetural AutoREST, uma arquitetura independente de tecnologia, com seus modelos estruturais e comportamentais em linguagem UML. Exemplos de possíveis concretizações dos componentes conceituais são apresentadas para motivos de contextualização.
 
@@ -493,12 +494,16 @@ A gramática BNF foi usada como entrada para a geração de um \textit{parser} n
 
 A gramática utilizada serve para a validação sintática completa de um JSON Schema; porém somente algumas das definições terão significado semântico para o subsistema, conforme seção a seguir. A gramática completa está no Anexo \ref{anexo:bnfjs}.
 
+%------------------------------------------------------------
+
 \subsubsection{Semântica}
 
 Nesta seção, serão apresentadas as derivações \textit{kSch}, que deriva de \textit{defs}, consideradas no processo de criação da API REST, assim como suas derivações utilizadas. Em sequência, serão apresentados os processos de geração do código fonte final, subseções \ref{sec:bnf:http} e \ref{sec:bnf:mongo}.
 
 %Todas as 'definitions' devem estar no primeiro nivel e somente serem referenciadas referenciadas nos niveis abaixo
 %Verificar termos abaixo desta derivação que serão ignorados, por nao se aplicarão a nossa ferramenta, candicados possiveis sao as restrições de multiplicidade
+
+%------------------------------------------------------------
 
 \subsubsubsection{Derivações de \textit{kSch}}
 \label{sec:bnf:ksch}
@@ -519,6 +524,8 @@ Cada \textit{kSch} será considerada a definição de um \textit{resource} a ser
     %\item \textbf{refSch}: referências a outros \textit{schemas}, seja localmente ou em outro arquivo
 \end{itemize}
 
+%------------------------------------------------------------
+
 \subsubsubsection{Derivações de \textit{objRes}}
 \label{sec:bnf:obj}
 A diretiva \textit{objRes} representa as restrições relacionadas a definição de um objeto. Ela pode ser usada tanto para definição de \textit{resources} quanto para a definição de propriedades do tipo objeto. As derivações consideradas válidas são as seguintes:
@@ -532,6 +539,8 @@ A diretiva \textit{objRes} representa as restrições relacionadas a definição
 
     \item \textbf{dependencies}: será considerada nesta diretiva somente a derivação contendo um \textit{kArr}, que é o nome de uma propriedade e suas dependências. Todas as propriedades serão dependentes da propriedade definida como chave primária, para que a chave primária seja composta será necessario que as propriedades sejam dependentes de mais de uma propriedade
 \end{itemize}
+
+%------------------------------------------------------------
 
 \subsubsubsection{Derivações de \textit{properties}}
 \label{sec:bnf:props}
@@ -566,6 +575,8 @@ As propriedades de um objeto serão todas as derivações \textit{kSch} que faze
     \item \textbf{refSch}: referências a outras definições no arquivo JSON Schema que está sendo processado. Eestas referências possuirão significados diferentes, de acordo com seu contexto, na disponibilização dos \textit{resources} pela API, conforme Seções \ref{sec:bnf:mongo} e \ref{sec:bnf:http}
 \end{itemize}
 
+%------------------------------------------------------------
+
 \subsubsubsection{Derivações de \textit{arrRes}}
 \label{sec:bnf:arr}
 As restrições desta diretiva são relacionadas ao \textit{type array}. Serão aceitas as seguintes derivações:
@@ -585,6 +596,7 @@ As restrições desta diretiva são relacionadas ao \textit{type array}. Serão 
     \item \textbf{maxitems}: indica o numero máximo de itens do \textit{array}
 \end{itemize}
 
+%------------------------------------------------------------
 
 \subsubsubsection{Geração dos \textit{models} Mongoose}
 \label{sec:bnf:mongo}
@@ -659,6 +671,8 @@ Example_ClassSchema.methods.cleanObject = function() {
 \caption{Exemplo método \textit{cleanObject}}
 \label{lst_clean_obj}
 \end{listing}
+
+%------------------------------------------------------------
 
 \subsubsubsection{Geração dos métodos HTTP}
 \label{sec:bnf:http}
@@ -763,6 +777,7 @@ Quando um \textit{resource} com chave primária simples possuir propriedades com
 
 %A API gerada irá possuir ... status codes
 
+%------------------------------------------------------------
 
 \subsection{Funcionamento da API REST gerada}
 
@@ -796,16 +811,34 @@ O servidor \textit{Express} criado irá processar as \textit{requests} que forem
 	\caption{\label{fig:seq_api_2}Exemplo de processamento de \textit{request} no servidor da API - Parte 2}
 \end{figure}
 
+%------------------------------------------------------------
+
 \subsection{Demonstração de resultados}
 \label{sec:demo}
 
-Para demonstrar a instanciação da solução AutoREST, uma aplicação \textit{web}, disponível no endereço \url{https://autorest-site.herokuapp.com/}, foi criada para a geração de APIs usando os componentes AutoREST, que são os seguintes:
+A aplicação \textit{web} AutoREST implementada como prova de conceito está disponível no endereço \url{https://autorest-site.herokuapp.com/}, e foi criada para a geração de APIs usando os componentes AutoREST, que são os seguintes:
 
 \begin{itemize}
-    \item \textit{\textbf{astah-xml-parser\footnote{\url{https://github.com/AutoREST/astah-xml-parser}}}}: responsável por realizar a conversão de XMLs em JSON Schemas. Também tem a funcionalidade de extrair os pacotes presentes no XML, para que seja possível a escolha de qual pacote contém as informações sobre a qual a API deve ser gerada;
-    \item \textit{\textbf{rest-api-generator\footnote{\url{https://github.com/AutoREST/rest-api-generator}}}}: responsável por gerar as APIs usando um JSON Schema e algumas opções informadas na interface com o usuário;
-    \item \textit{\textbf{autorest-site\footnote{\url{https://github.com/AutoREST/autorest-site}}}}: aplicação \textit{web} responsável por receber o arquivo de entrada para geração e algumas opções adicionais.
+    \item \textit{\textbf{astah-xml-parser\footnote{\url{https://github.com/AutoREST/astah-xml-parser}}}}: responsável por realizar a conversão de XMLs em JSON Schemas. Também tem a funcionalidade de extrair os pacotes presentes no XML, para que seja possível a escolha de qual pacote contém as informações sobre a qual a API deve ser gerada. Este componente instancia os subsistemas CMR e PFIS-R da arquitetura proposta;
+    \item \textit{\textbf{rest-api-generator\footnote{\url{https://github.com/AutoREST/rest-api-generator}}}}: responsável por gerar as APIs usando um JSON Schema e algumas opções informadas na interface com o usuário. Este componente instancia o subsistema \textit{Generator} da arquitetura proposta;
+    \item \textit{\textbf{autorest-site\footnote{\url{https://github.com/AutoREST/autorest-site}}}}: aplicação \textit{web} responsável por receber o arquivo de entrada para geração e algumas opções adicionais. Este componente instancia o subsistema \textit{Execution Core} da arquitetura proposta.
 \end{itemize}
+
+Para utilizar estes componentes individualmente, basta o uso da ferramenta Maven para a sua compilação. O repositório referente ao componente \textit{astah-xml-parser} possui, além do código fonte, uma pasta de nome \textit{diagrams} que contém diversos diagramas utilizados para seu teste (os mesmos estão disponíveis para download diretamente através do site da aplicação, no menu \textit{Samples}). Seu código fonte está dividido em três partes. A primeira delas é a estrutura de dados, contida na pasta \textit{Data\_Structures\/UML}, utilizada para carregar um diagrama de classes UML e servindo como instanciação da interface \textit{Configuration Model Structure} da arquitetura AutoREST.
+
+Além desta estrutura, o processamento realizado pelo componente foi dividido em duas classes para a instanciação dos componentes CMR e PFIS-R, conforme a descrição da arquitetura. São estas, respectivamente, as classes \textit{ModelBuilder} e \textit{ModelWriter}. Apesar de estas duas classes estarem localizadas no mesmo repositório, elas são independentes, cumprindo assim a restrição arquitetural definida na Seção \ref{sec:propsol}.
+
+Além da implementação das funcionalidades destes subsistemas, o componente \textit{astah-xml-parser} disponibiliza uma classe \textit{TestApp} que serve como \textit{main class} do pacote gerado e pode ser utilizada para teste do componente através de comandos \textit{shell}. Os comandos aceitos são:
+
+\begin{itemize}
+  \item java -jar astah-xml-parser-0.1.2a.jar <XMLPATH> : Retorna os nomes dos pacotes contidos no arquivo apontado por <XMLPATH>.
+  \item java -jar astah-xml-parser-0.1.2a.jar <XMLPATH> <RESULTPATH> : Escreve um arquivo de resultado em <RESULTPATH> contendo o JSON Schema gerado a partir do pacote ``pack1''. Este comando pode ser utilizado para testes rápidos.
+  \item java -jar astah-xml-parser-0.1.2a.jar <XMLPATH> <RESULTPATH> <PACKAGE> : Escreve um arquivo de resultado em <RESULTPATH> contendo o JSON Schema gerado a partir do pacote <PACKAGE>.
+\end{itemize}
+
+O repositório referente ao componente \textit{rest-api-generator} está dividido em -----. O componente \textit{rest-api-generator} serve como instanciação do subsistema de mesmo nome descrito na Seção \ref{sec:propsol}. É importante ressaltar que a instanciação da interface PFS é dada pelo próprio formato JSON Schema. Este componente possui uma página de instruções, localizada em \url{https://github.com/AutoREST/rest-api-generator/releases/tag/0.2.alpha1}.
+
+Por fim, o repositório referente ao componente \textit{autorest-site} serve como instanciação do subsistema \textit{Execution Core}. Ele está dividido em ------. Este componente também é responsável pela realização das interfaces \textit{Facade} definidas na Seção \ref{sec:propsol}. Estas interfaces, por razões de simplicidade, foram implementadas como conectores de segunda classe, isto é, de forma implícita.
 
 A interface com o usuário tem duas telas principais que são baseadas nos \textit{mockups} das Figuras \ref{fig:mindex} e \ref{fig:mpacks}. Na tela da Figura \ref{fig:mindex}, temos a entrada básica para a geração da API, onde:
 
@@ -832,5 +865,16 @@ A interface com o usuário tem duas telas principais que são baseadas nos \text
 \end{itemize}
 
 Caso o \textit{Source File} seja um XML que contenha mais de um \textit{package} de classes, o componente \textit{astah-xml-parser} irá retornar a lista de \textit{packages} disponíveis para que o usuário escolha qual deve ser a fonte de sua API; este é o comportamento apresentado na tela da Figura \ref{fig:mpacks}.
+
+A aplicação disponibiliza uma tela \textit{Samples} que disponibiliza as imagens e arquivos XML correspondentes aos cinco diagramas apresentados nas Figuras da Seção \ref{sex:xmi}, além de um diagrama, \textit{RunningExample} ,utilizado nesta Seção para demonstração da ferramenta. Este diagrama, apresentado na Figura \ref{fig:samplemodel}, contém todos os elementos cobertos pela ferramenta implementada como prova de conceito; ele representa de forma simplificada um sistema de controle de avaliações em disciplinas.
+
+\begin{figure}
+    \begin{center}
+        \includegraphics[scale=0.4]{imagens/RunningExample.png}
+    \end{center}
+	\caption{\label{fig:samplemodel}Diagrama de Classes UML da ferramenta Astah contendo todos os elementos cobertos pela ferramenta AutoREST}
+\end{figure}
+
+Dado o XML disponível referente ao \textit{RunningExample} como entrada para a ferramenta, uma requisição é encaminhada para o componente \textit{astah-xml-parser} pedindo os nomes dos pacotes disponíveis neste modelo. Ao receber os pacotes, o componente \textit{autorest-site} permite ao usuário a escolha de um pacote para a geração da API. Esta escolha encaminha uma segunda requisição ao componente \textit{astah-xml-parser}, que realiza a leitura do modelo XML e a escrita de um arquivo no formato JSON Schema, que é retornado ao componente \textit{autorest-site}. Este arquivo JSON Schema é imediatamente encaminhado ao componente \textit{rest-api-generator}, que utiliza de um compilador e um pacote de \textit{snippets} de código para a geração de todos os arquivos necessários da API REST. Finalmente, esta API é encaminhada de volta ao \textit{autorest-site}, que inicia o processo de download com o usuário.
 
 %end Demonstração de resultados
